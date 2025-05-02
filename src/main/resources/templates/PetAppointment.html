@@ -1,0 +1,383 @@
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
+<!--[if IE 7]><html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
+<!--[if IE 8]><html class="no-js lt-ie9" lang=""> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="en">
+    <!--<![endif]-->
+
+
+    <!-- Mirrored from html.codexse.com/pettu/contact.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 07 Apr 2025 15:45:39 GMT -->
+    <head>
+        <!--====== USEFULL META ======-->
+        <meta charset="utf-8">
+        <!--[if IE]>
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <![endif]-->
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!--====== Favicon ======-->
+        <link rel="apple-touch-icon" sizes="57x57" href="images/favicon/apple-icon-57x57.png">
+        <link rel="apple-touch-icon" sizes="60x60" href="images/favicon/apple-icon-60x60.png">
+        <link rel="apple-touch-icon" sizes="72x72" href="images/favicon/apple-icon-72x72.png">
+        <link rel="apple-touch-icon" sizes="76x76" href="images/favicon/apple-icon-76x76.png">
+        <link rel="apple-touch-icon" sizes="114x114" href="images/favicon/apple-icon-114x114.png">
+        <link rel="apple-touch-icon" sizes="120x120" href="images/favicon/apple-icon-120x120.png">
+        <link rel="apple-touch-icon" sizes="144x144" href="images/favicon/apple-icon-144x144.png">
+        <link rel="apple-touch-icon" sizes="152x152" href="images/favicon/apple-icon-152x152.png">
+        <link rel="apple-touch-icon" sizes="180x180" href="images/favicon/apple-icon-180x180.png">
+        <link rel="icon" type="image/png" sizes="192x192" href="images/favicon/android-icon-192x192.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="images/favicon/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="96x96" href="images/favicon/favicon-96x96.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="images/favicon/favicon-16x16.png">
+        <meta name="msapplication-TileColor" content="#ffffff">
+        <meta name="msapplication-TileImage" content="images/favicon/ms-icon-144x144.png">
+        <meta name="theme-color" content="#ffffff">
+
+        <!--====== TITLE TAG ======-->
+        <title>Pettu | Pet Care &amp; Pet Shop</title>
+        <!--====== STYLESHEETS ======-->
+        <link rel="stylesheet" href="css/swiper-bundle-min.css" />
+        <link rel="stylesheet" href="css/bootstrap-min.css">
+        <link rel="stylesheet" href="css/normalize.css">
+        <link rel="stylesheet" href="css/remixicon.css">
+        <link rel="stylesheet" href="css/theme-icon.css">
+        <link rel="stylesheet" href="css/lity-min.css">
+        <link rel="stylesheet" href="css/theme.css">
+        <!--====== MAIN STYLESHEET ======-->
+        <link href="style.css" rel="stylesheet">
+        <script src="js/vendor/modernizr.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <!--[if lt IE 9]>
+            <script src="//oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+            <script src="//oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+
+        <script>
+            const params = new URLSearchParams(window.location.search);
+            const id = params.get('id');
+            function add()
+            {
+                var type = document.getElementById("type").value;
+                var date = document.getElementById("date").value;
+                var time = document.getElementById("time").value;
+                var desc=document.getElementById("desc").value;
+                var formdata = new FormData();
+                formdata.append("type", type);
+                formdata.append("date", date);
+                formdata.append("time", time);
+                formdata.append("did", id);
+                formdata.append("desc",desc);
+                var url = "/addappointment";
+                fetch(url, {method: "POST", body: formdata})
+                        .then(response => response.text())
+                        .then(ans => renderAsHtml(ans));
+            }
+            function renderAsHtml(ans)
+            {
+                if (ans === "success")
+                {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Added Successfully',
+                        text: 'Recorded Vaccination'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            location.reload(); // This refreshes the page
+                        }
+                    });
+
+                } else if (ans === "fail")
+                {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Vaccination already Registered'
+                    });
+                } else {
+                    alert(ans);
+                }
+            }
+
+
+            function getdata()
+            {
+                var url = "/getappoinment?id=" + id;
+                fetch(url)
+                        .then(response => response.text())
+                        .then(ans => renderAsHtml2(ans));
+            }
+            function renderAsHtml2(ans)
+            {
+                var mainobj = JSON.parse(ans);
+                var arr = mainobj["ans"];
+                var s = `<table class="table table-dark table-stripped">`;
+                s += `<thead class="thead-dark"><tr><th>Appointment Type</th><th>Appointment Date</th><th>Appointment Time</th><th>Appointment Concerns</th></tr></thead>`
+                s += `<tbody>`;
+                for (var i = 0; i < arr.length; i++)
+                {
+                    var ct = arr[i];
+
+                    s += `<tr>`;
+
+                    s += `<td>${ct.type}</td>`;
+                    s += `<td>${ct.date}</td>`;
+                    s += `<td>${ct.time}</td>`;
+                     s += `<td>${ct.desc}</td>`;
+                    s += "<td><button class='btn btn-danger btn-sm' onclick=\"confirmDelete('" + ct.id + "')\">Delete</button></td>";
+                    s += `</tr>`;
+
+                }
+                s += `</tbody>`;
+                s += `</table>`;
+                document.getElementById("d1").innerHTML = s;
+
+            }
+            function confirmDelete(id) {
+                Swal.fire({
+                    title: 'Are You Sure?',
+                    text: "This Action won't be retrieved!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Yes, Delete it!',
+                    cancelButtonText: 'Cancel'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        deletep(id);
+
+                    }
+                });
+            }
+
+            function deletep(id)
+            {
+                var url = "/deletevaccine?id=" + id;
+                fetch(url)
+                        .then(response => response.text())
+                        .then(ans => {
+                            if (ans === "success")
+                            {
+                                Swal.fire(
+                                        'Deleted!',
+                                        'Vaccination Details Removed from Record.',
+                                        'success'
+                                        );
+                                getdata();
+                            } else {
+                                alert(ans);
+                            }
+                        });
+            }
+
+
+        </script>
+    </head>
+
+    <body data-spy="scroll" data-target=".nav__area" data-offset="50" onload="getdata()">
+        <!--[if lt IE 8]>
+            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+        <!-- Preloader-Content -->
+        <div class="preloader">
+            <img src="images/preloader.gif" alt="">
+        </div>
+
+
+        <!-- nav__area-Start -->
+         <div th:replace="userheader :: header"></div>
+        <!-- nav__area-End -->
+
+
+        <!-- Full-Wrapper-Start -->
+        <main class="full-wrapper" id="home-section">
+            <!--Header-Area-Start-->
+            <header class="site__header section__overlay section__bg" style="background-image: url('images/site-header-2.jpg')">
+                <div class="container">
+                    <div class="row align-items-center">
+                        <div class="col-lg-6">
+                            <div class="section__heading mb-0">
+                                <h2 class="section__heading-title anim_top">Appointment Center</h2>
+                                <h5 class="section__heading-sup-title anim_top"><a href="/">Home</a> <span>/</span> <span class="current">Appointment</span></h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section__shape">
+                    <svg class="svg_element">
+                    <use xlink:href="#svg__element-1" />
+                    </svg>
+                </div>
+            </header>
+            <!--Header-Area-End-->
+            <!--Contact-Area-Start-->
+            <section class="contact__area section__padding">
+                <div class="container">
+                    
+                    <div class="row contact__form-row no-gutters anim_top">
+                        <div class="col-lg-6">
+                            <div class="map__frame">
+                                <img src="myuploads/aaa.png" style=" height: 800px;" alt="alt"/>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <form class="contact__form" id="contact-form">
+                                <h3 class="contact__form-title">Add Appointment Reminder </h3>
+                                <div class="row">
+                                    <div class="col-sm-12 form-box">
+                                        <label for="name">Appointment Type</label>
+                                        <select class="input_control" id="type" value="select">
+                                            <option select disabled value="">Select</option>
+                                            <option value="doctor">doctor</option>
+                                            <option value="vet">Vetenary Clinic</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-12 form-box">
+                                        <label for="name">Appointment Date</label>
+                                        <input type="date" name="form-email" id="date" class="input_control" placeholder="Your Email">
+                                    </div>
+                                    <div class="col-sm-12 form-box">
+                                        <label for="name">Appointment Time</label>
+                                        <input type="text" name="form-email" id="time" class="input_control" placeholder="Appointment Time">
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-12 form-box">
+                                        <label for="name">Things to be Remembered</label>
+                                        <input type="text" name="form-email" id="desc" class="input_control" placeholder="eg Constant Itching">
+                                    </div>
+                                </div>
+                                <button type="button" onclick="add()" class="primary__button">Add Vaccination</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!--Contact-Area-End-->
+
+            <section class="services__list-area section__padding">
+                <h3 class="text-center">Appointment Record</h3>
+                <div class="container" id="d1">
+
+                </div>
+            </section>
+
+
+            <!--Footer__Area-Start-->
+            <footer class="footer__area section__relative">
+                <div class="section__shape">
+                    <svg class="svg_element">
+                    <use xlink:href="#svg__element-9" />
+                    </svg>
+                </div>
+                <!--Footer_Bottom_Area-Start-->
+                <div class="footer__top">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-4 pr-lg-5">
+                                <div class="footer__widget anim_top">
+                                    <h4 class="widget__title">About Us</h4>
+                                    <div class="desc mb-4">
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, Lorem ipsum dolor sit amet,</p>
+                                    </div>
+                                    <div class="social__links">
+                                        <a href="#"><i class="ri-facebook-fill"></i></a>
+                                        <a href="#"><i class="ri-twitter-fill"></i></a>
+                                        <a href="#"><i class="ri-instagram-fill"></i></a>
+                                        <a href="#"><i class="ri-linkedin-fill"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-lg-2">
+                                <div class="footer__widget anim_top">
+                                    <h4 class="widget__title">Explore</h4>
+                                    <ul class="nav-link">
+                                        <li><a href="#">About Us</a></li>
+                                        <li><a href="#">Services</a></li>
+                                        <li><a href="#">Testimonial</a></li>
+                                        <li><a href="#">Expert Team</a></li>
+                                        <li><a href="#">Posts</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-lg-2">
+                                <div class="footer__widget anim_top">
+                                    <h4 class="widget__title">Support</h4>
+                                    <ul class="nav-link">
+                                        <li><a href="#">Pet Shower</a></li>
+                                        <li><a href="#">Health checkup</a></li>
+                                        <li><a href="#">Pet Grooming</a></li>
+                                        <li><a href="#">Spa and Grooming</a></li>
+                                        <li><a href="#">Brush &amp; Blow Dry</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 pl-lg-5">
+                                <div class="footer__widget anim_top">
+                                    <h4 class="widget__title">Subscribe</h4>
+                                    <div class="desc pb-4">
+                                        <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui</p>
+                                    </div>
+                                    <form id="mc_form" class="subscribe__form">
+                                        <input type="email" id="mc-email" name="EMAIL" placeholder="E-mail Address">
+                                        <button type="submit"><i class="ri-mail-send-line"></i></button>
+                                        <label class="mt-3" for="mc-email"></label>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--Footer_Bottom_Area-End-->
+                <!--Footer_Top_Area-Start-->
+                <div class="footer__bottom">
+                    <div class="container">
+                        <div class="row align-items-center">
+                            <div class="col-md-6">
+                                <div class="copyright text-center text-md-left mb-3 mb-md-0">Copyright &copy; 2021. All Rights Reserved</div>
+                            </div>
+                            <div class="col-md-6 text-md-right text-center">
+                                <div class="supported__cards">
+                                    <img src="images/credit-cards.png" alt="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--Footer_Top_Area-End-->
+            </footer>
+            <!--Footer__Area-End-->
+        </main>
+        <!-- Full-Wrapper-End -->
+
+        <!-- Progress_Scroll-To-Top -->
+        <div class="progress-wrap">
+            <svg class="progress-circle svg-content" width="100%" height="100%" viewBox="-1 -1 102 102">
+            <path d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98" />
+            </svg>
+            <span class="icon"><i class="ri-arrow-up-line"></i></span>
+        </div>
+
+        <!--=======  SCRIPTS =======-->
+        <script src="js/vendor/jquery-min.js"></script>
+        <!--=======  PLUGINS =======-->
+        <script src="js/bootstrap-min.js"></script>
+        <script src="js/appear.js"></script>
+        <script src="js/ajaxchimp.js"></script>
+        <script src="js/animatenumber-min.js"></script>
+        <script src="js/contact-form.js"></script>
+        <script src="js/imagesloaded-min.js"></script>
+        <script src="js/isotope-pkgd-min.js"></script>
+        <script src="js/lity-min.js"></script>
+        <script src="js/scrollreveal-min.js"></script>
+        <script src="js/swiper-bundle-min.js"></script>
+        <!--=======  ACTIVE JS =======-->
+        <script src="js/main.js"></script>
+    </body>
+
+
+    <!-- Mirrored from html.codexse.com/pettu/contact.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 07 Apr 2025 15:45:39 GMT -->
+</html>

@@ -1,0 +1,508 @@
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
+<!--[if IE 7]><html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
+<!--[if IE 8]><html class="no-js lt-ie9" lang=""> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="en">
+    <!--<![endif]-->
+
+
+    <!-- Mirrored from html.codexse.com/pettu/services.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 07 Apr 2025 15:45:32 GMT -->
+    <head>
+        <!--====== USEFULL META ======-->
+        <meta charset="utf-8">
+        <!--[if IE]>
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <![endif]-->
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!--====== Favicon ======-->
+        <link rel="apple-touch-icon" sizes="57x57" href="images/favicon/apple-icon-57x57.png">
+        <link rel="apple-touch-icon" sizes="60x60" href="images/favicon/apple-icon-60x60.png">
+        <link rel="apple-touch-icon" sizes="72x72" href="images/favicon/apple-icon-72x72.png">
+        <link rel="apple-touch-icon" sizes="76x76" href="images/favicon/apple-icon-76x76.png">
+        <link rel="apple-touch-icon" sizes="114x114" href="images/favicon/apple-icon-114x114.png">
+        <link rel="apple-touch-icon" sizes="120x120" href="images/favicon/apple-icon-120x120.png">
+        <link rel="apple-touch-icon" sizes="144x144" href="images/favicon/apple-icon-144x144.png">
+        <link rel="apple-touch-icon" sizes="152x152" href="images/favicon/apple-icon-152x152.png">
+        <link rel="apple-touch-icon" sizes="180x180" href="images/favicon/apple-icon-180x180.png">
+        <link rel="icon" type="image/png" sizes="192x192" href="images/favicon/android-icon-192x192.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="images/favicon/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="96x96" href="images/favicon/favicon-96x96.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="images/favicon/favicon-16x16.png">
+        <meta name="msapplication-TileColor" content="#ffffff">
+        <meta name="msapplication-TileImage" content="images/favicon/ms-icon-144x144.png">
+        <meta name="theme-color" content="#ffffff">
+
+        <!--====== TITLE TAG ======-->
+        <title>Pettu | Pet Care &amp; Pet Shop</title>
+        <!--====== STYLESHEETS ======-->
+        <link rel="stylesheet" href="css/swiper-bundle-min.css" />
+        <link rel="stylesheet" href="css/bootstrap-min.css">
+        <link rel="stylesheet" href="css/normalize.css">
+        <link rel="stylesheet" href="css/remixicon.css">
+        <link rel="stylesheet" href="css/theme-icon.css">
+        <link rel="stylesheet" href="css/lity-min.css">
+        <link rel="stylesheet" href="css/theme.css">
+        <!--====== MAIN STYLESHEET ======-->
+        <link href="style.css" rel="stylesheet">
+        <script src="js/vendor/modernizr.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <!--[if lt IE 9]>
+            <script src="//oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+            <script src="//oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+        <script>
+            function openMyModal(event) {
+                event.stopPropagation();
+                document.getElementById('myModal').style.display = 'flex';
+            }
+
+            function closeMyModal() {
+                document.getElementById('myModal').style.display = 'none';
+            }
+
+        </script>
+
+        <!-- Fade-in Animation CSS -->
+        <style>
+            @keyframes fadeIn {
+                from {
+                    opacity: 0;
+                    transform: scale(0.95);
+                }
+                to {
+                    opacity: 1;
+                    transform: scale(1);
+                }
+            }
+        </style>
+
+        <script>
+            async function add() {
+                var name = document.getElementById("name").value.trim();
+                var dob = document.getElementById("dob").value.trim();
+                var sex = document.getElementById("sex").value.trim();
+                var photo = document.getElementById("photo").files[0];
+                var type = document.getElementById("type").value.trim();
+                var breed = document.getElementById("breed").value.trim();
+
+                // Validation check
+                if (!name || !dob || !sex || !photo || !type || !breed) {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'All fields are required!',
+                        confirmButtonColor: '#3085d6'
+                    });
+                    return;
+                }
+
+                // Create FormData
+                var formData = new FormData();
+                formData.append("name", name);
+                formData.append("dob", dob);
+                formData.append("sex", sex);
+                formData.append("photo", photo);
+                formData.append("type", type);
+                formData.append("breed", breed);
+
+
+                var url = "/addpet";
+                fetch(url, {method: "POST", body: formData})
+                        .then(response => response.text())
+                        .then(ans => {
+                            if (ans === "success")
+                            {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Pet added successfully!',
+                                    confirmButtonColor: '#3085d6'
+                                });
+                                window.location.reload;
+                            } else if (ans === "fail")
+                            {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Something went wrong!',
+                                    text: 'Please try again later.',
+                                    confirmButtonColor: '#d33'
+                                });
+                            } else {
+                                alert(ans);
+                            }
+                        });
+
+            }
+
+
+            function getpets()
+            {
+                var url = "/getpets";
+                fetch(url)
+                        .then(response => response.text())
+                        .then(ans => renderAsHtml5(ans));
+            }
+            function renderAsHtml5(ans)
+            {
+                var mainobj = JSON.parse(ans);
+                var arr = mainobj["ans"];
+                var s = ``;
+                for (var i = 0; i < arr.length; i++)
+                {
+                    var ct = arr[i];
+                    var a = "myuploads/" + ct.photo;
+                    s += `<div class="col-lg-3 col-md-6">
+        <div class="team__box">
+            <div class="team__box-image" style="height: 250px; overflow: hidden; display: flex; align-items: center; justify-content: center;">
+                <img src="${a}" alt="" style="height: 100%; width: auto; object-fit: cover;">
+            </div>
+            <h5 class="team__box-name"><a href="/pethome?id=${ct.did}">${ct.name}</a></h5>
+            <h6 class="team__box-position">${ct.breed}</h6>
+        </div>
+    </div>`;
+
+                }
+                document.getElementById("d1").innerHTML = s;
+            }
+
+        </script>
+
+    </head>
+
+    <body data-spy="scroll" data-target=".nav__area" data-offset="50" onload="getpets()">
+        <!--[if lt IE 8]>
+            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+        <!-- Preloader-Content -->
+        <div class="preloader">
+            <img src="images/preloader.gif" alt="">
+        </div>
+        <!-- nav__area-Start -->
+         <div th:replace="userheader :: header"></div>
+        <!-- nav__area-End -->
+        <!-- Full-Wrapper-Start -->
+        <main class="full-wrapper" id="home-section">
+            <!--Header-Area-Start-->
+            <header class="site__header section__overlay section__bg" style="background-image: url('images/site-header-1.jpg')">
+                <div class="container">
+                    <div class="row align-items-center">
+                        <div class="col-lg-6">
+                            <div class="section__heading mb-0">
+                                <h2 class="section__heading-title anim_top">Your Pet Dashboard</h2>
+                                <h5 class="section__heading-sup-title anim_top"><a href="/">Home</a> <span>/</span> <span class="current">Pet Dashboard</span></h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section__shape">
+                    <svg class="svg_element">
+                    <use xlink:href="#svg__element-1" />
+                    </svg>
+                </div>
+            </header>
+            <!--Header-Area-End-->
+
+            <div class="container">
+                <div class="row items_space" id="d1">
+                    <div class="col-lg-3 col-md-6">
+                        <div class="team__box">
+                            <div class="team__box-image">
+                                <img src="images/team-1.jpg" alt="">
+                            </div>
+                            <h5 class="team__box-name"><a href="single-team.html">Agnes C Brewer</a></h5>
+                            <h6 class="team__box-position">Dog Walker</h6>
+                            <div class="social__links">
+                                <a href="#"><i class="ri-facebook-fill"></i></a>
+                                <a href="#"><i class="ri-twitter-fill"></i></a>
+                                <a href="#"><i class="ri-instagram-fill"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="team__box">
+                            <div class="team__box-image">
+                                <img src="images/team-2.jpg" alt="">
+                            </div>
+                            <h5 class="team__box-name"><a href="single-team.html">Rebecca P Pena</a></h5>
+                            <h6 class="team__box-position">Pet Sitter</h6>
+                            <div class="social__links">
+                                <a href="#"><i class="ri-facebook-fill"></i></a>
+                                <a href="#"><i class="ri-twitter-fill"></i></a>
+                                <a href="#"><i class="ri-instagram-fill"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="team__box">
+                            <div class="team__box-image">
+                                <img src="images/team-3.jpg" alt="">
+                            </div>
+                            <h5 class="team__box-name"><a href="single-team.html">Kenny H Polito</a></h5>
+                            <h6 class="team__box-position">Dog Walker</h6>
+                            <div class="social__links">
+                                <a href="#"><i class="ri-facebook-fill"></i></a>
+                                <a href="#"><i class="ri-twitter-fill"></i></a>
+                                <a href="#"><i class="ri-instagram-fill"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="team__box">
+                            <div class="team__box-image">
+                                <img src="images/team-4.jpg" alt="">
+                            </div>
+                            <h5 class="team__box-name"><a href="single-team.html">Ellen B Avery</a></h5>
+                            <h6 class="team__box-position">Pet Sitter</h6>
+                            <div class="social__links">
+                                <a href="#"><i class="ri-facebook-fill"></i></a>
+                                <a href="#"><i class="ri-twitter-fill"></i></a>
+                                <a href="#"><i class="ri-instagram-fill"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="team__box">
+                            <div class="team__box-image">
+                                <img src="images/team-5.jpg" alt="">
+                            </div>
+                            <h5 class="team__box-name"><a href="single-team.html">Andrew K Ives</a></h5>
+                            <h6 class="team__box-position">Dog Walker</h6>
+                            <div class="social__links">
+                                <a href="#"><i class="ri-facebook-fill"></i></a>
+                                <a href="#"><i class="ri-twitter-fill"></i></a>
+                                <a href="#"><i class="ri-instagram-fill"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="team__box">
+                            <div class="team__box-image">
+                                <img src="images/team-6.jpg" alt="">
+                            </div>
+                            <h5 class="team__box-name"><a href="single-team.html">Riley S Sanders</a></h5>
+                            <h6 class="team__box-position">Dog Walker</h6>
+                            <div class="social__links">
+                                <a href="#"><i class="ri-facebook-fill"></i></a>
+                                <a href="#"><i class="ri-twitter-fill"></i></a>
+                                <a href="#"><i class="ri-instagram-fill"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="team__box">
+                            <div class="team__box-image">
+                                <img src="images/team-7.jpg" alt="">
+                            </div>
+                            <h5 class="team__box-name"><a href="single-team.html">Frank L Villa</a></h5>
+                            <h6 class="team__box-position">Dog Walker</h6>
+                            <div class="social__links">
+                                <a href="#"><i class="ri-facebook-fill"></i></a>
+                                <a href="#"><i class="ri-twitter-fill"></i></a>
+                                <a href="#"><i class="ri-instagram-fill"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="team__box">
+                            <div class="team__box-image">
+                                <img src="images/team-8.jpg" alt="">
+                            </div>
+                            <h5 class="team__box-name"><a href="single-team.html">Lisa K Chavez</a></h5>
+                            <h6 class="team__box-position">Dog Walker</h6>
+                            <div class="social__links">
+                                <a href="#"><i class="ri-facebook-fill"></i></a>
+                                <a href="#"><i class="ri-twitter-fill"></i></a>
+                                <a href="#"><i class="ri-instagram-fill"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <!--Footer__Area-Start-->
+            <footer class="footer__area section__relative">
+                <div class="section__shape">
+                    <svg class="svg_element">
+                    <use xlink:href="#svg__element-9" />
+                    </svg>
+                </div>
+                <!--Footer_Bottom_Area-Start-->
+                <div class="footer__top">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-4 pr-lg-5">
+                                <div class="footer__widget anim_top">
+                                    <h4 class="widget__title">About Us</h4>
+                                    <div class="desc mb-4">
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, Lorem ipsum dolor sit amet,</p>
+                                    </div>
+                                    <div class="social__links">
+                                        <a href="#"><i class="ri-facebook-fill"></i></a>
+                                        <a href="#"><i class="ri-twitter-fill"></i></a>
+                                        <a href="#"><i class="ri-instagram-fill"></i></a>
+                                        <a href="#"><i class="ri-linkedin-fill"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-lg-2">
+                                <div class="footer__widget anim_top">
+                                    <h4 class="widget__title">Explore</h4>
+                                    <ul class="nav-link">
+                                        <li><a href="#">About Us</a></li>
+                                        <li><a href="#">Services</a></li>
+                                        <li><a href="#">Testimonial</a></li>
+                                        <li><a href="#">Expert Team</a></li>
+                                        <li><a href="#">Posts</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-lg-2">
+                                <div class="footer__widget anim_top">
+                                    <h4 class="widget__title">Support</h4>
+                                    <ul class="nav-link">
+                                        <li><a href="#">Pet Shower</a></li>
+                                        <li><a href="#">Health checkup</a></li>
+                                        <li><a href="#">Pet Grooming</a></li>
+                                        <li><a href="#">Spa and Grooming</a></li>
+                                        <li><a href="#">Brush &amp; Blow Dry</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 pl-lg-5">
+                                <div class="footer__widget anim_top">
+                                    <h4 class="widget__title">Subscribe</h4>
+                                    <div class="desc pb-4">
+                                        <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui</p>
+                                    </div>
+                                    <form id="mc_form" class="subscribe__form">
+                                        <input type="email" id="mc-email" name="EMAIL" placeholder="E-mail Address">
+                                        <button type="submit"><i class="ri-mail-send-line"></i></button>
+                                        <label class="mt-3" for="mc-email"></label>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--Footer_Bottom_Area-End-->
+                <!--Footer_Top_Area-Start-->
+                <div class="footer__bottom">
+                    <div class="container">
+                        <div class="row align-items-center">
+                            <div class="col-md-6">
+                                <div class="copyright text-center text-md-left mb-3 mb-md-0">Copyright &copy; 2021. All Rights Reserved</div>
+                            </div>
+                            <div class="col-md-6 text-md-right text-center">
+                                <div class="supported__cards">
+                                    <img src="images/credit-cards.png" alt="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--Footer_Top_Area-End-->
+            </footer>
+            <!--Footer__Area-End-->
+        </main>
+        <!-- Full-Wrapper-End -->
+
+        <!-- Progress_Scroll-To-Top -->
+        <!-- Progress Wrap with Plus Icon -->
+        <div class="progress-wrap" onclick="openMyModal(event)">
+            <svg class="progress-circle svg-content" width="100%" height="100%" viewBox="-1 -1 102 102">
+            <path d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98" />
+            </svg>
+            <span class="icon">
+                <i class="ri-add-line"></i> <!-- Plus icon -->
+            </span>
+        </div>
+        <!-- Modal -->
+        <!-- Modal Structure -->
+        <div id="myModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background-color:rgba(0,0,0,0.7); z-index:1000; align-items:center; justify-content:center; overflow:auto;">
+            <div id="modalContent" style="background-color:#fff; padding:0; border-radius:10px; width:450px; max-height:80vh; overflow:hidden; position:relative; display:flex; flex-direction:column; animation: fadeIn 0.5s;">
+
+                <!-- Header -->
+                <div style="background-color:#1d2a46; color:white; padding:15px; border-top-left-radius:10px; border-top-right-radius:10px; text-align:center; font-weight:bold; position:sticky; top:0; z-index:2;">
+                    Register Your Pet
+                </div>
+
+                <!-- Close Button -->
+                <button onclick="closeMyModal()" style="position:absolute; top:10px; right:10px; background:none; border:none; font-size:24px; font-weight:bold; color:white; z-index:3;">&times;</button>
+
+                <!-- Scrollable Form Area -->
+                <div style="padding:20px 30px; flex-grow:1; overflow-y:auto;">
+
+                    <form>
+                        <div style="margin-bottom:15px;">
+                            <label>Name</label>
+                            <input type="text" id="name" placeholder="Enter Pet Name" style="width:100%; padding:10px; border-radius:5px; border:1px solid #ccc; color:black;">
+                        </div>
+
+                        <div style="margin-bottom:15px;">
+                            <label>Date of Birth</label>
+                            <input type="date" id="dob" style="width:100%; padding:10px; border-radius:5px; border:1px solid #ccc; color:black;">
+                        </div>
+
+                        <div style="margin-bottom:15px;">
+                            <label>Gender</label>
+                            <select id="sex" style="width:100%; padding:10px; border-radius:5px; border:1px solid #ccc; color:black;">
+                                <option value="">Select Gender</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                            </select>
+                        </div>
+
+                        <div style="margin-bottom:15px;">
+                            <label>Breed</label>
+                            <input id="breed" type="text" placeholder="Enter Breed" style="width:100%; padding:10px; border-radius:5px; border:1px solid #ccc; color:black;">
+                        </div>
+
+                        <div style="margin-bottom:15px;">
+                            <label>Photo of Pet</label>
+                            <input type="file" id="photo" style="width:100%; padding:10px; border-radius:5px; border:1px solid #ccc; color:black;">
+                        </div>
+
+                        <div style="margin-bottom:20px;">
+                            <label>Type of Pet</label>
+                            <input type="text" id="type" placeholder="e.g. Dog, Cat" style="width:100%; padding:10px; border-radius:5px; border:1px solid #ccc; color:black;">
+                        </div>
+
+                        <!-- Register Button -->
+                        <button type="button" onclick="add()" style="background-color:#1d2a46; color:white; padding:12px; width:100%; border:none; border-radius:5px; margin-top:10px; margin-bottom:20px;">Register</button>
+                    </form>
+
+                </div>
+
+                <!-- Footer -->
+                <div style="background-color:#1d2a46; color:white; padding:15px; border-bottom-left-radius:10px; border-bottom-right-radius:10px; text-align:center; font-size:14px; position:sticky; bottom:0; z-index:2;">
+                    Thank you for choosing us!
+                </div>
+
+            </div>
+        </div>
+
+
+        <!--=======  SCRIPTS =======-->
+        <script src="js/vendor/jquery-min.js"></script>
+        <!--=======  PLUGINS =======-->
+        <script src="js/bootstrap-min.js"></script>
+        <script src="js/appear.js"></script>
+        <script src="js/ajaxchimp.js"></script>
+        <script src="js/animatenumber-min.js"></script>
+        <script src="js/contact-form.js"></script>
+        <script src="js/imagesloaded-min.js"></script>
+        <script src="js/isotope-pkgd-min.js"></script>
+        <script src="js/lity-min.js"></script>
+        <script src="js/scrollreveal-min.js"></script>
+        <script src="js/swiper-bundle-min.js"></script>
+        <!--=======  ACTIVE JS =======-->
+        <script src="js/main.js"></script>
+    </body>
+
+
+    <!-- Mirrored from html.codexse.com/pettu/services.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 07 Apr 2025 15:45:32 GMT -->
+</html>

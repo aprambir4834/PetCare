@@ -1,0 +1,561 @@
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
+<!--[if IE 7]><html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
+<!--[if IE 8]><html class="no-js lt-ie9" lang=""> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="zxx">
+    <!--<![endif]-->
+
+
+    <!-- Mirrored from html.codexse.com/pettu/single-product.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 07 Apr 2025 15:45:35 GMT -->
+    <head>
+        <!--====== USEFULL META ======-->
+        <meta charset="utf-8">
+        <!--[if IE]>
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <![endif]-->
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!--====== Favicon ======-->
+        <link rel="apple-touch-icon" sizes="57x57" href="images/favicon/apple-icon-57x57.png">
+        <link rel="apple-touch-icon" sizes="60x60" href="images/favicon/apple-icon-60x60.png">
+        <link rel="apple-touch-icon" sizes="72x72" href="images/favicon/apple-icon-72x72.png">
+        <link rel="apple-touch-icon" sizes="76x76" href="images/favicon/apple-icon-76x76.png">
+        <link rel="apple-touch-icon" sizes="114x114" href="images/favicon/apple-icon-114x114.png">
+        <link rel="apple-touch-icon" sizes="120x120" href="images/favicon/apple-icon-120x120.png">
+        <link rel="apple-touch-icon" sizes="144x144" href="images/favicon/apple-icon-144x144.png">
+        <link rel="apple-touch-icon" sizes="152x152" href="images/favicon/apple-icon-152x152.png">
+        <link rel="apple-touch-icon" sizes="180x180" href="images/favicon/apple-icon-180x180.png">
+        <link rel="icon" type="image/png" sizes="192x192" href="images/favicon/android-icon-192x192.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="images/favicon/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="96x96" href="images/favicon/favicon-96x96.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="images/favicon/favicon-16x16.png">
+        <meta name="msapplication-TileColor" content="#ffffff">
+        <meta name="msapplication-TileImage" content="images/favicon/ms-icon-144x144.png">
+        <meta name="theme-color" content="#ffffff">
+
+        <!--====== TITLE TAG ======-->
+        <title>Pettu | Pet Care &amp; Pet Shop</title>
+        <!--====== STYLESHEETS ======-->
+        <link rel="stylesheet" href="css/swiper-bundle-min.css" />
+        <link rel="stylesheet" href="css/bootstrap-min.css">
+        <link rel="stylesheet" href="css/normalize.css">
+        <link rel="stylesheet" href="css/remixicon.css">
+        <link rel="stylesheet" href="css/theme-icon.css">
+        <link rel="stylesheet" href="css/lity-min.css">
+        <link rel="stylesheet" href="css/theme.css">
+        <!--====== MAIN STYLESHEET ======-->
+        <link href="style.css" rel="stylesheet">
+        <script src="js/vendor/modernizr.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <!--[if lt IE 9]>
+            <script src="//oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+            <script src="//oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+        <script>
+            const params = new URLSearchParams(window.location.search);
+            const id = params.get("id");
+
+            function getdata()
+            {
+                var url = "/pdetail?id=" + id;
+                fetch(url)
+                        .then(response => response.text())
+                        .then(ans => renderAsHtml(ans));
+
+            }
+            function renderAsHtml(ans)
+            {
+                var mainobj = JSON.parse(ans);
+                var arr = mainobj["ans"];
+                for (var i = 0; i < arr.length; i++)
+                {
+                    var ct = arr[i];
+                    document.getElementById("pname").innerText = ct.pname;
+                    document.getElementById("offerprice").innerText = ct.pofferprice;
+                    document.getElementById("sdesc").innerText = ct.pshortdesc;
+                    document.getElementById("ldesc").innerText = ct.plongdesc;
+                    document.getElementById("photo").src = "myuploads/" + ct.pphoto;
+                }
+            }
+
+            function getprods()
+            {
+                var url = "/getprods";
+                fetch(url)
+                        .then(response => response.text())
+                        .then(ans => renderAsHtml2(ans));
+
+            }
+            function renderAsHtml2(ans)
+            {
+                var mainobj = JSON.parse(ans);
+                var arr = mainobj["ans"];
+                var s = ``;
+                for (var i = 0; i < 5; i++)
+                {
+                    var ct = arr[i];
+                    var a = "myuploads/" + ct.pphoto;
+                    s += `<div class="swiper-slide">
+    <div class="product__box">
+        <figure class="product__thumb">
+            <img src="${a}" alt="" style="width: 120px; height: 120px; object-fit: cover; border-radius: 10px;">
+            <div class="product__actions">
+                <a href="#"><i class="ri-shopping-cart-2-fill"></i></a>
+                <a href="#"><i class="ri-heart-line"></i></a>
+                <a href="#"><i class="ri-eye-line"></i></a>
+            </div>
+        </figure>
+        
+        <h6 class="product__title"><a href="/UPD?id=${ct.id}">${ct.pname}</a></h6>
+        <h6 class="product__price">$${ct.offerprice}</h6>
+    </div>
+</div>
+`;
+
+
+                }
+
+
+                document.getElementById("d2").innerHTML = s;
+            }
+
+
+            function cart()
+            {
+                var url = "/atc?id=" + id;
+                fetch(url)
+                        .then(response => response.text())
+                        .then(ans => renderAsHtml4(ans));
+            }
+            function renderAsHtml4(ans)
+            {
+                if (ans === "success")
+                {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Added',
+                        text: 'Product Added to Cart'
+                    });
+                    document.getElementById("btn").value = "Added to Cart";
+                } else if (ans === "fail")
+                {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Already Exists',
+                        text: 'Product Already Exists in Cart'
+                    });
+                    document.getElementById("btn").value = "Added to Cart";
+                } else {
+                    alert(ans);
+                }
+            }
+
+        </script>
+
+    </head>
+
+    <body data-spy="scroll" data-target=".nav__area" data-offset="50" onload="getdata()">
+        <!--[if lt IE 8]>
+            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+        <!-- Preloader-Content -->
+        <div class="preloader">
+            <img src="images/preloader.gif" alt="">
+        </div>
+
+
+        <!-- nav__area-Start -->
+        <div th:replace="userheader :: header"></div>
+        <!-- nav__area-End -->
+        <!-- Full-Wrapper-Start -->
+        <main class="full-wrapper" id="home-section">
+            <!--Header-Area-Start-->
+            <header class="site__header section__overlay section__bg" style="background-image: url('images/site-header-1.jpg')">
+                <div class="container">
+                    <div class="row align-items-center">
+                        <div class="col-lg-6">
+                            <div class="section__heading mb-0">
+                                <h2 class="section__heading-title anim_top">Product Details</h2>
+                                <h5 class="section__heading-sup-title anim_top"><a href="/">Home</a> <span>/</span> <span class="current">Product Details</span></h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section__shape">
+                    <svg class="svg_element">
+                    <use xlink:href="#svg__element-1" />
+                    </svg>
+                </div>
+            </header>
+            <!--Header-Area-End-->
+            <!-- Product__Details-Start -->
+            <section class="product__details section__padding">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-7 mb-5 mb-lg-0">
+                            <!-- Product-Gallery-Start -->
+                            <div class="product__gallery">
+                                <!--                                <ul class="product__images anim_top">
+                                                                    <li>
+                                                                        <a href="#"><img src="images/product-thumb-1.jpg" alt=""></a>
+                                                                    </li>
+                                                                    <li>
+                                                                        <a href="#"><img src="images/product-thumb-2.jpg" alt=""></a>
+                                                                    </li>
+                                                                    <li>
+                                                                        <a href="#"><img src="images/product-thumb-3.jpg" alt=""></a>
+                                                                    </li>
+                                                                </ul>-->
+                                <figure class="proudct_image anim_top" >
+                                    <img id="photo" src="images/product-big-1.jpg" alt="">
+                                </figure>
+                            </div>
+                            <!-- Product-Gallery-End -->
+                        </div>
+                        <div class="col-lg-5">
+                            <!-- Product-Information-Start -->
+                            <div class="product__info">
+                                <h3 class="product__title anim_top" id="pname">Breakfast cereal</h3>
+
+                                <h5 class="product__price anim_top" id="offerprice">$104.00</h5>
+                                <div class="product__desc anim_top">
+                                    <p id="sdesc">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt</p>
+                                </div>
+                                <div class="d-flex align-items-center flex-wrap mt-n3">
+
+                                    <a href="javascript:void(0);" onclick="cart()" id="btn" class="primary__button mt-3 anim_top">
+                                        <i class="ri-shopping-cart-2-fill"></i> Add to cart
+                                    </a>
+
+                                </div>
+                            </div>
+                            <!-- Product-Information-End -->
+                            <!-- Product-Share-Start -->
+                            <div class="post_share anim_top">
+                                <h5 class="share_title">Share :</h5>
+                                <div class="social__links">
+                                    <a href="#"><i class="ri-facebook-fill"></i></a>
+                                    <a href="#"><i class="ri-twitter-fill"></i></a>
+                                    <a href="#"><i class="ri-instagram-fill"></i></a>
+                                    <a href="#"><i class="ri-linkedin-fill"></i></a>
+                                </div>
+                            </div>
+                            <!-- Product-Share-End -->
+                        </div>
+                    </div>
+                    <div class="row anim_top">
+                        <div class="col-lg-12">
+                            <!-- Product-Tabs-Start -->
+                            <div class="product__tabs">
+                                <!-- Product-Tabs-Menu -->
+                                <ul class="nav nav-tabs">
+                                    <li class="active"><a data-toggle="tab" href="#product_desc_tab">Description</a></li>
+
+                                </ul>
+                                <!-- Product-Tabs-Content-Start -->
+                                <div class="tab-content">
+                                    <div id="product_desc_tab" class="tab-pane fade in active">
+                                        <div class="desc">
+                                            <h4>Description</h4>
+                                            <p id="ldesc">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                                        </div>
+                                    </div>
+                                    <div id="product_info_tab" class="tab-pane fade">
+                                        <div class="desc">
+                                            <h4>Additional information</h4>
+                                            <table>
+                                                <tbody>
+                                                    <tr>
+                                                        <th>Dimensions</th>
+                                                        <td>6 × 4 × 1 cm</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>color</th>
+                                                        <td>
+                                                            <p>Red</p>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div id="product_review_tab" class="tab-pane fade">
+                                        <form action="https://quomodosoft.com/wp/profund/wp-comments-post.php" method="post" id="commentform" class="comment-form" novalidate="">
+                                            <p class="comment-notes"><span id="email-notes">Your email address will not be published.</span> Required fields are marked <span class="required">*</span></p>
+                                            <div class="row">
+                                                <div class="col-lg-6">
+                                                    <p class="comment-form-author">
+                                                        <label for="author">Name&nbsp;<span class="required">*</span></label>
+                                                        <input id="author" name="author" type="text" value="" size="30" required="" class="input_control">
+                                                    </p>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <p class="comment-form-email">
+                                                        <label for="email">Email&nbsp;<span class="required">*</span></label>
+                                                        <input id="email" name="email" type="email" value="" size="30" required="" class="input_control">
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <p class="comment-form-cookies-consent mb-1">
+                                                <input id="wp-comment-cookies-consent" name="wp-comment-cookies-consent" type="checkbox" value="yes">
+                                                <label for="wp-comment-cookies-consent">Save my name, email, and website in this browser for the next time I comment.</label>
+                                            </p>
+                                            <div class="comment-form-rating">
+                                                <ul class="star__list">
+                                                    <li><i class="ri-star-fill"></i></li>
+                                                    <li><i class="ri-star-fill"></i></li>
+                                                    <li><i class="ri-star-fill"></i></li>
+                                                    <li><i class="ri-star-fill"></i></li>
+                                                    <li><i class="ri-star-fill"></i></li>
+                                                </ul>
+                                            </div>
+                                            <p class="comment-form-comment">
+                                                <label for="comment">Your review&nbsp;<span class="required">*</span></label>
+                                                <textarea id="comment" name="comment" cols="45" rows="8" required="" class="input_control"></textarea>
+                                            </p>
+                                            <p class="form-submit">
+                                                <button type="submit" class="primary__button">Send comment</button>
+                                            </p>
+                                        </form>
+                                    </div>
+                                </div>
+                                <!-- Product-Tabs-Content-End -->
+                            </div>
+                            <!-- Product-Tabs-End -->
+                        </div>
+                    </div>
+                    <div class="row anim_top">
+                        <div class="col-lg-12">
+                            <div class="related__products">
+                                <div class="row mb-5">
+                                    <div class="col-lg-6 text-center text-lg-left">
+                                        <h3>Related Products</h3>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="slider__arrows justify-content-lg-end justify-content-center" id="related__products-arrow">
+                                            <button class="slider__arrow arrow_prev"><i class="icon-arrow-left"></i></button>
+                                            <button class="slider__arrow arrow_next"><i class="icon-arrow-right"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="swiper-container related__products-slider">
+                                    <div class="swiper-wrapper" id="d2">
+                                        <div class="swiper-slide">
+                                            <div class="product__box">
+                                                <figure class="product__thumb">
+                                                    <img src="images/product-1.jpg" alt="">
+                                                    <div class="product__actions">
+                                                        <a href="#"><i class="ri-shopping-cart-2-fill"></i></a>
+                                                        <a href="#"><i class="ri-heart-line"></i></a>
+                                                        <a href="#"><i class="ri-eye-line"></i></a>
+                                                    </div>
+                                                </figure>
+                                                <ul class="star__list">
+                                                    <li><i class="ri-star-fill"></i></li>
+                                                    <li><i class="ri-star-fill"></i></li>
+                                                    <li><i class="ri-star-fill"></i></li>
+                                                    <li><i class="ri-star-fill"></i></li>
+                                                    <li><i class="ri-star-fill"></i></li>
+                                                </ul>
+                                                <h6 class="product__title"><a href="UserProductDetail.html">Artikel products-pet</a></h6>
+                                                <h6 class="product__price">$112.00</h6>
+                                            </div>
+                                        </div>
+                                        <div class="swiper-slide">
+                                            <div class="product__box">
+                                                <figure class="product__thumb">
+                                                    <img src="images/product-2.jpg" alt="">
+                                                    <div class="product__actions">
+                                                        <a href="#"><i class="ri-shopping-cart-2-fill"></i></a>
+                                                        <a href="#"><i class="ri-heart-line"></i></a>
+                                                        <a href="#"><i class="ri-eye-line"></i></a>
+                                                    </div>
+                                                </figure>
+                                                <ul class="star__list">
+                                                    <li><i class="ri-star-fill"></i></li>
+                                                    <li><i class="ri-star-fill"></i></li>
+                                                    <li><i class="ri-star-fill"></i></li>
+                                                    <li><i class="ri-star-fill"></i></li>
+                                                    <li><i class="ri-star-fill"></i></li>
+                                                </ul>
+                                                <h6 class="product__title"><a href="UserProductDetail.html">Artikel products-pet</a></h6>
+                                                <h6 class="product__price">$112.00</h6>
+                                            </div>
+                                        </div>
+                                        <div class="swiper-slide">
+                                            <div class="product__box">
+                                                <figure class="product__thumb">
+                                                    <img src="images/product-3.jpg" alt="">
+                                                    <div class="product__actions">
+                                                        <a href="#"><i class="ri-shopping-cart-2-fill"></i></a>
+                                                        <a href="#"><i class="ri-heart-line"></i></a>
+                                                        <a href="#"><i class="ri-eye-line"></i></a>
+                                                    </div>
+                                                </figure>
+                                                <ul class="star__list">
+                                                    <li><i class="ri-star-fill"></i></li>
+                                                    <li><i class="ri-star-fill"></i></li>
+                                                    <li><i class="ri-star-fill"></i></li>
+                                                    <li><i class="ri-star-fill"></i></li>
+                                                    <li><i class="ri-star-fill"></i></li>
+                                                </ul>
+                                                <h6 class="product__title"><a href="UserProductDetail.html">Artikel products-pet</a></h6>
+                                                <h6 class="product__price">$112.00</h6>
+                                            </div>
+                                        </div>
+                                        <div class="swiper-slide">
+                                            <div class="product__box">
+                                                <figure class="product__thumb">
+                                                    <img src="images/product-4.jpg" alt="">
+                                                    <div class="product__actions">
+                                                        <a href="#"><i class="ri-shopping-cart-2-fill"></i></a>
+                                                        <a href="#"><i class="ri-heart-line"></i></a>
+                                                        <a href="#"><i class="ri-eye-line"></i></a>
+                                                    </div>
+                                                </figure>
+                                                <ul class="star__list">
+                                                    <li><i class="ri-star-fill"></i></li>
+                                                    <li><i class="ri-star-fill"></i></li>
+                                                    <li><i class="ri-star-fill"></i></li>
+                                                    <li><i class="ri-star-fill"></i></li>
+                                                    <li><i class="ri-star-fill"></i></li>
+                                                </ul>
+                                                <h6 class="product__title"><a href="UserProductDetail.html">Artikel products-pet</a></h6>
+                                                <h6 class="product__price">$112.00</h6>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- Product__Details-End -->
+
+
+
+
+
+
+
+            <!--Footer__Area-Start-->
+            <footer class="footer__area section__relative">
+                <div class="section__shape">
+                    <svg class="svg_element">
+                    <use xlink:href="#svg__element-9" />
+                    </svg>
+                </div>
+                <!--Footer_Bottom_Area-Start-->
+                <div class="footer__top">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-4 pr-lg-5">
+                                <div class="footer__widget anim_top">
+                                    <h4 class="widget__title">About Us</h4>
+                                    <div class="desc mb-4">
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, Lorem ipsum dolor sit amet,</p>
+                                    </div>
+                                    <div class="social__links">
+                                        <a href="#"><i class="ri-facebook-fill"></i></a>
+                                        <a href="#"><i class="ri-twitter-fill"></i></a>
+                                        <a href="#"><i class="ri-instagram-fill"></i></a>
+                                        <a href="#"><i class="ri-linkedin-fill"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-lg-2">
+                                <div class="footer__widget anim_top">
+                                    <h4 class="widget__title">Explore</h4>
+                                    <ul class="nav-link">
+                                        <li><a href="#">About Us</a></li>
+                                        <li><a href="#">Services</a></li>
+                                        <li><a href="#">Testimonial</a></li>
+                                        <li><a href="#">Expert Team</a></li>
+                                        <li><a href="#">Posts</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-lg-2">
+                                <div class="footer__widget anim_top">
+                                    <h4 class="widget__title">Support</h4>
+                                    <ul class="nav-link">
+                                        <li><a href="#">Pet Shower</a></li>
+                                        <li><a href="#">Health checkup</a></li>
+                                        <li><a href="#">Pet Grooming</a></li>
+                                        <li><a href="#">Spa and Grooming</a></li>
+                                        <li><a href="#">Brush &amp; Blow Dry</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 pl-lg-5">
+                                <div class="footer__widget anim_top">
+                                    <h4 class="widget__title">Subscribe</h4>
+                                    <div class="desc pb-4">
+                                        <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui</p>
+                                    </div>
+                                    <form id="mc_form" class="subscribe__form">
+                                        <input type="email" id="mc-email" name="EMAIL" placeholder="E-mail Address">
+                                        <button type="submit"><i class="ri-mail-send-line"></i></button>
+                                        <label class="mt-3" for="mc-email"></label>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--Footer_Bottom_Area-End-->
+                <!--Footer_Top_Area-Start-->
+                <div class="footer__bottom">
+                    <div class="container">
+                        <div class="row align-items-center">
+                            <div class="col-md-6">
+                                <div class="copyright text-center text-md-left mb-3 mb-md-0">Copyright &copy; 2021. All Rights Reserved</div>
+                            </div>
+                            <div class="col-md-6 text-md-right text-center">
+                                <div class="supported__cards">
+                                    <img src="images/credit-cards.png" alt="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--Footer_Top_Area-End-->
+            </footer>
+            <!--Footer__Area-End-->
+        </main>
+        <!-- Full-Wrapper-End -->
+
+        <!-- Progress_Scroll-To-Top -->
+        <div class="progress-wrap">
+            <svg class="progress-circle svg-content" width="100%" height="100%" viewBox="-1 -1 102 102">
+            <path d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98" />
+            </svg>
+            <span class="icon"><i class="ri-arrow-up-line"></i></span>
+        </div>
+
+        <!--=======  SCRIPTS =======-->
+        <script src="js/vendor/jquery-min.js"></script>
+        <!--=======  PLUGINS =======-->
+        <script src="js/bootstrap-min.js"></script>
+        <script src="js/appear.js"></script>
+        <script src="js/ajaxchimp.js"></script>
+        <script src="js/animatenumber-min.js"></script>
+        <script src="js/contact-form.js"></script>
+        <script src="js/imagesloaded-min.js"></script>
+        <script src="js/isotope-pkgd-min.js"></script>
+        <script src="js/lity-min.js"></script>
+        <script src="js/scrollreveal-min.js"></script>
+        <script src="js/swiper-bundle-min.js"></script>
+        <!--=======  ACTIVE JS =======-->
+        <script src="js/main.js"></script>
+    </body>
+
+
+    <!-- Mirrored from html.codexse.com/pettu/single-product.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 07 Apr 2025 15:45:36 GMT -->
+</html>

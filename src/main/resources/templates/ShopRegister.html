@@ -1,0 +1,444 @@
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
+<!--[if IE 7]><html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
+<!--[if IE 8]><html class="no-js lt-ie9" lang=""> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="en">
+    <!--<![endif]-->
+
+
+    <!-- Mirrored from html.codexse.com/pettu/contact.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 07 Apr 2025 15:45:39 GMT -->
+    <head>
+        <!--====== USEFULL META ======-->
+        <meta charset="utf-8">
+        <!--[if IE]>
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <![endif]-->
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!--====== Favicon ======-->
+        <link rel="apple-touch-icon" sizes="57x57" href="images/favicon/apple-icon-57x57.png">
+        <link rel="apple-touch-icon" sizes="60x60" href="images/favicon/apple-icon-60x60.png">
+        <link rel="apple-touch-icon" sizes="72x72" href="images/favicon/apple-icon-72x72.png">
+        <link rel="apple-touch-icon" sizes="76x76" href="images/favicon/apple-icon-76x76.png">
+        <link rel="apple-touch-icon" sizes="114x114" href="images/favicon/apple-icon-114x114.png">
+        <link rel="apple-touch-icon" sizes="120x120" href="images/favicon/apple-icon-120x120.png">
+        <link rel="apple-touch-icon" sizes="144x144" href="images/favicon/apple-icon-144x144.png">
+        <link rel="apple-touch-icon" sizes="152x152" href="images/favicon/apple-icon-152x152.png">
+        <link rel="apple-touch-icon" sizes="180x180" href="images/favicon/apple-icon-180x180.png">
+        <link rel="icon" type="image/png" sizes="192x192" href="images/favicon/android-icon-192x192.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="images/favicon/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="96x96" href="images/favicon/favicon-96x96.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="images/favicon/favicon-16x16.png">
+        <meta name="msapplication-TileColor" content="#ffffff">
+        <meta name="msapplication-TileImage" content="images/favicon/ms-icon-144x144.png">
+        <meta name="theme-color" content="#ffffff">
+
+        <!--====== TITLE TAG ======-->
+        <title>Pettu | Pet Care &amp; Pet Shop</title>
+        <!--====== STYLESHEETS ======-->
+        <link rel="stylesheet" href="css/swiper-bundle-min.css" />
+        <link rel="stylesheet" href="css/bootstrap-min.css">
+        <link rel="stylesheet" href="css/normalize.css">
+        <link rel="stylesheet" href="css/remixicon.css">
+        <link rel="stylesheet" href="css/theme-icon.css">
+        <link rel="stylesheet" href="css/lity-min.css">
+        <link rel="stylesheet" href="css/theme.css">
+        <!--====== MAIN STYLESHEET ======-->
+        <link href="style.css" rel="stylesheet">
+        <script src="js/vendor/modernizr.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+        <!--[if lt IE 9]>
+            <script src="//oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+            <script src="//oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+        <script>
+
+            function showTermsAndRegister() {
+
+
+                var sname = document.getElementById("sname").value;
+                var semail = document.getElementById("semail").value;
+                var scontact = document.getElementById("scontact").value;
+                var sgst = document.getElementById("sgst").value;
+                var sphoto = document.getElementById("sphoto").files[0];
+                var slocation = document.getElementById("slocation").value;
+
+                var oname = document.getElementById("oname").value;
+                var oemail = document.getElementById("oemail").value;
+                var ocontact = document.getElementById("ocontact").value;
+                var odob = document.getElementById("odob").value;
+                var ophoto = document.getElementById("ophoto").files[0];
+                 var pass=document.getElementById("pass").value;
+                if (!sname || !semail || !scontact || !sgst || !sphoto || !slocation ||
+                        !oname || !oemail || !ocontact || !odob || !ophoto) {
+                    alert("Please fill all the fields and select both photos.");
+
+                } else {
+                    Swal.fire({
+                        title: 'Terms and Conditions',
+                        html: `
+            <div style="text-align: left;">
+                <p>✔ You agree to provide valid and accurate information.</p>
+                <p>✔ Uploaded photos must be clear and recent.</p>
+                <p>✔ Misuse of the platform may lead to permanent ban.</p>
+            </div>
+        `,
+                        icon: 'info',
+                        showCancelButton: true,
+                        confirmButtonText: 'I Agree',
+                        cancelButtonText: 'Cancel',
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            register();
+                        } else {
+                            Swal.fire('Cancelled', 'You must agree to the terms to proceed.', 'warning');
+                        }
+                    });
+                }
+            }
+
+            function register()
+            {
+                var sname = document.getElementById("sname").value;
+                var semail = document.getElementById("semail").value;
+                var scontact = document.getElementById("scontact").value;
+                var sgst = document.getElementById("sgst").value;
+                var sphoto = document.getElementById("sphoto").files[0];
+                var slocation = document.getElementById("slocation").value;
+
+                var oname = document.getElementById("oname").value;
+                var oemail = document.getElementById("oemail").value;
+                var ocontact = document.getElementById("ocontact").value;
+                var odob = document.getElementById("odob").value;
+                var ophoto = document.getElementById("ophoto").files[0];
+                var pass=document.getElementById("pass").value;
+                if (!sname || !semail || !scontact || !sgst || !sphoto || !slocation ||
+                        !oname || !oemail || !ocontact || !odob || !ophoto || !pass) {
+                    alert("Please fill all the fields and select both photos.");
+
+                } else {
+                    var formdata = new FormData();
+                    formdata.append("sname", sname);
+                    formdata.append("semail", semail);
+                    formdata.append("scontact", scontact);
+                    formdata.append("sgst", sgst);
+                    formdata.append("sphoto", sphoto);
+                    formdata.append("slocation", slocation);
+
+                    formdata.append("oname", oname);
+                    formdata.append("oemail", oemail);
+                    formdata.append("ocontact", ocontact);
+                    formdata.append("odob", odob);
+                    formdata.append("ophoto", ophoto);
+                    formdata.append("pass",pass);
+                    var url = "/sregister";
+                    fetch(url, {method: "POST", body: formdata})
+                            .then(response => response.text())
+                            .then(ans => renderAsHtml(ans));
+                }
+
+
+            }
+
+            function renderAsHtml(ans)
+            {
+                if (ans === "success")
+                {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Request Sent',
+                        text: 'Your Registeration has been sent to Admin'
+                    });
+                } else if (ans === "fail")
+                {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Already Exists',
+                        text: 'Shop with same Email Already Exists'
+                    });
+                }
+                else{
+                    alert(ans);
+                }
+            }
+        </script>
+
+
+    </head>
+
+    <body data-spy="scroll" data-target=".nav__area" data-offset="50">
+        <!--[if lt IE 8]>
+            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+        <!-- Preloader-Content -->
+        <div class="preloader">
+            <img src="images/preloader.gif" alt="">
+        </div>
+
+
+        <!-- nav__area-Start -->
+        <div th:replace="shopheader :: header"></div>
+        <!-- nav__area-End -->
+
+
+        <!-- Full-Wrapper-Start -->
+        <main class="full-wrapper" id="home-section">
+            <!--Header-Area-Start-->
+            <header class="site__header section__overlay section__bg" style="background-image: url('images/site-header-2.jpg')">
+                <div class="container">
+                    <div class="row align-items-center">
+                        <div class="col-lg-6">
+                            <div class="section__heading mb-0">
+                                <h2 class="section__heading-title anim_top">Contact Us</h2>
+                                <h5 class="section__heading-sup-title anim_top"><a href="#">Home</a> <span>/</span> <span class="current">Contact Us</span></h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section__shape">
+                    <svg class="svg_element">
+                    <use xlink:href="#svg__element-1" />
+                    </svg>
+                </div>
+            </header>
+            <!--Header-Area-End-->
+            <!--Contact-Area-Start-->
+            <section class="contact__area section__padding">
+                <div class="container">
+                    <div class="row items_space section__padding-bottom">
+                        <div class="col-lg-4">
+                            <div class="info__box anim_top">
+                                <div class="info__box-icon">
+                                    <svg class="svg_element color__primary">
+                                    <use xlink:href="#svg__element-10" />
+                                    </svg>
+                                    <i class="icon-phone"></i>
+                                </div>
+                                <h5 class="info__box-title">Phone Us</h5>
+                                <div class="info__box-desc">
+                                    <p>+12-875-895-789<br>+12-875-895-789</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="info__box anim_top">
+                                <div class="info__box-icon">
+                                    <svg class="svg_element color__secondary">
+                                    <use xlink:href="#svg__element-10" />
+                                    </svg>
+                                    <i class="icon-envelope"></i>
+                                </div>
+                                <h5 class="info__box-title">Email Drop Us</h5>
+                                <div class="info__box-desc">
+                                    <p>infopet@gmail.com <br>infooffice@gmail</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="info__box anim_top">
+                                <div class="info__box-icon">
+                                    <svg class="svg_element color__tertiary">
+                                    <use xlink:href="#svg__element-10" />
+                                    </svg>
+                                    <i class="icon-map-marker"></i>
+                                </div>
+                                <h5 class="info__box-title">Location</h5>
+                                <div class="info__box-desc">
+                                    <p>Rd, Caterham CR3 5LY,<br> United Kingdom</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row contact__form-row no-gutters anim_top">
+                        <!--                    <div class="col-lg-6">
+                                                <div class="map__frame">
+                                                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d193595.91477261498!2d-74.11976380059961!3d40.69740344143906!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c24fa5d33f083b%3A0xc80b8f06e177fe62!2sNew%20York%2C%20NY%2C%20USA!5e0!3m2!1sen!2sbd!4v1627725537677!5m2!1sen!2sbd" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                                                </div>
+                                            </div>-->
+                        <div class="col-lg-6">
+                            <form class="contact__form" >
+                                <h3 class="contact__form-title">Shop Details</h3>
+
+                                <div class="col-sm-12 form-box">
+                                    <input type="text" name="form-name" id="sname" class="input_control" placeholder="Your Shop Name" required>
+                                </div>
+                                <div class="col-sm-12 form-box">
+                                    <input type="email" name="form-email" id="semail" class="input_control" placeholder="Your Shop Email" required>
+                                </div>
+
+                                <div class="col-sm-12 form-box">
+                                    <input type="number" name="form-email" id="scontact" class="input_control" placeholder="Your Shop Contact Number" required>
+                                </div>
+
+                                <div class="col-sm-12 form-box">
+                                    <input type="text" name="form-email" id="slocation" class="input_control" placeholder="Your Shop Location" required>
+                                </div>
+
+                                <div class="col-sm-12 form-box">
+                                    <input type="text" name="form-subject" id="sgst" class="input_control" placeholder="GST Number" required>
+                                </div>
+                                <label for="shop_photo">Shop Logo</label>
+
+                                <div class="col-sm-12 form-box">
+                                    <input type="file" name="shop_photo" id="sphoto" class="input_control" placeholder="Your Shop Email" required>
+                                </div>
+
+                                <button type="button" onclick="showTermsAndRegister()" class="primary__button">Register</button>
+                            </form>
+                        </div>
+                        <div class="col-lg-6">
+                            <form class="contact__form" >
+                                <h3 class="contact__form-title">Owner Details</h3>
+
+                                <div class="col-sm-12 form-box">
+                                    <input type="text" name="form-name" id="oname" class="input_control" placeholder="Owner Name" required>
+                                </div>
+                                <div class="col-sm-12 form-box">
+                                    <input type="email" name="form-email" id="oemail" class="input_control" placeholder="Owner Email" required>
+                                </div>
+
+                                <div class="col-sm-12 form-box">
+                                    <input type="text" name="form-email" id="ocontact" class="input_control" placeholder="Owner Contact Number" required>
+                                </div>
+
+                                <div class="col-sm-12 form-box">
+                                    <input type="date" name="form-subject" id="odob" class="input_control" placeholder="Date Of Birth" required>
+                                </div>
+                                
+                                <div class="col-sm-12 form-box">
+                                    <input type="text" name="form-subject" id="pass" class="input_control" placeholder="Set your Account Password" required>
+                                </div>
+                                <label for="ophoto">Owner Photo</label>
+                                <div class="col-sm-12 form-box">
+                                    <input type="file" name="ophoto" id="ophoto" class="input_control" placeholder="Date Of Birth" required>
+                                </div>
+
+
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!--Contact-Area-End-->
+            <!--Footer__Area-Start-->
+            <footer class="footer__area section__relative">
+                <div class="section__shape">
+                    <svg class="svg_element">
+                    <use xlink:href="#svg__element-9" />
+                    </svg>
+                </div>
+                <!--Footer_Bottom_Area-Start-->
+                <div class="footer__top">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-4 pr-lg-5">
+                                <div class="footer__widget anim_top">
+                                    <h4 class="widget__title">About Us</h4>
+                                    <div class="desc mb-4">
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, Lorem ipsum dolor sit amet,</p>
+                                    </div>
+                                    <div class="social__links">
+                                        <a href="#"><i class="ri-facebook-fill"></i></a>
+                                        <a href="#"><i class="ri-twitter-fill"></i></a>
+                                        <a href="#"><i class="ri-instagram-fill"></i></a>
+                                        <a href="#"><i class="ri-linkedin-fill"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-lg-2">
+                                <div class="footer__widget anim_top">
+                                    <h4 class="widget__title">Explore</h4>
+                                    <ul class="nav-link">
+                                        <li><a href="#">About Us</a></li>
+                                        <li><a href="#">Services</a></li>
+                                        <li><a href="#">Testimonial</a></li>
+                                        <li><a href="#">Expert Team</a></li>
+                                        <li><a href="#">Posts</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-lg-2">
+                                <div class="footer__widget anim_top">
+                                    <h4 class="widget__title">Support</h4>
+                                    <ul class="nav-link">
+                                        <li><a href="#">Pet Shower</a></li>
+                                        <li><a href="#">Health checkup</a></li>
+                                        <li><a href="#">Pet Grooming</a></li>
+                                        <li><a href="#">Spa and Grooming</a></li>
+                                        <li><a href="#">Brush &amp; Blow Dry</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 pl-lg-5">
+                                <div class="footer__widget anim_top">
+                                    <h4 class="widget__title">Subscribe</h4>
+                                    <div class="desc pb-4">
+                                        <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui</p>
+                                    </div>
+                                    <form id="mc_form" class="subscribe__form">
+                                        <input type="email" id="mc-email" name="EMAIL" placeholder="E-mail Address">
+                                        <button type="submit"><i class="ri-mail-send-line"></i></button>
+                                        <label class="mt-3" for="mc-email"></label>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--Footer_Bottom_Area-End-->
+                <!--Footer_Top_Area-Start-->
+                <div class="footer__bottom">
+                    <div class="container">
+                        <div class="row align-items-center">
+                            <div class="col-md-6">
+                                <div class="copyright text-center text-md-left mb-3 mb-md-0">Copyright &copy; 2021. All Rights Reserved</div>
+                            </div>
+                            <div class="col-md-6 text-md-right text-center">
+                                <div class="supported__cards">
+                                    <img src="images/credit-cards.png" alt="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--Footer_Top_Area-End-->
+            </footer>
+            <!--Footer__Area-End-->
+        </main>
+        <!-- Full-Wrapper-End -->
+
+        <!-- Progress_Scroll-To-Top -->
+        <div class="progress-wrap">
+            <svg class="progress-circle svg-content" width="100%" height="100%" viewBox="-1 -1 102 102">
+            <path d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98" />
+            </svg>
+            <span class="icon"><i class="ri-arrow-up-line"></i></span>
+        </div>
+
+        <!--=======  SCRIPTS =======-->
+        <script src="js/vendor/jquery-min.js"></script>
+        <!--=======  PLUGINS =======-->
+        <script src="js/bootstrap-min.js"></script>
+        <script src="js/appear.js"></script>
+        <script src="js/ajaxchimp.js"></script>
+        <script src="js/animatenumber-min.js"></script>
+        <script src="js/contact-form.js"></script>
+        <script src="js/imagesloaded-min.js"></script>
+        <script src="js/isotope-pkgd-min.js"></script>
+        <script src="js/lity-min.js"></script>
+        <script src="js/scrollreveal-min.js"></script>
+        <script src="js/swiper-bundle-min.js"></script>
+        <!--=======  ACTIVE JS =======-->
+        <script src="js/main.js"></script>
+    </body>
+
+
+    <!-- Mirrored from html.codexse.com/pettu/contact.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 07 Apr 2025 15:45:39 GMT -->
+</html>

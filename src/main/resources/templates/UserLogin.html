@@ -1,0 +1,315 @@
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
+<!--[if IE 7]><html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
+<!--[if IE 8]><html class="no-js lt-ie9" lang=""> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="zxx">
+    <!--<![endif]-->
+
+
+    <!-- Mirrored from html.codexse.com/pettu/index-2.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 07 Apr 2025 15:45:26 GMT -->
+    <head>
+        <!--====== USEFULL META ======-->
+        <meta charset="utf-8">
+        <!--[if IE]>
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <![endif]-->
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!--====== Favicon ======-->
+        <link rel="apple-touch-icon" sizes="57x57" href="images/favicon/apple-icon-57x57.png">
+        <link rel="apple-touch-icon" sizes="60x60" href="images/favicon/apple-icon-60x60.png">
+        <link rel="apple-touch-icon" sizes="72x72" href="images/favicon/apple-icon-72x72.png">
+        <link rel="apple-touch-icon" sizes="76x76" href="images/favicon/apple-icon-76x76.png">
+        <link rel="apple-touch-icon" sizes="114x114" href="images/favicon/apple-icon-114x114.png">
+        <link rel="apple-touch-icon" sizes="120x120" href="images/favicon/apple-icon-120x120.png">
+        <link rel="apple-touch-icon" sizes="144x144" href="images/favicon/apple-icon-144x144.png">
+        <link rel="apple-touch-icon" sizes="152x152" href="images/favicon/apple-icon-152x152.png">
+        <link rel="apple-touch-icon" sizes="180x180" href="images/favicon/apple-icon-180x180.png">
+        <link rel="icon" type="image/png" sizes="192x192" href="images/favicon/android-icon-192x192.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="images/favicon/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="96x96" href="images/favicon/favicon-96x96.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="images/favicon/favicon-16x16.png">
+        <meta name="msapplication-TileColor" content="#ffffff">
+        <meta name="msapplication-TileImage" content="images/favicon/ms-icon-144x144.png">
+        <meta name="theme-color" content="#ffffff">
+
+        <!--====== TITLE TAG ======-->
+        <title>Pettu | Pet Care &amp; Pet Shop</title>
+        <!--====== STYLESHEETS ======-->
+        <link rel="stylesheet" href="css/swiper-bundle-min.css" />
+        <link rel="stylesheet" href="css/bootstrap-min.css">
+        <link rel="stylesheet" href="css/normalize.css">
+        <link rel="stylesheet" href="css/remixicon.css">
+        <link rel="stylesheet" href="css/theme-icon.css">
+        <link rel="stylesheet" href="css/lity-min.css">
+        <link rel="stylesheet" href="css/theme.css">
+        <!--====== MAIN STYLESHEET ======-->
+        <link href="style.css" rel="stylesheet">
+        <script src="js/vendor/modernizr.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <!--[if lt IE 9]>
+            <script src="//oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+            <script src="//oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+        <script>
+            function login() {
+                var email = document.getElementById("email").value;
+                var pass = document.getElementById("pass").value;
+
+                if (!email || !pass) {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Missing Fields',
+                        text: 'Please fill all the fields.'
+                    });
+                } else {
+                    var formdata = new FormData();
+                    formdata.append("email", email);
+                    formdata.append("pass", pass);
+
+                    var url = "/userlogin";
+                    fetch(url, {method: "POST", body: formdata})
+                            .then(response => response.text())
+                            .then(ans => renderAsHtml(ans));
+                }
+            }
+
+            function renderAsHtml(ans)
+            {
+
+                if (ans === "success")
+                {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: 'Login Successful'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.href = "/";
+                        }
+                    });
+
+                } else if (ans === "fail")
+                {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Invalid',
+                        text: 'Please Enter Valid Credentials'
+                    });
+                } else {
+                    alert(ans);
+                }
+            }
+
+        </script>
+
+    </head>
+
+    <body data-spy="scroll" data-target=".nav__area" data-offset="50">
+        <!--[if lt IE 8]>
+            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+        <!-- Preloader-Content -->
+        <div class="preloader">
+            <img src="images/preloader.gif" alt="">
+        </div>
+
+        <!-- nav__area-Start -->
+        <div th:replace="userheader :: header"></div>
+        <!-- nav__area-End -->
+
+
+        <!-- Full-Wrapper-Start -->
+        <main class="full-wrapper" id="home-section">
+            <!--        Header-Area-Start
+                    <header class="home__area v2">
+                        <div class="container">
+                            <div class="row align-items-center flex-row-reverse">
+                                <div class="col-lg-6 mb-4 mb-lg-0">
+                                    <figure class="header__image section__relative mr-lg-n5">
+                                        <img src="images/header-image-2.png" alt="">
+                                        <div class="section__shape">
+                                            <svg class="svg_element">
+                                                <use xlink:href="#svg__element-12" />
+                                            </svg>
+                                        </div>
+                                    </figure>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="section__heading mb-0">
+                                        <h5 class="section__heading-sup-title anim_top">We Enjoy providing</h5>
+                                        <h1 class="section__heading-title anim_top">We're Ready To Keep your pet</h1>
+                                        <div class="section__heading-desc anim_top">
+                                            <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa Qui officia deserunt mollit anim id est laborum.</p>
+                                        </div>
+                                        <a href="contact.html" class="primary__button anim_top">Contact Now</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </header>
+                    Header-Area-End-->
+
+
+
+
+
+            <!--Check__Area-Start-->
+            <section class="check__area gray-bg">
+                <div class="container">
+                    <div class="row align-items-end">
+                        <div class="col-lg-6 d-none d-lg-block">
+                            <figure class="check__image m-0 anim_left">
+                                <img src="images/contact-image.png" alt="">
+                                <svg class="svg_element">
+                                <use xlink:href="#svg__element-5" />
+                                </svg>
+                            </figure>
+                        </div>
+                        <div class="col-lg-6 section__padding ">
+                            <form class="contact__form white_form" id="contact-form">
+                                <h3 class="contact__form-title">Login To Your Home</h3>
+                                <div class="row">
+                                    <div class="col-sm-12 form-box">
+                                        <input type="email" name="form-name" id="email" class="input_control" placeholder="Your  Email" required>
+                                    </div>
+                                    <div class="col-sm-12 form-box">
+                                        <input type="password" name="form-email" id="pass" class="input_control" placeholder="Your Password" required>
+                                    </div>
+                                </div>
+
+
+                                <button type="button" onclick="login()" class="primary__button">LOGIN</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="section__shape">
+                    <svg class="svg_element">
+                    <use xlink:href="#svg__element-6" />
+                    </svg>
+                </div>
+            </section>
+            <!--Check__Area-End-->
+
+
+
+
+            <!--Footer__Area-Start-->
+            <footer class="footer__area section__relative">
+                <div class="section__shape">
+                    <svg class="svg_element">
+                    <use xlink:href="#svg__element-9" />
+                    </svg>
+                </div>
+                <!--Footer_Bottom_Area-Start-->
+                <div class="footer__top">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-4 pr-lg-5">
+                                <div class="footer__widget anim_top">
+                                    <h4 class="widget__title">About Us</h4>
+                                    <div class="desc mb-4">
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, Lorem ipsum dolor sit amet,</p>
+                                    </div>
+                                    <div class="social__links">
+                                        <a href="#"><i class="ri-facebook-fill"></i></a>
+                                        <a href="#"><i class="ri-twitter-fill"></i></a>
+                                        <a href="#"><i class="ri-instagram-fill"></i></a>
+                                        <a href="#"><i class="ri-linkedin-fill"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-lg-2">
+                                <div class="footer__widget anim_top">
+                                    <h4 class="widget__title">Explore</h4>
+                                    <ul class="nav-link">
+                                        <li><a href="#">About Us</a></li>
+                                        <li><a href="#">Services</a></li>
+                                        <li><a href="#">Testimonial</a></li>
+                                        <li><a href="#">Expert Team</a></li>
+                                        <li><a href="#">Posts</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-lg-2">
+                                <div class="footer__widget anim_top">
+                                    <h4 class="widget__title">Support</h4>
+                                    <ul class="nav-link">
+                                        <li><a href="#">Pet Shower</a></li>
+                                        <li><a href="#">Health checkup</a></li>
+                                        <li><a href="#">Pet Grooming</a></li>
+                                        <li><a href="#">Spa and Grooming</a></li>
+                                        <li><a href="#">Brush &amp; Blow Dry</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 pl-lg-5">
+                                <div class="footer__widget anim_top">
+                                    <h4 class="widget__title">Subscribe</h4>
+                                    <div class="desc pb-4">
+                                        <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui</p>
+                                    </div>
+                                    <form id="mc_form" class="subscribe__form">
+                                        <input type="email" id="mc-email" name="EMAIL" placeholder="E-mail Address">
+                                        <button type="submit"><i class="ri-mail-send-line"></i></button>
+                                        <label class="mt-3" for="mc-email"></label>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--Footer_Bottom_Area-End-->
+                <!--Footer_Top_Area-Start-->
+                <div class="footer__bottom">
+                    <div class="container">
+                        <div class="row align-items-center">
+                            <div class="col-md-6">
+                                <div class="copyright text-center text-md-left mb-3 mb-md-0">Copyright &copy; 2021. All Rights Reserved</div>
+                            </div>
+                            <div class="col-md-6 text-md-right text-center">
+                                <div class="supported__cards">
+                                    <img src="images/credit-cards.png" alt="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--Footer_Top_Area-End-->
+            </footer>
+            <!--Footer__Area-End-->
+        </main>
+        <!-- Full-Wrapper-End -->
+
+        <!-- Progress_Scroll-To-Top -->
+        <div class="progress-wrap">
+            <svg class="progress-circle svg-content" width="100%" height="100%" viewBox="-1 -1 102 102">
+            <path d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98" />
+            </svg>
+            <span class="icon"><i class="ri-arrow-up-line"></i></span>
+        </div>
+
+        <!--=======  SCRIPTS =======-->
+        <script src="js/vendor/jquery-min.js"></script>
+        <!--=======  PLUGINS =======-->
+        <script src="js/bootstrap-min.js"></script>
+        <script src="js/appear.js"></script>
+        <script src="js/ajaxchimp.js"></script>
+        <script src="js/animatenumber-min.js"></script>
+        <script src="js/contact-form.js"></script>
+        <script src="js/imagesloaded-min.js"></script>
+        <script src="js/isotope-pkgd-min.js"></script>
+        <script src="js/lity-min.js"></script>
+        <script src="js/scrollreveal-min.js"></script>
+        <script src="js/swiper-bundle-min.js"></script>
+        <!--=======  ACTIVE JS =======-->
+        <script src="js/main.js"></script>
+    </body>
+
+
+    <!-- Mirrored from html.codexse.com/pettu/index-2.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 07 Apr 2025 15:45:29 GMT -->
+</html>

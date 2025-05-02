@@ -1,0 +1,675 @@
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
+<!--[if IE 7]><html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
+<!--[if IE 8]><html class="no-js lt-ie9" lang=""> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="en">
+    <!--<![endif]-->
+
+
+    <!-- Mirrored from html.codexse.com/pettu/posts-right-sidebar.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 07 Apr 2025 15:45:38 GMT -->
+    <head>
+        <!--====== USEFULL META ======-->
+        <meta charset="utf-8">
+        <!--[if IE]>
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <![endif]-->
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!--====== Favicon ======-->
+        <link rel="apple-touch-icon" sizes="57x57" href="images/favicon/apple-icon-57x57.png">
+        <link rel="apple-touch-icon" sizes="60x60" href="images/favicon/apple-icon-60x60.png">
+        <link rel="apple-touch-icon" sizes="72x72" href="images/favicon/apple-icon-72x72.png">
+        <link rel="apple-touch-icon" sizes="76x76" href="images/favicon/apple-icon-76x76.png">
+        <link rel="apple-touch-icon" sizes="114x114" href="images/favicon/apple-icon-114x114.png">
+        <link rel="apple-touch-icon" sizes="120x120" href="images/favicon/apple-icon-120x120.png">
+        <link rel="apple-touch-icon" sizes="144x144" href="images/favicon/apple-icon-144x144.png">
+        <link rel="apple-touch-icon" sizes="152x152" href="images/favicon/apple-icon-152x152.png">
+        <link rel="apple-touch-icon" sizes="180x180" href="images/favicon/apple-icon-180x180.png">
+        <link rel="icon" type="image/png" sizes="192x192" href="images/favicon/android-icon-192x192.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="images/favicon/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="96x96" href="images/favicon/favicon-96x96.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="images/favicon/favicon-16x16.png">
+        <meta name="msapplication-TileColor" content="#ffffff">
+        <meta name="msapplication-TileImage" content="images/favicon/ms-icon-144x144.png">
+        <meta name="theme-color" content="#ffffff">
+
+        <!--====== TITLE TAG ======-->
+        <title>Pettu | Pet Care &amp; Pet Shop</title>
+        <!--====== STYLESHEETS ======-->
+        <link rel="stylesheet" href="css/swiper-bundle-min.css" />
+        <link rel="stylesheet" href="css/bootstrap-min.css">
+        <link rel="stylesheet" href="css/normalize.css">
+        <link rel="stylesheet" href="css/remixicon.css">
+        <link rel="stylesheet" href="css/theme-icon.css">
+        <link rel="stylesheet" href="css/lity-min.css">
+        <link rel="stylesheet" href="css/theme.css">
+        <!--====== MAIN STYLESHEET ======-->
+        <link href="style.css" rel="stylesheet">
+        <script src="js/vendor/modernizr.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <!--[if lt IE 9]>
+            <script src="//oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+            <script src="//oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+        
+        <!--payment start-->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <script src="js/Razorpay.js" type="text/javascript"></script>
+        <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+        <!--payment end-->
+
+        <!--payment script start-->
+         <script>
+
+
+            function paymentlogic(total)
+            {
+
+                var options = {
+                    "key": "rzp_test_96HeaVmgRvbrfT",
+                    "amount": total + "00",
+                    "name": "JC PawfectCare",
+                    "description": "",
+                    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQOmghn1er2yRA0yXfMRmroSSpWEdAGNV5KHg&usqp=CAU",
+                    "handler": function (response) {
+
+                        if (response.razorpay_payment_id == "" || response.razorpay_payment_id == undefined) {
+
+                            window.location.href = "payment_action?status=failed";
+                            // paymentfail(authormobile,"Payment failed!");
+
+                            alert("Payment Failed")
+
+                        } else {
+       //success
+                            var type="online";
+                            pay(type);
+                            //payment success
+                            //call your book payment function here
+                        }
+                    },
+                    "prefill": {
+                        "name": "HealHub ",
+                        "email": ""
+                    },
+                    "notes": {
+                        "address": ""
+                    },
+                    "theme": {
+                        "color": "#F37254"
+                    },
+                    "modal": {
+                        "ondismiss": function () {
+                            $("#statusmodal").modal("show");
+                            document.getElementById("status").innerHTML = "Payment failed ! Try again";
+                        }
+                    }
+                };
+
+
+
+                var rzp1 = new Razorpay(options);
+                rzp1.on('payment.failed', function (response) {
+                    console.log("a2");
+                    console.log(response.error.code);
+
+                    alert("Payment Failed");
+
+
+                    // paymentfail(authormobile,"Payment failed!");
+                    // rzp1.close();
+                    // alert(response.error.code);
+                    // alert(response.error.description);
+                    // alert(response.error.source);
+                    // alert(response.error.step);
+                    // alert(response.error.reason);
+                    // alert(response.error.metadata.order_id);
+                    // alert(response.error.metadata.payment_id);
+
+                });
+                rzp1.open();
+            }
+
+        </script>    
+        <!--payemnt script end-->
+        
+        
+        <script>
+            var total2 = 0;
+            function getdata()
+            {
+                var url = "/getcart";
+                fetch(url)
+                        .then(response => response.text())
+                        .then(ans => renderAsHtml(ans));
+            }
+            function renderAsHtml(ans) {
+                var mainobj = JSON.parse(ans);
+                var arr = mainobj["ans"];
+                var s = `<table class="table" style="background-color: #1d2a46; color: white; border-radius: 10px;">`;
+                s += `<thead style="background-color: #040f1e;"><tr>
+            <th>Photo</th>
+            <th>Name</th>
+            <th>Quantity</th>
+            <th>Amount</th>
+            <th>Update Quantity</th>
+            <th>Delete From Cart</th>
+            
+          </tr></thead>`;
+                s += `<tbody>`;
+                var total = 0;
+                for (var i = 0; i < arr.length; i++) {
+                    var ct = arr[i];
+                    var a = "myuploads/" + ct.pphoto;
+                    s += `<tr>`;
+                    s += `<td><img src="${a}" class="img-thumbnail" style="width: 100px; height: 100px; object-fit: cover; border-radius: 10px; background-color: #05172a;" /></td>`;
+                    s += `<td>${ct.pname}</td>`;
+                    s += `<td>${ct.qty}</td>`;
+                    s += `<td>${ct.amnt}</td>`;
+                    total += parseInt(ct.amnt);
+                    s += `<td>
+                <div class="d-flex align-items-center">
+                  <button class="btn btn-sm btn-secondary" onclick="decreaseQty('${ct.id}')">-</button>
+                  <input type="text" id="qty_${ct.id}" value="${ct.qty}" style="width: 50px; text-align: center; margin: 0 5px; background-color: #0a1a33; color: white; border: none; border-radius: 5px;">
+                  <button class="btn btn-sm btn-secondary" onclick="increaseQty('${ct.id}')">+</button>
+                </div>
+              </td>`;
+                    s += `<td><button class='btn btn-danger btn-sm' onclick="confirmDelete('${ct.id}')">Delete</button></td>`;
+                    s += `</tr>`;
+                }
+                s += `</tbody>`;
+                s += `</table>`;
+                s += `<h3>Total :- ${total}</h3>`;
+                total2 = total;
+                document.getElementById("d1").innerHTML = s;
+            }
+
+
+            function increaseQty(id) {
+                var qtyInput = document.getElementById('qty_' + id);
+                var currentQty = parseInt(qtyInput.value);
+
+                var newqty = currentQty + 1;  // **first calculate**
+                var url = "/checkqty?id=" + id + "&qty=" + newqty;
+
+                fetch(url)
+                        .then(response => response.text())
+                        .then(ans => {
+                            if (ans === "success") {
+                                qtyInput.value = newqty;  // **only if success, update input value**
+                                getdata();
+                            } else if (ans === "fail") {
+                                alert("Sorry, we don't have enough stock!");
+                            } else {
+                                alert(ans);
+                            }
+                        });
+            }
+
+            function decreaseQty(id) {
+                var qtyInput = document.getElementById('qty_' + id);
+                var currentQty = parseInt(qtyInput.value);
+
+                if (currentQty > 1) {
+                    var newqty = currentQty - 1;  // **first calculate**
+                    var url = "/checkqty?id=" + id + "&qty=" + newqty;
+
+                    fetch(url)
+                            .then(response => response.text())
+                            .then(ans => {
+                                if (ans === "success") {
+                                    qtyInput.value = newqty;  // **only if success, update input value**
+                                    getdata();
+                                } else if (ans === "fail") {
+                                    alert("Sorry, we don't have enough stock!");
+                                } else {
+                                    alert(ans);
+                                }
+                            });
+                }
+            }
+
+
+            function  pay(type)
+            {
+                var name = document.getElementById("name").value;
+                var email = document.getElementById("email").value;
+                var contact = document.getElementById("contact").value;
+                var address = document.getElementById("address").value;
+
+                var formdata = new FormData();
+                formdata.append("name", name);
+                formdata.append("email", email);
+                formdata.append("contact", contact);
+                formdata.append("address", address);
+                formdata.append("type", type);
+                formdata.append("total", total2);
+                var url = "/pay";
+                fetch(url, {method: "POST", body: formdata})
+                        .then(response => response.text())
+                        .then(ans => {
+                            if (ans === "success")
+                            {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Order Placed',
+                                    text: 'Your Order Has Been Succesfully Placed'
+                                });
+                            } else if (ans === "fail")
+                            {
+                                alert("Some Error Occured Please Retry" + ans);
+                            } else {
+                                alert(ans);
+                            }
+                        });
+            }
+
+
+            function openPaymentModal() {
+                var modal = document.getElementById("paymentModal");
+                modal.style.display = "flex";  // Flex jab open karenge
+            }
+
+            function closePaymentModal() {
+                var modal = document.getElementById("paymentModal");
+                modal.style.display = "none";  // None jab close karenge
+            }
+
+            function payOnline() {
+               
+                closePaymentModal();
+                var type="online";
+                paymentlogic(total2);
+            }
+
+            function payCash() {
+               
+                closePaymentModal();
+                var type="cash";
+                pay(type);
+            }
+
+
+
+        </script>
+
+
+
+    </head>
+
+    <body data-spy="scroll" data-target=".nav__area" data-offset="50" onload="getdata()">
+        <!--[if lt IE 8]>
+            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+        <!-- Preloader-Content -->
+        <div class="preloader">
+            <img src="images/preloader.gif" alt="">
+        </div>
+
+
+        <!--modal-->
+        <div id="paymentModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background-color:rgba(0,0,0,0.7); z-index:1000; align-items:center; justify-content:center;">
+            <div style="background-color:#fff; padding:30px; border-radius:10px; width:320px; text-align:center; position:relative;">
+
+                <!-- X Button -->
+                <button onclick="closePaymentModal()" style="position:absolute; top:10px; right:10px; background:none; border:none; font-size:20px; font-weight:bold;">&times;</button>
+
+                <h4>Select Payment Method</h4>
+                <button class="btn btn-success mt-3" onclick="payOnline()">Online</button>
+                <button class="btn btn-secondary mt-3" onclick="payCash()">Cash on Delivery</button>
+            </div>
+        </div>
+
+
+        <!--moadl-->
+        <!-- nav__area-Start -->
+        <div th:replace="userheader :: header"></div>
+        <!-- nav__area-End -->
+
+
+        <!-- Full-Wrapper-Start -->
+        <main class="full-wrapper" id="home-section">
+            <!--Header-Area-Start-->
+            <header class="site__header section__overlay section__bg" style="background-image: url('images/site-header-2.jpg')">
+                <div class="container">
+                    <div class="row align-items-center">
+                        <div class="col-lg-6">
+                            <div class="section__heading mb-0">
+                                <h2 class="section__heading-title anim_top">Shopping cart</h2>
+                                <h5 class="section__heading-sup-title anim_top"><a href="/">Home</a> <span>/</span> <span class="current">Cart</span></h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section__shape">
+                    <svg class="svg_element">
+                    <use xlink:href="#svg__element-1" />
+                    </svg>
+                </div>
+            </header>
+            <!--Header-Area-End-->
+
+            <!--Post-List-Area-Start-->
+            <section class="posts__list-area section__padding">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-8" id="d1">
+                            <div class="row items_space">
+                                <div class="col-lg-6">
+                                    <div class="posts_box anim_top">
+                                        <figure class="posts_box-thumb">
+                                            <img src="images/blog-1.jpg" alt="">
+                                        </figure>
+                                        <div class="posts_box-details">
+                                            <ul class="meta_list">
+                                                <li>
+                                                    <span class="icon"><span class="ri-user-3-line"></span></span>
+                                                    <span class="value">By John Smith</span>
+                                                </li>
+                                                <li>
+                                                    <span class="icon"><span class="ri-calendar-check-line"></span></span>
+                                                    <span class="value">6, July 2021</span>
+                                                </li>
+                                            </ul>
+                                            <h4 class="title"><a href="single-post.html">Fun Ways to Exercise With Your pet</a></h4>
+                                            <div class="desc">
+                                                <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit</p>
+                                            </div>
+                                            <a href="#" class="load_more">Load More</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="posts_box anim_top">
+                                        <figure class="posts_box-thumb">
+                                            <img src="images/blog-2.jpg" alt="">
+                                        </figure>
+                                        <div class="posts_box-details">
+                                            <ul class="meta_list">
+                                                <li>
+                                                    <span class="icon"><span class="ri-user-3-line"></span></span>
+                                                    <span class="value">By John Smith</span>
+                                                </li>
+                                                <li>
+                                                    <span class="icon"><span class="ri-calendar-check-line"></span></span>
+                                                    <span class="value">6, July 2021</span>
+                                                </li>
+                                            </ul>
+                                            <h4 class="title"><a href="single-post.html">How to Make a Dog and a Cat Get Along Well</a></h4>
+                                            <div class="desc">
+                                                <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit</p>
+                                            </div>
+                                            <a href="#" class="load_more">Load More</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="posts_box anim_top">
+                                        <figure class="posts_box-thumb">
+                                            <img src="images/blog-3.jpg" alt="">
+                                        </figure>
+                                        <div class="posts_box-details">
+                                            <ul class="meta_list">
+                                                <li>
+                                                    <span class="icon"><span class="ri-user-3-line"></span></span>
+                                                    <span class="value">By John Smith</span>
+                                                </li>
+                                                <li>
+                                                    <span class="icon"><span class="ri-calendar-check-line"></span></span>
+                                                    <span class="value">6, July 2021</span>
+                                                </li>
+                                            </ul>
+                                            <h4 class="title"><a href="single-post.html">Fun Puzzle Games For You And Your Dog</a></h4>
+                                            <div class="desc">
+                                                <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit</p>
+                                            </div>
+                                            <a href="#" class="load_more">Load More</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="posts_box anim_top">
+                                        <figure class="posts_box-thumb">
+                                            <img src="images/blog-4.jpg" alt="">
+                                        </figure>
+                                        <div class="posts_box-details">
+                                            <ul class="meta_list">
+                                                <li>
+                                                    <span class="icon"><span class="ri-user-3-line"></span></span>
+                                                    <span class="value">By John Smith</span>
+                                                </li>
+                                                <li>
+                                                    <span class="icon"><span class="ri-calendar-check-line"></span></span>
+                                                    <span class="value">6, July 2021</span>
+                                                </li>
+                                            </ul>
+                                            <h4 class="title"><a href="single-post.html">Helping Your Dog Battle Anxiety And Stress</a></h4>
+                                            <div class="desc">
+                                                <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit</p>
+                                            </div>
+                                            <a href="#" class="load_more">Load More</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="posts_box anim_top">
+                                        <figure class="posts_box-thumb">
+                                            <img src="images/blog-5.jpg" alt="">
+                                        </figure>
+                                        <div class="posts_box-details">
+                                            <ul class="meta_list">
+                                                <li>
+                                                    <span class="icon"><span class="ri-user-3-line"></span></span>
+                                                    <span class="value">By John Smith</span>
+                                                </li>
+                                                <li>
+                                                    <span class="icon"><span class="ri-calendar-check-line"></span></span>
+                                                    <span class="value">6, July 2021</span>
+                                                </li>
+                                            </ul>
+                                            <h4 class="title"><a href="single-post.html">3 Ways to Keep Your Dog Happy and Healthy</a></h4>
+                                            <div class="desc">
+                                                <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit</p>
+                                            </div>
+                                            <a href="#" class="load_more">Load More</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="posts_box anim_top">
+                                        <figure class="posts_box-thumb">
+                                            <img src="images/blog-6.jpg" alt="">
+                                        </figure>
+                                        <div class="posts_box-details">
+                                            <ul class="meta_list">
+                                                <li>
+                                                    <span class="icon"><span class="ri-user-3-line"></span></span>
+                                                    <span class="value">By John Smith</span>
+                                                </li>
+                                                <li>
+                                                    <span class="icon"><span class="ri-calendar-check-line"></span></span>
+                                                    <span class="value">6, July 2021</span>
+                                                </li>
+                                            </ul>
+                                            <h4 class="title"><a href="single-post.html">Best Exercises to Keep You and Your Dog Fit</a></h4>
+                                            <div class="desc">
+                                                <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit</p>
+                                            </div>
+                                            <a href="#" class="load_more">Load More</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <!-- Pagination-Start -->
+                                    <nav class="navigation pagination">
+                                        <div class="nav-links">
+                                            <a class="prev page-numbers" href="#"><i class="ri-arrow-left-s-line"></i></a>
+                                            <a class="page-numbers" href="#">1</a>
+                                            <span aria-current="page" class="page-numbers current">2</span>
+                                            <a class="page-numbers" href="#">3</a>
+                                            <span class="page-numbers">...</span>
+                                            <a class="page-numbers" href="#">12</a>
+                                            <a class="page-numbers" href="#">13</a>
+                                            <a class="next page-numbers" href="#"><i class="ri-arrow-right-s-line"></i></a>
+                                        </div>
+                                        <div class="pagination_go">
+                                            <label for="go_page">Go to page</label>
+                                            <input type="number" id="go_page" />
+                                            <button type="submit">Go <i class="ri-arrow-right-s-line"></i></button>
+                                        </div>
+                                    </nav>
+                                    <!-- Pagination-End -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4">
+                            <!--Sidebar_Area-Start-->
+                            <aside class="sidebar__area">
+                                <div class="widget anim_top">
+                                    <h5 class="widget-title">Shipping Details</h5>
+                                    <form class="search-form">
+                                        <label>Reciever's Name</label>
+                                        <input type="text" placeholder="eg. Jhon Doe" id="name" class="input_control" required ><br>
+                                        <label>Reciever's Email</label>
+                                        <input type="text" placeholder="eg. jhon@gmail.com" id="email" class="input_control" required>
+                                        <label>Reciever's Contact</label>
+                                        <input type="text" placeholder="eg. 12345...." id="contact" class="input_control" required>
+                                        <label>Reciever's Shipping Address</label>
+                                        <textarea id="address" name="name" rows="5" cols="10"  placeholder="eg .  Urban City Street lane2" class="input_control" required></textarea>
+                                        <input type="button" onclick="openPaymentModal()()" class="primary__button" value="Proceed to Pay">
+                                    </form>
+                                </div>
+
+                            </aside>
+                            <!--Sidebar_Area-End-->
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!--Post-List-Area-End-->
+
+
+
+
+            <!--Footer__Area-Start-->
+            <footer class="footer__area section__relative">
+                <div class="section__shape">
+                    <svg class="svg_element">
+                    <use xlink:href="#svg__element-9" />
+                    </svg>
+                </div>
+                <!--Footer_Bottom_Area-Start-->
+                <div class="footer__top">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-4 pr-lg-5">
+                                <div class="footer__widget anim_top">
+                                    <h4 class="widget__title">About Us</h4>
+                                    <div class="desc mb-4">
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, Lorem ipsum dolor sit amet,</p>
+                                    </div>
+                                    <div class="social__links">
+                                        <a href="#"><i class="ri-facebook-fill"></i></a>
+                                        <a href="#"><i class="ri-twitter-fill"></i></a>
+                                        <a href="#"><i class="ri-instagram-fill"></i></a>
+                                        <a href="#"><i class="ri-linkedin-fill"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-lg-2">
+                                <div class="footer__widget anim_top">
+                                    <h4 class="widget__title">Explore</h4>
+                                    <ul class="nav-link">
+                                        <li><a href="#">About Us</a></li>
+                                        <li><a href="#">Services</a></li>
+                                        <li><a href="#">Testimonial</a></li>
+                                        <li><a href="#">Expert Team</a></li>
+                                        <li><a href="#">Posts</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-lg-2">
+                                <div class="footer__widget anim_top">
+                                    <h4 class="widget__title">Support</h4>
+                                    <ul class="nav-link">
+                                        <li><a href="#">Pet Shower</a></li>
+                                        <li><a href="#">Health checkup</a></li>
+                                        <li><a href="#">Pet Grooming</a></li>
+                                        <li><a href="#">Spa and Grooming</a></li>
+                                        <li><a href="#">Brush &amp; Blow Dry</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 pl-lg-5">
+                                <div class="footer__widget anim_top">
+                                    <h4 class="widget__title">Subscribe</h4>
+                                    <div class="desc pb-4">
+                                        <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui</p>
+                                    </div>
+                                    <form id="mc_form" class="subscribe__form">
+                                        <input type="email" id="mc-email" name="EMAIL" placeholder="E-mail Address">
+                                        <button type="submit"><i class="ri-mail-send-line"></i></button>
+                                        <label class="mt-3" for="mc-email"></label>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--Footer_Bottom_Area-End-->
+                <!--Footer_Top_Area-Start-->
+                <div class="footer__bottom">
+                    <div class="container">
+                        <div class="row align-items-center">
+                            <div class="col-md-6">
+                                <div class="copyright text-center text-md-left mb-3 mb-md-0">Copyright &copy; 2021. All Rights Reserved</div>
+                            </div>
+                            <div class="col-md-6 text-md-right text-center">
+                                <div class="supported__cards">
+                                    <img src="images/credit-cards.png" alt="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--Footer_Top_Area-End-->
+            </footer>
+            <!--Footer__Area-End-->
+        </main>
+        <!-- Full-Wrapper-End -->
+
+        <!-- Progress_Scroll-To-Top -->
+        <div class="progress-wrap">
+            <svg class="progress-circle svg-content" width="100%" height="100%" viewBox="-1 -1 102 102">
+            <path d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98" />
+            </svg>
+            <span class="icon"><i class="ri-arrow-up-line"></i></span>
+        </div>
+
+        <!--=======  SCRIPTS =======-->
+        <script src="js/vendor/jquery-min.js"></script>
+        <!--=======  PLUGINS =======-->
+        <script src="js/bootstrap-min.js"></script>
+        <script src="js/appear.js"></script>
+        <script src="js/ajaxchimp.js"></script>
+        <script src="js/animatenumber-min.js"></script>
+        <script src="js/contact-form.js"></script>
+        <script src="js/imagesloaded-min.js"></script>
+        <script src="js/isotope-pkgd-min.js"></script>
+        <script src="js/lity-min.js"></script>
+        <script src="js/scrollreveal-min.js"></script>
+        <script src="js/swiper-bundle-min.js"></script>
+        <!--=======  ACTIVE JS =======-->
+        <script src="js/main.js"></script>
+    </body>
+
+
+    <!-- Mirrored from html.codexse.com/pettu/posts-right-sidebar.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 07 Apr 2025 15:45:38 GMT -->
+</html>

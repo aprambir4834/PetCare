@@ -1,0 +1,362 @@
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
+<!--[if IE 7]><html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
+<!--[if IE 8]><html class="no-js lt-ie9" lang=""> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="en">
+    <!--<![endif]-->
+
+
+    <!-- Mirrored from html.codexse.com/pettu/gallery.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 07 Apr 2025 15:45:36 GMT -->
+    <head>
+        <!--====== USEFULL META ======-->
+        <meta charset="utf-8">
+        <!--[if IE]>
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <![endif]-->
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!--====== Favicon ======-->
+        <link rel="apple-touch-icon" sizes="57x57" href="images/favicon/apple-icon-57x57.png">
+        <link rel="apple-touch-icon" sizes="60x60" href="images/favicon/apple-icon-60x60.png">
+        <link rel="apple-touch-icon" sizes="72x72" href="images/favicon/apple-icon-72x72.png">
+        <link rel="apple-touch-icon" sizes="76x76" href="images/favicon/apple-icon-76x76.png">
+        <link rel="apple-touch-icon" sizes="114x114" href="images/favicon/apple-icon-114x114.png">
+        <link rel="apple-touch-icon" sizes="120x120" href="images/favicon/apple-icon-120x120.png">
+        <link rel="apple-touch-icon" sizes="144x144" href="images/favicon/apple-icon-144x144.png">
+        <link rel="apple-touch-icon" sizes="152x152" href="images/favicon/apple-icon-152x152.png">
+        <link rel="apple-touch-icon" sizes="180x180" href="images/favicon/apple-icon-180x180.png">
+        <link rel="icon" type="image/png" sizes="192x192" href="images/favicon/android-icon-192x192.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="images/favicon/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="96x96" href="images/favicon/favicon-96x96.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="images/favicon/favicon-16x16.png">
+        <meta name="msapplication-TileColor" content="#ffffff">
+        <meta name="msapplication-TileImage" content="images/favicon/ms-icon-144x144.png">
+        <meta name="theme-color" content="#ffffff">
+
+        <!--====== TITLE TAG ======-->
+        <title>Pettu | Pet Care &amp; Pet Shop</title>
+        <!--====== STYLESHEETS ======-->
+        <link rel="stylesheet" href="css/swiper-bundle-min.css" />
+        <link rel="stylesheet" href="css/bootstrap-min.css">
+        <link rel="stylesheet" href="css/normalize.css">
+        <link rel="stylesheet" href="css/remixicon.css">
+        <link rel="stylesheet" href="css/theme-icon.css">
+        <link rel="stylesheet" href="css/lity-min.css">
+        <link rel="stylesheet" href="css/theme.css">
+        <!--====== MAIN STYLESHEET ======-->
+        <link href="style.css" rel="stylesheet">
+        <script src="js/vendor/modernizr.js"></script>
+        <!--[if lt IE 9]>
+            <script src="//oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+            <script src="//oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+        <script>
+            const params = new URLSearchParams(window.location.search);
+            const id = params.get('id');
+
+            let photosArr = []; // Global array for all photos
+            let currentPage = 1;
+            const photosPerPage = 6;
+
+            function getphoto() {
+                var url = "/getphotos?id=" + id;
+                fetch(url)
+                        .then(response => response.text())
+                        .then(ans => {
+                            var mainobj = JSON.parse(ans);
+                            photosArr = mainobj["ans"];
+                            renderPage(currentPage); // Start by showing page 1
+                        });
+            }
+
+            function renderPage(page) {
+                let start = (page - 1) * photosPerPage;
+                let end = start + photosPerPage;
+                let currentPhotos = photosArr.slice(start, end);
+
+                var s = "";
+                for (var i = 0; i < currentPhotos.length; i++) {
+                    var ct = currentPhotos[i];
+                    var a = "myuploads/" + ct.photo;
+                    s += `<div class="col-lg-4 col-sm-6">
+                          <div class="gallery__box">
+                              <img src="${a}" alt="" style="width:100%; height:250px; object-fit:contain; background-color:black;">
+                              <a href="${a}" class="zoom_icon" data-lity><i class="ri-zoom-in-line"></i></a>
+                          </div>
+                     </div>`;
+                }
+                document.getElementById("d1").innerHTML = s;
+                updatePagination(); // Also update page buttons
+            }
+
+            function updatePagination() {
+                const totalPages = Math.ceil(photosArr.length / photosPerPage);
+                document.getElementById("pagination-info").innerText = `Page ${currentPage} of ${totalPages}`;
+            }
+
+            function nextPage() {
+                const totalPages = Math.ceil(photosArr.length / photosPerPage);
+                if (currentPage < totalPages) {
+                    currentPage++;
+                    renderPage(currentPage);
+                }
+            }
+
+            function prevPage() {
+                if (currentPage > 1) {
+                    currentPage--;
+                    renderPage(currentPage);
+                }
+            }
+
+            function goToPage() {
+                const page = parseInt(document.getElementById("go_page").value);
+                const totalPages = Math.ceil(photosArr.length / photosPerPage);
+                if (page >= 1 && page <= totalPages) {
+                    currentPage = page;
+                    renderPage(currentPage);
+                } else {
+                    alert("Invalid Page Number");
+                }
+            }
+
+            window.onload = getphoto;
+        </script>
+
+
+    </head>
+
+    <body data-spy="scroll" data-target=".nav__area" data-offset="50" onload="getphoto()">
+        <!--[if lt IE 8]>
+            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+        <!-- Preloader-Content -->
+        <div class="preloader">
+            <img src="images/preloader.gif" alt="">
+        </div>
+
+
+        <!-- nav__area-Start -->
+       <div th:replace="userheader :: header"></div>
+        <!-- nav__area-End -->
+
+
+        <!-- Full-Wrapper-Start -->
+        <main class="full-wrapper" id="home-section">
+            <!--Header-Area-Start-->
+            <header class="site__header section__overlay section__bg" style="background-image: url('images/site-header-1.jpg')">
+                <div class="container">
+                    <div class="row align-items-center">
+                        <div class="col-lg-6">
+                            <div class="section__heading mb-0">
+                                <h2 class="section__heading-title anim_top">Gallery</h2>
+                                <h5 class="section__heading-sup-title anim_top"><a href="#">Home</a> <span>/</span> <span class="current">Gallery</span></h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section__shape">
+                    <svg class="svg_element">
+                    <use xlink:href="#svg__element-1" />
+                    </svg>
+                </div>
+            </header>
+            <!--Header-Area-End-->
+            <!-- Gallery_Area-Start -->
+            <div class="gallery__area section__padding">
+                <div class="container">
+                    <div class="row gallery_items items_space" id="d1">
+                        <div class="col-lg-4 col-sm-6">
+                            <div class="gallery__box">
+                                <img src="images/gallery-3.jpg" alt="">
+                                <a href="images/gallery-3.jpg" class="zoom_icon" data-lity><i class="ri-zoom-in-line"></i></a>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-sm-6">
+                            <div class="gallery__box">
+                                <img src="images/gallery-2.jpg" alt="">
+                                <a href="images/gallery-2.jpg" class="zoom_icon" data-lity><i class="ri-zoom-in-line"></i></a>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-sm-6">
+                            <div class="gallery__box">
+                                <img src="images/gallery-1.jpg" alt="">
+                                <a href="images/gallery-1.jpg" class="zoom_icon" data-lity><i class="ri-zoom-in-line"></i></a>
+                            </div>
+                        </div>
+                        <div class="col-lg-8 col-sm-12">
+                            <div class="gallery__box">
+                                <img src="images/gallery-4.jpg" alt="">
+                                <a href="images/gallery-4.jpg" class="zoom_icon" data-lity><i class="ri-zoom-in-line"></i></a>
+                            </div>
+                        </div>
+                        <div class="col-lg-8 col-sm-12">
+                            <div class="gallery__box">
+                                <img src="images/gallery-6.jpg" alt="">
+                                <a href="images/gallery-6.jpg" class="zoom_icon" data-lity><i class="ri-zoom-in-line"></i></a>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-sm-6">
+                            <div class="gallery__box">
+                                <img src="images/gallery-7.jpg" alt="">
+                                <a href="images/gallery-7.jpg" class="zoom_icon" data-lity><i class="ri-zoom-in-line"></i></a>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-sm-6">
+                            <div class="gallery__box">
+                                <img src="images/gallery-8.jpg" alt="">
+                                <a href="images/gallery-8.jpg" class="zoom_icon" data-lity><i class="ri-zoom-in-line"></i></a>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-sm-6">
+                            <div class="gallery__box">
+                                <img src="images/gallery-9.jpg" alt="">
+                                <a href="images/gallery-9.jpg" class="zoom_icon" data-lity><i class="ri-zoom-in-line"></i></a>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-sm-6">
+                            <div class="gallery__box">
+                                <img src="images/gallery-5.jpg" alt="">
+                                <a href="images/gallery-5.jpg" class="zoom_icon" data-lity><i class="ri-zoom-in-line"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <nav class="navigation pagination">
+                                <div class="nav-links">
+                                    <a class="prev page-numbers" href="javascript:void(0)" onclick="prevPage()"><i class="ri-arrow-left-s-line"></i></a>
+                                    <span id="pagination-info" class="page-numbers current">Page 1 of X</span>
+                                    <a class="next page-numbers" href="javascript:void(0)" onclick="nextPage()"><i class="ri-arrow-right-s-line"></i></a>
+                                </div>
+                                <div class="pagination_go">
+                                    <label for="go_page">Go to page</label>
+                                    <input type="number" id="go_page" />
+                                    <button type="button" onclick="goToPage()">Go <i class="ri-arrow-right-s-line"></i></button>
+                                </div>
+                            </nav>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <!-- Gallery_Area-End -->
+
+            <!--Footer__Area-Start-->
+            <footer class="footer__area section__relative">
+                <div class="section__shape">
+                    <svg class="svg_element">
+                    <use xlink:href="#svg__element-9" />
+                    </svg>
+                </div>
+                <!--Footer_Bottom_Area-Start-->
+                <div class="footer__top">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-4 pr-lg-5">
+                                <div class="footer__widget anim_top">
+                                    <h4 class="widget__title">About Us</h4>
+                                    <div class="desc mb-4">
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, Lorem ipsum dolor sit amet,</p>
+                                    </div>
+                                    <div class="social__links">
+                                        <a href="#"><i class="ri-facebook-fill"></i></a>
+                                        <a href="#"><i class="ri-twitter-fill"></i></a>
+                                        <a href="#"><i class="ri-instagram-fill"></i></a>
+                                        <a href="#"><i class="ri-linkedin-fill"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-lg-2">
+                                <div class="footer__widget anim_top">
+                                    <h4 class="widget__title">Explore</h4>
+                                    <ul class="nav-link">
+                                        <li><a href="#">About Us</a></li>
+                                        <li><a href="#">Services</a></li>
+                                        <li><a href="#">Testimonial</a></li>
+                                        <li><a href="#">Expert Team</a></li>
+                                        <li><a href="#">Posts</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-lg-2">
+                                <div class="footer__widget anim_top">
+                                    <h4 class="widget__title">Support</h4>
+                                    <ul class="nav-link">
+                                        <li><a href="#">Pet Shower</a></li>
+                                        <li><a href="#">Health checkup</a></li>
+                                        <li><a href="#">Pet Grooming</a></li>
+                                        <li><a href="#">Spa and Grooming</a></li>
+                                        <li><a href="#">Brush &amp; Blow Dry</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 pl-lg-5">
+                                <div class="footer__widget anim_top">
+                                    <h4 class="widget__title">Subscribe</h4>
+                                    <div class="desc pb-4">
+                                        <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui</p>
+                                    </div>
+                                    <form id="mc_form" class="subscribe__form">
+                                        <input type="email" id="mc-email" name="EMAIL" placeholder="E-mail Address">
+                                        <button type="submit"><i class="ri-mail-send-line"></i></button>
+                                        <label class="mt-3" for="mc-email"></label>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--Footer_Bottom_Area-End-->
+                <!--Footer_Top_Area-Start-->
+                <div class="footer__bottom">
+                    <div class="container">
+                        <div class="row align-items-center">
+                            <div class="col-md-6">
+                                <div class="copyright text-center text-md-left mb-3 mb-md-0">Copyright &copy; 2021. All Rights Reserved</div>
+                            </div>
+                            <div class="col-md-6 text-md-right text-center">
+                                <div class="supported__cards">
+                                    <img src="images/credit-cards.png" alt="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--Footer_Top_Area-End-->
+            </footer>
+            <!--Footer__Area-End-->
+        </main>
+        <!-- Full-Wrapper-End -->
+
+        <!-- Progress_Scroll-To-Top -->
+        <div class="progress-wrap">
+            <svg class="progress-circle svg-content" width="100%" height="100%" viewBox="-1 -1 102 102">
+            <path d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98" />
+            </svg>
+            <span class="icon"><i class="ri-arrow-up-line"></i></span>
+        </div>
+
+        <!--=======  SCRIPTS =======-->
+        <script src="js/vendor/jquery-min.js"></script>
+        <!--=======  PLUGINS =======-->
+        <script src="js/bootstrap-min.js"></script>
+        <script src="js/appear.js"></script>
+        <script src="js/ajaxchimp.js"></script>
+        <script src="js/animatenumber-min.js"></script>
+        <script src="js/contact-form.js"></script>
+        <script src="js/imagesloaded-min.js"></script>
+        <script src="js/isotope-pkgd-min.js"></script>
+        <script src="js/lity-min.js"></script>
+        <script src="js/scrollreveal-min.js"></script>
+        <script src="js/swiper-bundle-min.js"></script>
+        <!--=======  ACTIVE JS =======-->
+        <script src="js/main.js"></script>
+    </body>
+
+
+    <!-- Mirrored from html.codexse.com/pettu/gallery.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 07 Apr 2025 15:45:37 GMT -->
+</html>
