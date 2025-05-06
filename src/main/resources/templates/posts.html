@@ -7,7 +7,7 @@
     <!--<![endif]-->
 
 
-    <!-- Mirrored from html.codexse.com/pettu/contact.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 07 Apr 2025 15:45:39 GMT -->
+    <!-- Mirrored from html.codexse.com/pettu/posts.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 07 Apr 2025 15:45:33 GMT -->
     <head>
         <!--====== USEFULL META ======-->
         <meta charset="utf-8">
@@ -48,54 +48,72 @@
         <!--====== MAIN STYLESHEET ======-->
         <link href="style.css" rel="stylesheet">
         <script src="js/vendor/modernizr.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <!--[if lt IE 9]>
             <script src="//oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
             <script src="//oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
         <![endif]-->
 
         <script>
-            function login() {
-                var uname = document.getElementById("uname").value;
-                var pass = document.getElementById("pass").value;
-                var formdata=new FormData();
-                formdata.append("uname",uname);
-                formdata.append("pass",pass);
-                var url = "/alogin";
-                fetch(url,{method:"POSt",body:formdata})
-                        .then(response => response.text())
-                        .then(ans => renderAsHtml(ans));
 
-            }
+            fetch('http://localhost:8080/api/news/pets')
+                    .then(res => res.text())
+                    .then(text => {
+                        console.log("Raw response:", text); // log the full response to the console for inspection
 
-            function renderAsHtml(ans) {
-                if (ans === "success")
-                {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Success',
-                        text: 'Login Succesfull'
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-
-                            window.location.href = "/allproducts";
+                        let data;
+                        try {
+                            data = JSON.parse(text); // Parse the JSON response
+                            console.log("Parsed data:", data); // log the parsed data to check its structure
+                        } catch (e) {
+                            alert("Failed to parse JSON:\n" + e.message);
+                            return;
                         }
+
+                        const container = document.getElementById("news-container");
+                        const articles = data.data || []; // Update here: access `data.data` instead of `data.articles`
+
+                        alert(`Total articles found: ${articles.length}`);
+
+                        articles.forEach(article => {
+                            const card = document.createElement("div");
+                            card.className = "col-md-6 col-lg-4";
+                            card.innerHTML = `
+                <div class="posts_box anim_top">
+                    <figure class="posts_box-thumb">
+                        <img src="${article.photo_url || 'images/blog-1.jpg'}" alt="" style="height: 200px; object-fit: cover;">
+                    </figure>
+                    <div class="posts_box-details">
+                        <ul class="meta_list">
+                            <li>
+                                <span class="icon"><span class="ri-user-3-line"></span></span>
+                                <span class="value">By ${article.authors?.[0] || 'Unknown'}</span>
+                            </li>
+                            <li>
+                                <span class="icon"><span class="ri-calendar-check-line"></span></span>
+                                <span class="value">${new Date(article.published_datetime_utc).toLocaleDateString()}</span>
+                            </li>
+                        </ul>
+                        <h4 class="title"><a href="${article.link}" target="_blank">${article.title}</a></h4>
+                        <div class="desc">
+                            <p>${article.snippet || ''}</p>
+                        </div>
+                        <a href="${article.link}" target="_blank" class="load_more">Read More</a>
+                    </div>
+                </div>
+            `;
+                            container.appendChild(card);
+                        });
+                    })
+                    .catch(err => {
+                        alert("Error while fetching news:\n" + err.message);
+                        console.error("Fetch error:", err);
                     });
-                }
-                else if(ans === "fail")
-                {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Failed',
-                        text: 'Invalid Credentials'
-                    });
-                }
-                else{
-                    alert(ans);
-                }
-            }
+
 
         </script>
+
+
+
 
     </head>
 
@@ -134,14 +152,14 @@
                             <li><a href="index-2.html">Home</a>
                                 <ul class="sub-menu">
                                     <li><a href="index-2.html">Home V1</a></li>
-                                    <li><a href="PetHome.html">Home V2</a></li>
+                                    <li><a href="index-3.html">Home V2</a></li>
                                     <li><a href="index-4.html">Home V3</a></li>
                                 </ul>
                             </li>
                             <li><a href="gpt.html">About</a></li>
-                            <li><a href="PetDashboard.html">Services</a>
+                            <li><a href="services.html">Services</a>
                                 <ul class="sub-menu">
-                                    <li><a href="PetDashboard.html">Services</a></li>
+                                    <li><a href="services.html">Services</a></li>
                                     <li><a href="single-service.html">Service Details</a></li>
                                 </ul>
                             </li>
@@ -153,24 +171,24 @@
                                             <li><a href="single-team.html">Team Details</a></li>
                                         </ul>
                                     </li>
-                                    <li><a href="UserProducts.html">Products</a>
+                                    <li><a href="product.html">Products</a>
                                         <ul class="sub-menu">
-                                            <li><a href="UserProducts.html">Products</a></li>
-                                            <li><a href="UserProductDetail.html">Product Details</a></li>
+                                            <li><a href="product.html">Products</a></li>
+                                            <li><a href="single-product.html">Product Details</a></li>
                                         </ul>
                                     </li>
                                     <li><a href="gallery.html">Gallery</a></li>
                                 </ul>
                             </li>
-                            <li><a href="posts.html">Posts</a>
+                            <li class="current-menu-item"><a href="posts.html">Posts</a>
                                 <ul class="sub-menu">
-                                    <li><a href="posts.html">Posts</a></li>
+                                    <li class="current-menu-item"><a href="posts.html">Posts</a></li>
                                     <li><a href="posts-left-sidebar.html">Left Sidebar</a></li>
-                                    <li><a href="UserCart.html">Right Sidebar</a></li>
+                                    <li><a href="posts-right-sidebar.html">Right Sidebar</a></li>
                                     <li><a href="single-post.html">Post Details</a></li>
                                 </ul>
                             </li>
-                            <li class="current-menu-item"><a href="AdminLogin.html">Contact</a></li>
+                            <li><a href="contact.html">Contact</a></li>
                         </ul>
                     </nav>
                     <!-- nav__menu-End -->
@@ -188,7 +206,7 @@
                         </form>
                     </div>
                     <!--Action-Button-->
-                    <a href="AdminLogin.html" class="primary__button">Appoinment</a>
+                    <a href="contact.html" class="primary__button">Appoinment</a>
                 </div>
             </div>
         </div>
@@ -203,8 +221,8 @@
                     <div class="row align-items-center">
                         <div class="col-lg-6">
                             <div class="section__heading mb-0">
-                                <h2 class="section__heading-title anim_top">Contact Us</h2>
-                                <h5 class="section__heading-sup-title anim_top"><a href="#">Home</a> <span>/</span> <span class="current">Contact Us</span></h5>
+                                <h2 class="section__heading-title anim_top">Posts</h2>
+                                <h5 class="section__heading-sup-title anim_top"><a href="#">Home</a> <span>/</span> <span class="current">Posts</span></h5>
                             </div>
                         </div>
                     </div>
@@ -216,74 +234,180 @@
                 </div>
             </header>
             <!--Header-Area-End-->
-            <!--Contact-Area-Start-->
-            <section class="contact__area section__padding">
+
+            <!--Posts-List-Area-Start-->
+            <section class="posts__list-area section__padding">
                 <div class="container">
-                    <div class="row items_space section__padding-bottom">
-                        <div class="col-lg-4">
-                            <div class="info__box anim_top">
-                                <div class="info__box-icon">
-                                    <svg class="svg_element color__primary">
-                                    <use xlink:href="#svg__element-10" />
-                                    </svg>
-                                    <i class="icon-phone"></i>
-                                </div>
-                                <h5 class="info__box-title">Phone Us</h5>
-                                <div class="info__box-desc">
-                                    <p>+12-875-895-789<br>+12-875-895-789</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4">
-                            <div class="info__box anim_top">
-                                <div class="info__box-icon">
-                                    <svg class="svg_element color__secondary">
-                                    <use xlink:href="#svg__element-10" />
-                                    </svg>
-                                    <i class="icon-envelope"></i>
-                                </div>
-                                <h5 class="info__box-title">Email Drop Us</h5>
-                                <div class="info__box-desc">
-                                    <p>infopet@gmail.com <br>infooffice@gmail</p>
+                    <div class="row items_space" id="news-container">
+<!--                        <div class="col-md-6 col-lg-4">
+                            <div class="posts_box anim_top">
+                                <figure class="posts_box-thumb">
+                                    <img src="images/blog-1.jpg" alt="">
+                                </figure>
+                                <div class="posts_box-details">
+                                    <ul class="meta_list">
+                                        <li>
+                                            <span class="icon"><span class="ri-user-3-line"></span></span>
+                                            <span class="value">By John Smith</span>
+                                        </li>
+                                        <li>
+                                            <span class="icon"><span class="ri-calendar-check-line"></span></span>
+                                            <span class="value">6, July 2021</span>
+                                        </li>
+                                    </ul>
+                                    <h4 class="title"><a href="single-post.html">Fun Ways to Exercise With Your pet</a></h4>
+                                    <div class="desc">
+                                        <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit</p>
+                                    </div>
+                                    <a href="#" class="load_more">Load More</a>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-4">
-                            <div class="info__box anim_top">
-                                <div class="info__box-icon">
-                                    <svg class="svg_element color__tertiary">
-                                    <use xlink:href="#svg__element-10" />
-                                    </svg>
-                                    <i class="icon-map-marker"></i>
-                                </div>
-                                <h5 class="info__box-title">Location</h5>
-                                <div class="info__box-desc">
-                                    <p>Rd, Caterham CR3 5LY,<br> United Kingdom</p>
+                        <div class="col-md-6 col-lg-4">
+                            <div class="posts_box anim_top">
+                                <figure class="posts_box-thumb">
+                                    <img src="images/blog-2.jpg" alt="">
+                                </figure>
+                                <div class="posts_box-details">
+                                    <ul class="meta_list">
+                                        <li>
+                                            <span class="icon"><span class="ri-user-3-line"></span></span>
+                                            <span class="value">By John Smith</span>
+                                        </li>
+                                        <li>
+                                            <span class="icon"><span class="ri-calendar-check-line"></span></span>
+                                            <span class="value">6, July 2021</span>
+                                        </li>
+                                    </ul>
+                                    <h4 class="title"><a href="single-post.html">7 Easy Ways to Play with Dogs Indoors</a></h4>
+                                    <div class="desc">
+                                        <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit</p>
+                                    </div>
+                                    <a href="#" class="load_more">Load More</a>
                                 </div>
                             </div>
                         </div>
+                        <div class="col-md-6 col-lg-4">
+                            <div class="posts_box anim_top">
+                                <figure class="posts_box-thumb">
+                                    <img src="images/blog-3.jpg" alt="">
+                                </figure>
+                                <div class="posts_box-details">
+                                    <ul class="meta_list">
+                                        <li>
+                                            <span class="icon"><span class="ri-user-3-line"></span></span>
+                                            <span class="value">By John Smith</span>
+                                        </li>
+                                        <li>
+                                            <span class="icon"><span class="ri-calendar-check-line"></span></span>
+                                            <span class="value">6, July 2021</span>
+                                        </li>
+                                    </ul>
+                                    <h4 class="title"><a href="single-post.html">Signs Your Dog Might Have Osteoarthritis</a></h4>
+                                    <div class="desc">
+                                        <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit</p>
+                                    </div>
+                                    <a href="#" class="load_more">Load More</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-lg-4">
+                            <div class="posts_box anim_top">
+                                <figure class="posts_box-thumb">
+                                    <img src="images/blog-4.jpg" alt="">
+                                </figure>
+                                <div class="posts_box-details">
+                                    <ul class="meta_list">
+                                        <li>
+                                            <span class="icon"><span class="ri-user-3-line"></span></span>
+                                            <span class="value">By John Smith</span>
+                                        </li>
+                                        <li>
+                                            <span class="icon"><span class="ri-calendar-check-line"></span></span>
+                                            <span class="value">6, July 2021</span>
+                                        </li>
+                                    </ul>
+                                    <h4 class="title"><a href="single-post.html">How to Get Pee Smell Out of Carpet?</a></h4>
+                                    <div class="desc">
+                                        <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit</p>
+                                    </div>
+                                    <a href="#" class="load_more">Load More</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-lg-4">
+                            <div class="posts_box anim_top">
+                                <figure class="posts_box-thumb">
+                                    <img src="images/blog-5.jpg" alt="">
+                                </figure>
+                                <div class="posts_box-details">
+                                    <ul class="meta_list">
+                                        <li>
+                                            <span class="icon"><span class="ri-user-3-line"></span></span>
+                                            <span class="value">By John Smith</span>
+                                        </li>
+                                        <li>
+                                            <span class="icon"><span class="ri-calendar-check-line"></span></span>
+                                            <span class="value">6, July 2021</span>
+                                        </li>
+                                    </ul>
+                                    <h4 class="title"><a href="single-post.html">The Impact of Pets on Work Productivity</a></h4>
+                                    <div class="desc">
+                                        <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit</p>
+                                    </div>
+                                    <a href="#" class="load_more">Load More</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-lg-4">
+                            <div class="posts_box anim_top">
+                                <figure class="posts_box-thumb">
+                                    <img src="images/blog-6.jpg" alt="">
+                                </figure>
+                                <div class="posts_box-details">
+                                    <ul class="meta_list">
+                                        <li>
+                                            <span class="icon"><span class="ri-user-3-line"></span></span>
+                                            <span class="value">By John Smith</span>
+                                        </li>
+                                        <li>
+                                            <span class="icon"><span class="ri-calendar-check-line"></span></span>
+                                            <span class="value">6, July 2021</span>
+                                        </li>
+                                    </ul>
+                                    <h4 class="title"><a href="single-post.html">4 Tips for Calming an Anxious Dog Down</a></h4>
+                                    <div class="desc">
+                                        <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit</p>
+                                    </div>
+                                    <a href="#" class="load_more">Load More</a>
+                                </div>
+                            </div>
+                        </div>-->
                     </div>
-                    <div class="row contact__form-row no-gutters anim_top">
-
+                    <div class="row">
                         <div class="col-lg-12">
-                            <form class="contact__form">
-                                <h3 class="contact__form-title">Admin Login</h3>
-                                <div class="row">
-                                    <div class="col-sm-12 form-box">
-                                        <input type="text" id="uname" name="form-name" class="input_control" placeholder="Your Name">
-                                    </div>
-                                    <div class="col-sm-12 form-box">
-                                        <input type="password" id="pass" name="form-email" class="input_control" placeholder="Your Password">
-                                    </div>
+                            <nav class="navigation pagination">
+                                <div class="nav-links">
+                                    <a class="prev page-numbers" href="#"><i class="ri-arrow-left-s-line"></i></a>
+                                    <a class="page-numbers" href="#">1</a>
+                                    <span aria-current="page" class="page-numbers current">2</span>
+                                    <a class="page-numbers" href="#">3</a>
+                                    <span class="page-numbers">...</span>
+                                    <a class="page-numbers" href="#">12</a>
+                                    <a class="page-numbers" href="#">13</a>
+                                    <a class="next page-numbers" href="#"><i class="ri-arrow-right-s-line"></i></a>
                                 </div>
-
-                                <button type="button" onclick="login()" class="primary__button">Login</button>
-                            </form>
+                                <div class="pagination_go">
+                                    <label for="go_page">Go to page</label>
+                                    <input type="number" id="go_page" />
+                                    <button type="submit">Go <i class="ri-arrow-right-s-line"></i></button>
+                                </div>
+                            </nav>
                         </div>
                     </div>
                 </div>
             </section>
-            <!--Contact-Area-End-->
+            <!--Posts-List-Area-End-->
             <!--Footer__Area-Start-->
             <footer class="footer__area section__relative">
                 <div class="section__shape">
@@ -397,5 +521,5 @@
     </body>
 
 
-    <!-- Mirrored from html.codexse.com/pettu/contact.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 07 Apr 2025 15:45:39 GMT -->
+    <!-- Mirrored from html.codexse.com/pettu/posts.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 07 Apr 2025 15:45:33 GMT -->
 </html>

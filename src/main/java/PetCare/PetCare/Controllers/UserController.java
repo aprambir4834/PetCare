@@ -143,5 +143,23 @@ public class UserController {
         session.invalidate();
         return "redirect:/";
     }
+    
+    @GetMapping("/post")
+    public String post()
+    {
+        return "posts";
+    }
+    
+    @GetMapping("/nh")
+    public String nh()
+    {
+        return "nearbyhospital";
+    }
+    
+    @GetMapping("/gpt")
+    public String gpt()
+    {
+        return "gpt";
+    }
 
 }
