@@ -70,7 +70,7 @@
                     formdata.append("email", email);
                     formdata.append("pass", pass);
 
-                    var url = "/userlogin";
+                    var url = "/userlogin2";
                     fetch(url, {method: "POST", body: formdata})
                             .then(response => response.text())
                             .then(ans => renderAsHtml(ans));

@@ -61,28 +61,37 @@
                         .then(response => response.text())
                         .then(ans => renderAsHtml5(ans));
             }
-            function renderAsHtml5(ans)
-            {
-                var mainobj = JSON.parse(ans);
-                var arr = mainobj["ans"];
-                var s = ``;
-                for (var i = 0; i < arr.length; i++)
-                {
-                    var ct = arr[i];
-                    var a = "myuploads/" + ct.photo;
-                    s += `<div class="col-lg-3 col-md-6">
-            <div class="team__box">
-                <div class="team__box-image" style="height: 250px; overflow: hidden; display: flex; align-items: center; justify-content: center;">
-                    <img src="${a}" alt="" style="height: 100%; width: auto; object-fit: cover;">
-                </div>
-                <h5 class="team__box-name"><a href="/pethome?id=${ct.did}">${ct.name}</a></h5>
-                <h6 class="team__box-position">${ct.breed}</h6>
-            </div>
-        </div>`;
+            function renderAsHtml5(ans) {
+                try {
+                    var mainobj = JSON.parse(ans);
+                    var arr = mainobj["ans"];
+                    var s = ``;
 
+                    if (!arr || arr.length === 0) {
+                        document.getElementById("d1").innerHTML = `<h2>No pets found</h2>`;
+                        return;
+                    }
+
+                    for (var i = 0; i < arr.length; i++) {
+                        var ct = arr[i];
+                        var a = "myuploads/" + ct.photo;
+                        s += `<div class="col-lg-3 col-md-6">
+                <div class="team__box">
+                    <div class="team__box-image" style="height: 250px; overflow: hidden; display: flex; align-items: center; justify-content: center;">
+                        <img src="${a}" alt="" style="height: 100%; width: auto; object-fit: cover;">
+                    </div>
+                    <h5 class="team__box-name"><a href="/pethome?id=${ct.did}">${ct.name}</a></h5>
+                    <h6 class="team__box-position">${ct.breed}</h6>
+                </div>
+            </div>`;
+                    }
+
+                    document.getElementById("d1").innerHTML = s;
+                } catch (e) {
+                    document.getElementById("d1").innerHTML = `<h2>No pets found</h2>`;
                 }
-                document.getElementById("d1").innerHTML = s;
             }
+
         </script>
 
     </head>
@@ -112,9 +121,9 @@
                                 <div class="section__heading-desc anim_top">
                                     <p>At JC, we believe pets are family. From playful pups to curious kittens, we're here to support their journey with care. Be it vet visits, grooming, or tips — your pet’s happiness is our priority. Because every paw deserves love.
 
-</p>
+                                    </p>
                                 </div>
-                               
+
                             </div>
                         </div>
                     </div>
@@ -164,73 +173,73 @@
                 </div>
             </section>
             <!--About-Area-End-->
-<!--            Service__Area-Start
-            <section class="service__area section__padding">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-lg-6 offset-lg-3">
-                            <div class="section__heading text-center">
-                                <h5 class="section__heading-sup-title anim_top">Services</h5>
-                                <h2 class="section__heading-title anim_top">We Provide Services</h2>
+            <!--            Service__Area-Start
+                        <section class="service__area section__padding">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-lg-6 offset-lg-3">
+                                        <div class="section__heading text-center">
+                                            <h5 class="section__heading-sup-title anim_top">Services</h5>
+                                            <h2 class="section__heading-title anim_top">We Provide Services</h2>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row items_space">
+                                    <div class="col-lg-4">
+                                        <div class="service__box anim_top service__1">
+                                            <div class="service__box-icon">
+                                                <i class="icon-service-1"></i>
+                                                <svg class="svg_element">
+                                                <use xlink:href="#svg__element-4" />
+                                                </svg>
+                                            </div>
+                                            <h4 class="service__box-title"><a href="single-service.html">Dog boarding</a></h4>
+                                            <div class="service__box-desc">
+                                                <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit</p>
+                                            </div>
+                                            <div class="service__box-bg">
+                                                <i class="icon-dog-line"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <div class="service__box anim_top service__2 active">
+                                            <div class="service__box-icon">
+                                                <i class="icon-service-2"></i>
+                                                <svg class="svg_element">
+                                                <use xlink:href="#svg__element-4" />
+                                                </svg>
+                                            </div>
+                                            <h4 class="service__box-title"><a href="single-service.html">Cat boarding</a></h4>
+                                            <div class="service__box-desc">
+                                                <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit</p>
+                                            </div>
+                                            <div class="service__box-bg">
+                                                <i class="icon-dog-line"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <div class="service__box anim_top service__3">
+                                            <div class="service__box-icon">
+                                                <i class="icon-service-3"></i>
+                                                <svg class="svg_element">
+                                                <use xlink:href="#svg__element-4" />
+                                                </svg>
+                                            </div>
+                                            <h4 class="service__box-title"><a href="single-service.html">Healthy meals</a></h4>
+                                            <div class="service__box-desc">
+                                                <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit</p>
+                                            </div>
+                                            <div class="service__box-bg">
+                                                <i class="icon-dog-line"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="row items_space">
-                        <div class="col-lg-4">
-                            <div class="service__box anim_top service__1">
-                                <div class="service__box-icon">
-                                    <i class="icon-service-1"></i>
-                                    <svg class="svg_element">
-                                    <use xlink:href="#svg__element-4" />
-                                    </svg>
-                                </div>
-                                <h4 class="service__box-title"><a href="single-service.html">Dog boarding</a></h4>
-                                <div class="service__box-desc">
-                                    <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit</p>
-                                </div>
-                                <div class="service__box-bg">
-                                    <i class="icon-dog-line"></i>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4">
-                            <div class="service__box anim_top service__2 active">
-                                <div class="service__box-icon">
-                                    <i class="icon-service-2"></i>
-                                    <svg class="svg_element">
-                                    <use xlink:href="#svg__element-4" />
-                                    </svg>
-                                </div>
-                                <h4 class="service__box-title"><a href="single-service.html">Cat boarding</a></h4>
-                                <div class="service__box-desc">
-                                    <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit</p>
-                                </div>
-                                <div class="service__box-bg">
-                                    <i class="icon-dog-line"></i>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4">
-                            <div class="service__box anim_top service__3">
-                                <div class="service__box-icon">
-                                    <i class="icon-service-3"></i>
-                                    <svg class="svg_element">
-                                    <use xlink:href="#svg__element-4" />
-                                    </svg>
-                                </div>
-                                <h4 class="service__box-title"><a href="single-service.html">Healthy meals</a></h4>
-                                <div class="service__box-desc">
-                                    <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit</p>
-                                </div>
-                                <div class="service__box-bg">
-                                    <i class="icon-dog-line"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-            Service__Area-End-->
+                        </section>
+                        Service__Area-End-->
             <!--Counter__Area-Start-->
             <section class="counter__area section__padding section__overlay section__bg" style="background-image: url('images/counter-bg.jpg')">
                 <div class="container">
@@ -334,93 +343,93 @@
                 </div>
             </section>
             <!--Check__Area-End-->
-<!--            Testimonial_Area-Start
-            <section class="testimonial__area section__padding-top">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-lg-4">
-                            <div class="section__heading pb-5 mb-n3  text-center text-lg-left">
-                                <h5 class="section__heading-sup-title anim_top">Testimonial</h5>
-                                <h2 class="section__heading-title anim_top">Client happy With Us</h2>
-                                <div class="section__heading-desc anim_top">
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation </p>
+            <!--            Testimonial_Area-Start
+                        <section class="testimonial__area section__padding-top">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-lg-4">
+                                        <div class="section__heading pb-5 mb-n3  text-center text-lg-left">
+                                            <h5 class="section__heading-sup-title anim_top">Testimonial</h5>
+                                            <h2 class="section__heading-title anim_top">Client happy With Us</h2>
+                                            <div class="section__heading-desc anim_top">
+                                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation </p>
+                                            </div>
+                                        </div>
+                                        <div class="slider__arrows anim_top justify-content-lg-start justify-content-center mb-4 mb-lg-0" id="testimonial-arrow">
+                                            <button class="slider__arrow arrow_prev"><i class="icon-arrow-left"></i></button>
+                                            <button class="slider__arrow arrow_next"><i class="icon-arrow-right"></i></button>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-8">
+                                        <div class="swiper-container testimonial_slider anim_right">
+                                            <div class="swiper-wrapper">
+                                                <div class="swiper-slide">
+                                                    <div class="testimonial__box">
+                                                        <div class="testimonial__box-image">
+                                                            <img src="images/testi-1.jpg" alt="">
+                                                        </div>
+                                                        <div class="testimonial__box-quote">
+                                                            <i class="icon-quote"></i>
+                                                        </div>
+                                                        <div class="testimonial__box-desc">
+                                                            <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum Excepteur sint occaecat cupidatat non proident, sunt in culpa </p>
+                                                        </div>
+                                                        <h5 class="testimonial__box-name">Agnes C Brewer</h5>
+                                                        <h6 class="testimonial__box-position">CEO of LLC</h6>
+                                                    </div>
+                                                </div>
+                                                <div class="swiper-slide">
+                                                    <div class="testimonial__box">
+                                                        <div class="testimonial__box-image">
+                                                            <img src="images/testi-2.jpg" alt="">
+                                                        </div>
+                                                        <div class="testimonial__box-quote">
+                                                            <i class="icon-quote"></i>
+                                                        </div>
+                                                        <div class="testimonial__box-desc">
+                                                            <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum Excepteur sint occaecat cupidatat non proident, sunt in culpa </p>
+                                                        </div>
+                                                        <h5 class="testimonial__box-name">John R Bennett</h5>
+                                                        <h6 class="testimonial__box-position">CEO of TTM</h6>
+                                                    </div>
+                                                </div>
+                                                <div class="swiper-slide">
+                                                    <div class="testimonial__box">
+                                                        <div class="testimonial__box-image">
+                                                            <img src="images/testi-3.jpg" alt="">
+                                                        </div>
+                                                        <div class="testimonial__box-quote">
+                                                            <i class="icon-quote"></i>
+                                                        </div>
+                                                        <div class="testimonial__box-desc">
+                                                            <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum Excepteur sint occaecat cupidatat non proident, sunt in culpa </p>
+                                                        </div>
+                                                        <h5 class="testimonial__box-name">Beatrice R Clark</h5>
+                                                        <h6 class="testimonial__box-position">CEO of KKR</h6>
+                                                    </div>
+                                                </div>
+                                                <div class="swiper-slide">
+                                                    <div class="testimonial__box">
+                                                        <div class="testimonial__box-image">
+                                                            <img src="images/testi-4.jpg" alt="">
+                                                        </div>
+                                                        <div class="testimonial__box-quote">
+                                                            <i class="icon-quote"></i>
+                                                        </div>
+                                                        <div class="testimonial__box-desc">
+                                                            <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum Excepteur sint occaecat cupidatat non proident, sunt in culpa </p>
+                                                        </div>
+                                                        <h5 class="testimonial__box-name">Elvia E Arruda</h5>
+                                                        <h6 class="testimonial__box-position">CEO of BBC</h6>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="slider__arrows anim_top justify-content-lg-start justify-content-center mb-4 mb-lg-0" id="testimonial-arrow">
-                                <button class="slider__arrow arrow_prev"><i class="icon-arrow-left"></i></button>
-                                <button class="slider__arrow arrow_next"><i class="icon-arrow-right"></i></button>
-                            </div>
-                        </div>
-                        <div class="col-lg-8">
-                            <div class="swiper-container testimonial_slider anim_right">
-                                <div class="swiper-wrapper">
-                                    <div class="swiper-slide">
-                                        <div class="testimonial__box">
-                                            <div class="testimonial__box-image">
-                                                <img src="images/testi-1.jpg" alt="">
-                                            </div>
-                                            <div class="testimonial__box-quote">
-                                                <i class="icon-quote"></i>
-                                            </div>
-                                            <div class="testimonial__box-desc">
-                                                <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum Excepteur sint occaecat cupidatat non proident, sunt in culpa </p>
-                                            </div>
-                                            <h5 class="testimonial__box-name">Agnes C Brewer</h5>
-                                            <h6 class="testimonial__box-position">CEO of LLC</h6>
-                                        </div>
-                                    </div>
-                                    <div class="swiper-slide">
-                                        <div class="testimonial__box">
-                                            <div class="testimonial__box-image">
-                                                <img src="images/testi-2.jpg" alt="">
-                                            </div>
-                                            <div class="testimonial__box-quote">
-                                                <i class="icon-quote"></i>
-                                            </div>
-                                            <div class="testimonial__box-desc">
-                                                <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum Excepteur sint occaecat cupidatat non proident, sunt in culpa </p>
-                                            </div>
-                                            <h5 class="testimonial__box-name">John R Bennett</h5>
-                                            <h6 class="testimonial__box-position">CEO of TTM</h6>
-                                        </div>
-                                    </div>
-                                    <div class="swiper-slide">
-                                        <div class="testimonial__box">
-                                            <div class="testimonial__box-image">
-                                                <img src="images/testi-3.jpg" alt="">
-                                            </div>
-                                            <div class="testimonial__box-quote">
-                                                <i class="icon-quote"></i>
-                                            </div>
-                                            <div class="testimonial__box-desc">
-                                                <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum Excepteur sint occaecat cupidatat non proident, sunt in culpa </p>
-                                            </div>
-                                            <h5 class="testimonial__box-name">Beatrice R Clark</h5>
-                                            <h6 class="testimonial__box-position">CEO of KKR</h6>
-                                        </div>
-                                    </div>
-                                    <div class="swiper-slide">
-                                        <div class="testimonial__box">
-                                            <div class="testimonial__box-image">
-                                                <img src="images/testi-4.jpg" alt="">
-                                            </div>
-                                            <div class="testimonial__box-quote">
-                                                <i class="icon-quote"></i>
-                                            </div>
-                                            <div class="testimonial__box-desc">
-                                                <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum Excepteur sint occaecat cupidatat non proident, sunt in culpa </p>
-                                            </div>
-                                            <h5 class="testimonial__box-name">Elvia E Arruda</h5>
-                                            <h6 class="testimonial__box-position">CEO of BBC</h6>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-            Testimonial_Area-End-->
+                        </section>
+                        Testimonial_Area-End-->
             <!--Team__Area-Start-->
             <section class="team__area section__padding-top section__relative">
                 <div class="section__shape">
@@ -432,7 +441,7 @@
                     <div class="row">
                         <div class="col-lg-6 offset-lg-3">
                             <div class="section__heading text-center">
-                                
+
                                 <h2 class="section__heading-title anim_top">Your Pet Family</h2>
                             </div>
                         </div>
