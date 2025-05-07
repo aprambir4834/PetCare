@@ -100,7 +100,7 @@ public class UserRestController {
             }
         } catch (Exception ex) {
             ex.printStackTrace();
-            return "exception";
+            return ex.toString();
         }
     }
 
