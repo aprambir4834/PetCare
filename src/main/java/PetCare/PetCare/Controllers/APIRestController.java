@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package PetCare.PetCare.Controllers;
 
 import java.net.URI;
@@ -22,7 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin(origins = "*")
 @RestController
 public class APIRestController {
-     @PostMapping("/ask")
+
+    @PostMapping("/ask")
     public ResponseEntity<String> askCopilot(@RequestBody Map<String, String> body) {
         String message = body.get("message");
 
@@ -46,15 +44,15 @@ public class APIRestController {
         }
     }
 
-    @GetMapping("/pets")
-    public ResponseEntity<Object> getPetsNews() {
+    @GetMapping("/dog-publishers")
+    public ResponseEntity<Object> getDogPublishers() {
         try {
             HttpClient client = HttpClient.newHttpClient();
 
             HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create("https://real-time-news-data.p.rapidapi.com/topic-news-by-section?topic=ENTERTAINMENT&section=CAQiSkNCQVNNUW9JTDIwdk1EZGpNWFlTQldWdUxVZENHZ0pKVENJT0NBUWFDZ29JTDIwdk1ETnliSFFxQ2hJSUwyMHZNRE55YkhRb0FBKi4IACoqCAoiJENCQVNGUW9JTDIwdk1EZGpNWFlTQldWdUxVZENHZ0pKVENnQVABUAE&limit=10&country=US&lang=en"))
-                    .header("X-RapidAPI-Key", "c2e2e64348msh80e8bd3ccbf40e4p104d64jsn4644fdcaac09")
-                    .header("X-RapidAPI-Host", "real-time-news-data.p.rapidapi.com")
+                    .uri(URI.create("https://news-api14.p.rapidapi.com/v2/search/publishers?query=DOGS&language=en"))
+                    .header("x-rapidapi-key", "c2e2e64348msh80e8bd3ccbf40e4p104d64jsn4644fdcaac09")
+                    .header("x-rapidapi-host", "news-api14.p.rapidapi.com")
                     .GET()
                     .build();
 
@@ -63,12 +61,15 @@ public class APIRestController {
             if (response.statusCode() == 200) {
                 return ResponseEntity.ok().body(response.body());
             } else {
-                return ResponseEntity.status(response.statusCode()).body("Error fetching news: " + response.body());
+                System.out.println("Status Code: " + response.statusCode());
+                System.out.println("Response Body: " + response.body());
+                return ResponseEntity.status(response.statusCode()).body("Error fetching dog publishers: " + response.body());
             }
 
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseEntity.status(500).body("Error fetching news");
+            return ResponseEntity.status(500).body("Internal server error");
         }
     }
+
 }

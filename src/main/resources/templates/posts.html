@@ -54,63 +54,50 @@
         <![endif]-->
 
         <script>
-
-            fetch('http://localhost:8080/api/news/pets')
+            fetch('http://localhost:8080/api/dog-publishers')
                     .then(res => res.text())
                     .then(text => {
-                        console.log("Raw response:", text); // log the full response to the console for inspection
-
                         let data;
                         try {
-                            data = JSON.parse(text); // Parse the JSON response
-                            console.log("Parsed data:", data); // log the parsed data to check its structure
+                            data = JSON.parse(text);
                         } catch (e) {
                             alert("Failed to parse JSON:\n" + e.message);
                             return;
                         }
 
-                        const container = document.getElementById("news-container");
-                        const articles = data.data || []; // Update here: access `data.data` instead of `data.articles`
+                        const container = document.getElementById("publisher-container");
+                        const publishers = data.data || [];
 
-                        alert(`Total articles found: ${articles.length}`);
+                        alert(`Total publishers found: ${publishers.length}`);
 
-                        articles.forEach(article => {
+                        publishers.forEach(pub => {
                             const card = document.createElement("div");
                             card.className = "col-md-6 col-lg-4";
                             card.innerHTML = `
-                <div class="posts_box anim_top">
-                    <figure class="posts_box-thumb">
-                        <img src="${article.photo_url || 'images/blog-1.jpg'}" alt="" style="height: 200px; object-fit: cover;">
-                    </figure>
-                    <div class="posts_box-details">
-                        <ul class="meta_list">
-                            <li>
-                                <span class="icon"><span class="ri-user-3-line"></span></span>
-                                <span class="value">By ${article.authors?.[0] || 'Unknown'}</span>
-                            </li>
-                            <li>
-                                <span class="icon"><span class="ri-calendar-check-line"></span></span>
-                                <span class="value">${new Date(article.published_datetime_utc).toLocaleDateString()}</span>
-                            </li>
-                        </ul>
-                        <h4 class="title"><a href="${article.link}" target="_blank">${article.title}</a></h4>
-                        <div class="desc">
-                            <p>${article.snippet || ''}</p>
+                    <div class="posts_box anim_top" style="height: 450px; display: flex; flex-direction: column; justify-content: space-between;">
+                        <figure class="posts_box-thumb" style="text-align: center;">
+                            <img src="${pub.logo || 'images/blog-1.jpg'}" alt="${pub.name}" style="height: 100px; width: auto; max-width: 100%;">
+                        </figure>
+                        <div class="posts_box-details" style="flex-grow: 1; overflow: hidden;">
+                            <h4 class="title" style="margin: 10px 0;"><a href="${pub.url}" target="_blank">${pub.title}</a></h4>
+                            <p style="font-size: 14px; line-height: 1.4em; max-height: 5em; overflow: hidden; text-overflow: ellipsis;">${pub.description || 'No description available.'}</p>
+                            <ul class="meta_list" style="font-size: 13px;">
+                                <li><strong>Category:</strong> ${pub.category}</li>
+                                <li><strong>Language:</strong> ${pub.language}</li>
+                            </ul>
                         </div>
-                        <a href="${article.link}" target="_blank" class="load_more">Read More</a>
                     </div>
-                </div>
-            `;
+                `;
                             container.appendChild(card);
                         });
                     })
                     .catch(err => {
-                        alert("Error while fetching news:\n" + err.message);
+                        alert("Error while fetching dog publishers:\n" + err.message);
                         console.error("Fetch error:", err);
                     });
-
-
         </script>
+
+
 
 
 
@@ -128,88 +115,7 @@
 
 
         <!-- nav__area-Start -->
-        <div class="nav__area nav__transparent" data-spy="affix" data-offset-top="197">
-            <div class="container nav__row">
-                <!-- nav__logo-Start -->
-                <div class="nav__logo">
-                    <!-- Text-Logo-Markup -->
-                    <!--<h2 class="nav__logo-text"><a href="#">Gority</a></h2>-->
-                    <!-- Image-Logo-Markup -->
-                    <a href="index-2.html" class="nav__logo-image logo__light"><img src="images/logo-light.png" alt="Gority"></a>
-                    <a href="index-2.html" class="nav__logo-image logo__dark"><img src="images/logo-dark.png" alt="Gority"></a>
-                </div>
-                <!--nav__logo-End-->
-                <div class="nav__toggle" id="nav-toggle">
-                    <i class="ri-function-line"></i>
-                </div>
-                <div class="nav__right" id="nav-right">
-                    <div class="nav__close" id="nav-close">
-                        <i class="ri-close-line"></i>
-                    </div>
-                    <!-- nav__menu-Start -->
-                    <nav class="nav__menu" id="nav-menu">
-                        <ul class="nav">
-                            <li><a href="index-2.html">Home</a>
-                                <ul class="sub-menu">
-                                    <li><a href="index-2.html">Home V1</a></li>
-                                    <li><a href="index-3.html">Home V2</a></li>
-                                    <li><a href="index-4.html">Home V3</a></li>
-                                </ul>
-                            </li>
-                            <li><a href="gpt.html">About</a></li>
-                            <li><a href="services.html">Services</a>
-                                <ul class="sub-menu">
-                                    <li><a href="services.html">Services</a></li>
-                                    <li><a href="single-service.html">Service Details</a></li>
-                                </ul>
-                            </li>
-                            <li><a href="posts.html">Pages</a>
-                                <ul class="sub-menu">
-                                    <li><a href="team.html">Team</a>
-                                        <ul class="sub-menu">
-                                            <li><a href="team.html">Team</a></li>
-                                            <li><a href="single-team.html">Team Details</a></li>
-                                        </ul>
-                                    </li>
-                                    <li><a href="product.html">Products</a>
-                                        <ul class="sub-menu">
-                                            <li><a href="product.html">Products</a></li>
-                                            <li><a href="single-product.html">Product Details</a></li>
-                                        </ul>
-                                    </li>
-                                    <li><a href="gallery.html">Gallery</a></li>
-                                </ul>
-                            </li>
-                            <li class="current-menu-item"><a href="posts.html">Posts</a>
-                                <ul class="sub-menu">
-                                    <li class="current-menu-item"><a href="posts.html">Posts</a></li>
-                                    <li><a href="posts-left-sidebar.html">Left Sidebar</a></li>
-                                    <li><a href="posts-right-sidebar.html">Right Sidebar</a></li>
-                                    <li><a href="single-post.html">Post Details</a></li>
-                                </ul>
-                            </li>
-                            <li><a href="contact.html">Contact</a></li>
-                        </ul>
-                    </nav>
-                    <!-- nav__menu-End -->
-                    <div class="nav__dark">
-                        <!-- Theme change button -->
-                        <i class="ri-moon-line change-theme" id="theme-button"></i>
-                    </div>
-
-                    <!-- Search-Form-Tigger-Button -->
-                    <div class="nav__search">
-                        <button class="nav__search-toggle"><i class="ri-search-line"></i></button>
-                        <form class="nav__search-form">
-                            <input type="text" placeholder="Search keyword" id="search" autocomplete="off">
-                            <button type="submit"><i class="ri-search-line"></i></button>
-                        </form>
-                    </div>
-                    <!--Action-Button-->
-                    <a href="contact.html" class="primary__button">Appoinment</a>
-                </div>
-            </div>
-        </div>
+        <div th:replace="userheader :: header"></div>
         <!-- nav__area-End -->
 
 
@@ -238,172 +144,172 @@
             <!--Posts-List-Area-Start-->
             <section class="posts__list-area section__padding">
                 <div class="container">
-                    <div class="row items_space" id="news-container">
-<!--                        <div class="col-md-6 col-lg-4">
-                            <div class="posts_box anim_top">
-                                <figure class="posts_box-thumb">
-                                    <img src="images/blog-1.jpg" alt="">
-                                </figure>
-                                <div class="posts_box-details">
-                                    <ul class="meta_list">
-                                        <li>
-                                            <span class="icon"><span class="ri-user-3-line"></span></span>
-                                            <span class="value">By John Smith</span>
-                                        </li>
-                                        <li>
-                                            <span class="icon"><span class="ri-calendar-check-line"></span></span>
-                                            <span class="value">6, July 2021</span>
-                                        </li>
-                                    </ul>
-                                    <h4 class="title"><a href="single-post.html">Fun Ways to Exercise With Your pet</a></h4>
-                                    <div class="desc">
-                                        <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit</p>
-                                    </div>
-                                    <a href="#" class="load_more">Load More</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6 col-lg-4">
-                            <div class="posts_box anim_top">
-                                <figure class="posts_box-thumb">
-                                    <img src="images/blog-2.jpg" alt="">
-                                </figure>
-                                <div class="posts_box-details">
-                                    <ul class="meta_list">
-                                        <li>
-                                            <span class="icon"><span class="ri-user-3-line"></span></span>
-                                            <span class="value">By John Smith</span>
-                                        </li>
-                                        <li>
-                                            <span class="icon"><span class="ri-calendar-check-line"></span></span>
-                                            <span class="value">6, July 2021</span>
-                                        </li>
-                                    </ul>
-                                    <h4 class="title"><a href="single-post.html">7 Easy Ways to Play with Dogs Indoors</a></h4>
-                                    <div class="desc">
-                                        <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit</p>
-                                    </div>
-                                    <a href="#" class="load_more">Load More</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6 col-lg-4">
-                            <div class="posts_box anim_top">
-                                <figure class="posts_box-thumb">
-                                    <img src="images/blog-3.jpg" alt="">
-                                </figure>
-                                <div class="posts_box-details">
-                                    <ul class="meta_list">
-                                        <li>
-                                            <span class="icon"><span class="ri-user-3-line"></span></span>
-                                            <span class="value">By John Smith</span>
-                                        </li>
-                                        <li>
-                                            <span class="icon"><span class="ri-calendar-check-line"></span></span>
-                                            <span class="value">6, July 2021</span>
-                                        </li>
-                                    </ul>
-                                    <h4 class="title"><a href="single-post.html">Signs Your Dog Might Have Osteoarthritis</a></h4>
-                                    <div class="desc">
-                                        <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit</p>
-                                    </div>
-                                    <a href="#" class="load_more">Load More</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6 col-lg-4">
-                            <div class="posts_box anim_top">
-                                <figure class="posts_box-thumb">
-                                    <img src="images/blog-4.jpg" alt="">
-                                </figure>
-                                <div class="posts_box-details">
-                                    <ul class="meta_list">
-                                        <li>
-                                            <span class="icon"><span class="ri-user-3-line"></span></span>
-                                            <span class="value">By John Smith</span>
-                                        </li>
-                                        <li>
-                                            <span class="icon"><span class="ri-calendar-check-line"></span></span>
-                                            <span class="value">6, July 2021</span>
-                                        </li>
-                                    </ul>
-                                    <h4 class="title"><a href="single-post.html">How to Get Pee Smell Out of Carpet?</a></h4>
-                                    <div class="desc">
-                                        <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit</p>
-                                    </div>
-                                    <a href="#" class="load_more">Load More</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6 col-lg-4">
-                            <div class="posts_box anim_top">
-                                <figure class="posts_box-thumb">
-                                    <img src="images/blog-5.jpg" alt="">
-                                </figure>
-                                <div class="posts_box-details">
-                                    <ul class="meta_list">
-                                        <li>
-                                            <span class="icon"><span class="ri-user-3-line"></span></span>
-                                            <span class="value">By John Smith</span>
-                                        </li>
-                                        <li>
-                                            <span class="icon"><span class="ri-calendar-check-line"></span></span>
-                                            <span class="value">6, July 2021</span>
-                                        </li>
-                                    </ul>
-                                    <h4 class="title"><a href="single-post.html">The Impact of Pets on Work Productivity</a></h4>
-                                    <div class="desc">
-                                        <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit</p>
-                                    </div>
-                                    <a href="#" class="load_more">Load More</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6 col-lg-4">
-                            <div class="posts_box anim_top">
-                                <figure class="posts_box-thumb">
-                                    <img src="images/blog-6.jpg" alt="">
-                                </figure>
-                                <div class="posts_box-details">
-                                    <ul class="meta_list">
-                                        <li>
-                                            <span class="icon"><span class="ri-user-3-line"></span></span>
-                                            <span class="value">By John Smith</span>
-                                        </li>
-                                        <li>
-                                            <span class="icon"><span class="ri-calendar-check-line"></span></span>
-                                            <span class="value">6, July 2021</span>
-                                        </li>
-                                    </ul>
-                                    <h4 class="title"><a href="single-post.html">4 Tips for Calming an Anxious Dog Down</a></h4>
-                                    <div class="desc">
-                                        <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit</p>
-                                    </div>
-                                    <a href="#" class="load_more">Load More</a>
-                                </div>
-                            </div>
-                        </div>-->
+                    <div class="row items_space" id="publisher-container">
+                        <!--                        <div class="col-md-6 col-lg-4">
+                                                    <div class="posts_box anim_top">
+                                                        <figure class="posts_box-thumb">
+                                                            <img src="images/blog-1.jpg" alt="">
+                                                        </figure>
+                                                        <div class="posts_box-details">
+                                                            <ul class="meta_list">
+                                                                <li>
+                                                                    <span class="icon"><span class="ri-user-3-line"></span></span>
+                                                                    <span class="value">By John Smith</span>
+                                                                </li>
+                                                                <li>
+                                                                    <span class="icon"><span class="ri-calendar-check-line"></span></span>
+                                                                    <span class="value">6, July 2021</span>
+                                                                </li>
+                                                            </ul>
+                                                            <h4 class="title"><a href="single-post.html">Fun Ways to Exercise With Your pet</a></h4>
+                                                            <div class="desc">
+                                                                <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit</p>
+                                                            </div>
+                                                            <a href="#" class="load_more">Load More</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 col-lg-4">
+                                                    <div class="posts_box anim_top">
+                                                        <figure class="posts_box-thumb">
+                                                            <img src="images/blog-2.jpg" alt="">
+                                                        </figure>
+                                                        <div class="posts_box-details">
+                                                            <ul class="meta_list">
+                                                                <li>
+                                                                    <span class="icon"><span class="ri-user-3-line"></span></span>
+                                                                    <span class="value">By John Smith</span>
+                                                                </li>
+                                                                <li>
+                                                                    <span class="icon"><span class="ri-calendar-check-line"></span></span>
+                                                                    <span class="value">6, July 2021</span>
+                                                                </li>
+                                                            </ul>
+                                                            <h4 class="title"><a href="single-post.html">7 Easy Ways to Play with Dogs Indoors</a></h4>
+                                                            <div class="desc">
+                                                                <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit</p>
+                                                            </div>
+                                                            <a href="#" class="load_more">Load More</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 col-lg-4">
+                                                    <div class="posts_box anim_top">
+                                                        <figure class="posts_box-thumb">
+                                                            <img src="images/blog-3.jpg" alt="">
+                                                        </figure>
+                                                        <div class="posts_box-details">
+                                                            <ul class="meta_list">
+                                                                <li>
+                                                                    <span class="icon"><span class="ri-user-3-line"></span></span>
+                                                                    <span class="value">By John Smith</span>
+                                                                </li>
+                                                                <li>
+                                                                    <span class="icon"><span class="ri-calendar-check-line"></span></span>
+                                                                    <span class="value">6, July 2021</span>
+                                                                </li>
+                                                            </ul>
+                                                            <h4 class="title"><a href="single-post.html">Signs Your Dog Might Have Osteoarthritis</a></h4>
+                                                            <div class="desc">
+                                                                <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit</p>
+                                                            </div>
+                                                            <a href="#" class="load_more">Load More</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 col-lg-4">
+                                                    <div class="posts_box anim_top">
+                                                        <figure class="posts_box-thumb">
+                                                            <img src="images/blog-4.jpg" alt="">
+                                                        </figure>
+                                                        <div class="posts_box-details">
+                                                            <ul class="meta_list">
+                                                                <li>
+                                                                    <span class="icon"><span class="ri-user-3-line"></span></span>
+                                                                    <span class="value">By John Smith</span>
+                                                                </li>
+                                                                <li>
+                                                                    <span class="icon"><span class="ri-calendar-check-line"></span></span>
+                                                                    <span class="value">6, July 2021</span>
+                                                                </li>
+                                                            </ul>
+                                                            <h4 class="title"><a href="single-post.html">How to Get Pee Smell Out of Carpet?</a></h4>
+                                                            <div class="desc">
+                                                                <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit</p>
+                                                            </div>
+                                                            <a href="#" class="load_more">Load More</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 col-lg-4">
+                                                    <div class="posts_box anim_top">
+                                                        <figure class="posts_box-thumb">
+                                                            <img src="images/blog-5.jpg" alt="">
+                                                        </figure>
+                                                        <div class="posts_box-details">
+                                                            <ul class="meta_list">
+                                                                <li>
+                                                                    <span class="icon"><span class="ri-user-3-line"></span></span>
+                                                                    <span class="value">By John Smith</span>
+                                                                </li>
+                                                                <li>
+                                                                    <span class="icon"><span class="ri-calendar-check-line"></span></span>
+                                                                    <span class="value">6, July 2021</span>
+                                                                </li>
+                                                            </ul>
+                                                            <h4 class="title"><a href="single-post.html">The Impact of Pets on Work Productivity</a></h4>
+                                                            <div class="desc">
+                                                                <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit</p>
+                                                            </div>
+                                                            <a href="#" class="load_more">Load More</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 col-lg-4">
+                                                    <div class="posts_box anim_top">
+                                                        <figure class="posts_box-thumb">
+                                                            <img src="images/blog-6.jpg" alt="">
+                                                        </figure>
+                                                        <div class="posts_box-details">
+                                                            <ul class="meta_list">
+                                                                <li>
+                                                                    <span class="icon"><span class="ri-user-3-line"></span></span>
+                                                                    <span class="value">By John Smith</span>
+                                                                </li>
+                                                                <li>
+                                                                    <span class="icon"><span class="ri-calendar-check-line"></span></span>
+                                                                    <span class="value">6, July 2021</span>
+                                                                </li>
+                                                            </ul>
+                                                            <h4 class="title"><a href="single-post.html">4 Tips for Calming an Anxious Dog Down</a></h4>
+                                                            <div class="desc">
+                                                                <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit</p>
+                                                            </div>
+                                                            <a href="#" class="load_more">Load More</a>
+                                                        </div>
+                                                    </div>
+                                                </div>-->
                     </div>
                     <div class="row">
-                        <div class="col-lg-12">
-                            <nav class="navigation pagination">
-                                <div class="nav-links">
-                                    <a class="prev page-numbers" href="#"><i class="ri-arrow-left-s-line"></i></a>
-                                    <a class="page-numbers" href="#">1</a>
-                                    <span aria-current="page" class="page-numbers current">2</span>
-                                    <a class="page-numbers" href="#">3</a>
-                                    <span class="page-numbers">...</span>
-                                    <a class="page-numbers" href="#">12</a>
-                                    <a class="page-numbers" href="#">13</a>
-                                    <a class="next page-numbers" href="#"><i class="ri-arrow-right-s-line"></i></a>
-                                </div>
-                                <div class="pagination_go">
-                                    <label for="go_page">Go to page</label>
-                                    <input type="number" id="go_page" />
-                                    <button type="submit">Go <i class="ri-arrow-right-s-line"></i></button>
-                                </div>
-                            </nav>
-                        </div>
+                        <!--                        <div class="col-lg-12">
+                                                    <nav class="navigation pagination">
+                                                        <div class="nav-links">
+                                                            <a class="prev page-numbers" href="#"><i class="ri-arrow-left-s-line"></i></a>
+                                                            <a class="page-numbers" href="#">1</a>
+                                                            <span aria-current="page" class="page-numbers current">2</span>
+                                                            <a class="page-numbers" href="#">3</a>
+                                                            <span class="page-numbers">...</span>
+                                                            <a class="page-numbers" href="#">12</a>
+                                                            <a class="page-numbers" href="#">13</a>
+                                                            <a class="next page-numbers" href="#"><i class="ri-arrow-right-s-line"></i></a>
+                                                        </div>
+                                                        <div class="pagination_go">
+                                                            <label for="go_page">Go to page</label>
+                                                            <input type="number" id="go_page" />
+                                                            <button type="submit">Go <i class="ri-arrow-right-s-line"></i></button>
+                                                        </div>
+                                                    </nav>
+                                                </div>-->
                     </div>
                 </div>
             </section>

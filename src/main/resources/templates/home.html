@@ -94,9 +94,62 @@
 
         </script>
 
+
+        <script>
+            var mainobj = null; // Global variable to store fetched data
+
+            function getproducts() {
+                var url = "/getprods";
+                fetch(url)
+                        .then(response => response.text())
+                        .then(ans => {
+                            mainobj = JSON.parse(ans);
+                            renderAllProducts();
+                        });
+            }
+
+            function renderAllProducts() {
+                var arr = mainobj["ans"];
+                var s = ``;
+
+                for (var i = 0; i < 4; i++) {
+                    var ct = arr[i];
+                    var a = "myuploads/" + ct.pphoto;
+                    s += `<div class="col-lg-3 col-md-6">
+                <div class="product__box anim_top" style="height: 400px; display: flex; flex-direction: column; justify-content: space-between;">
+                    <figure class="product__thumb">
+                        <img src="${a}" alt="" style="width: 100%; height: 250px; object-fit: cover;">
+                        <div class="product__actions">
+                            <a href="#"><i class="ri-shopping-cart-2-fill"></i></a>
+                            <a href="#"><i class="ri-heart-line"></i></a>
+                            <a href="#"><i class="ri-eye-line"></i></a>
+                        </div>
+                    </figure>
+                
+                    <h6 class="product__title" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                        <a href="/UPD?id=${ct.id}">${ct.pname}</a>
+                    </h6>
+                
+                    <div style="display: flex; gap: 10px; align-items: center;">
+                        <span style="text-decoration: line-through; color: gray;">₹${ct.pprice}</span>
+                        <span style="color: #ff4d4d; font-weight: bold;">₹${ct.pofferprice}</span>
+                    </div>
+                </div>
+            </div>`;
+                }
+
+                document.getElementById("d2").innerHTML = s;
+            }
+
+//            window.onload = function () {
+//                getproducts();
+//            };
+        </script>
+
+
     </head>
 
-    <body data-spy="scroll" data-target=".nav__area" data-offset="50" onload="getpets()">
+    <body data-spy="scroll" data-target=".nav__area" data-offset="50" onload="getpets(),getproducts()">
         <!--[if lt IE 8]>
             <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
@@ -240,6 +293,105 @@
                             </div>
                         </section>
                         Service__Area-End-->
+            
+            <!--Team__Area-Start-->
+            <section class="team__area section__padding-top section__relative">
+                <div class="section__shape">
+                    <svg class="svg_element">
+                    <use xlink:href="#svg__element-7" />
+                    </svg>
+                </div>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-6 offset-lg-3">
+                            <div class="section__heading text-center">
+
+                                <h2 class="section__heading-title anim_top">Your Pet Family</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" id="d1">
+                        <div class="col-lg-12">
+                            <div class="swiper-container team_slider anim_top">
+                                <div class="swiper-wrapper">
+                                    <div class="swiper-slide">
+                                        <div class="team__box">
+                                            <div class="team__box-image">
+                                                <img src="images/team-1.jpg" alt="">
+                                            </div>
+                                            <h5 class="team__box-name"><a href="single-team.html">Agnes C Brewer</a></h5>
+                                            <h6 class="team__box-position">Dog Walker</h6>
+                                            <div class="social__links">
+                                                <a href="#"><i class="ri-facebook-fill"></i></a>
+                                                <a href="#"><i class="ri-twitter-fill"></i></a>
+                                                <a href="#"><i class="ri-instagram-fill"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="swiper-slide">
+                                        <div class="team__box">
+                                            <div class="team__box-image">
+                                                <img src="images/team-2.jpg" alt="">
+                                            </div>
+                                            <h5 class="team__box-name"><a href="single-team.html">Lorie J Yates</a></h5>
+                                            <h6 class="team__box-position">Pet Sitter</h6>
+                                            <div class="social__links">
+                                                <a href="#"><i class="ri-facebook-fill"></i></a>
+                                                <a href="#"><i class="ri-twitter-fill"></i></a>
+                                                <a href="#"><i class="ri-instagram-fill"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="swiper-slide">
+                                        <div class="team__box">
+                                            <div class="team__box-image">
+                                                <img src="images/team-3.jpg" alt="">
+                                            </div>
+                                            <h5 class="team__box-name"><a href="single-team.html">Steven R Luna</a></h5>
+                                            <h6 class="team__box-position">Dog Walker</h6>
+                                            <div class="social__links">
+                                                <a href="#"><i class="ri-facebook-fill"></i></a>
+                                                <a href="#"><i class="ri-twitter-fill"></i></a>
+                                                <a href="#"><i class="ri-instagram-fill"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="swiper-slide">
+                                        <div class="team__box">
+                                            <div class="team__box-image">
+                                                <img src="images/team-4.jpg" alt="">
+                                            </div>
+                                            <h5 class="team__box-name"><a href="single-team.html">Floy R Davis</a></h5>
+                                            <h6 class="team__box-position">Pet Sitter</h6>
+                                            <div class="social__links">
+                                                <a href="#"><i class="ri-facebook-fill"></i></a>
+                                                <a href="#"><i class="ri-twitter-fill"></i></a>
+                                                <a href="#"><i class="ri-instagram-fill"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="swiper-slide">
+                                        <div class="team__box">
+                                            <div class="team__box-image">
+                                                <img src="images/team-5.jpg" alt="">
+                                            </div>
+                                            <h5 class="team__box-name"><a href="single-team.html">Willard C Hein</a></h5>
+                                            <h6 class="team__box-position">Fouder Of CEO</h6>
+                                            <div class="social__links">
+                                                <a href="#"><i class="ri-facebook-fill"></i></a>
+                                                <a href="#"><i class="ri-twitter-fill"></i></a>
+                                                <a href="#"><i class="ri-instagram-fill"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!--Team__Area-End-->
+            
             <!--Counter__Area-Start-->
             <section class="counter__area section__padding section__overlay section__bg" style="background-image: url('images/counter-bg.jpg')">
                 <div class="container">
@@ -430,103 +582,7 @@
                             </div>
                         </section>
                         Testimonial_Area-End-->
-            <!--Team__Area-Start-->
-            <section class="team__area section__padding-top section__relative">
-                <div class="section__shape">
-                    <svg class="svg_element">
-                    <use xlink:href="#svg__element-7" />
-                    </svg>
-                </div>
-                <div class="container">
-                    <div class="row">
-                        <div class="col-lg-6 offset-lg-3">
-                            <div class="section__heading text-center">
-
-                                <h2 class="section__heading-title anim_top">Your Pet Family</h2>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row" id="d1">
-                        <div class="col-lg-12">
-                            <div class="swiper-container team_slider anim_top">
-                                <div class="swiper-wrapper">
-                                    <div class="swiper-slide">
-                                        <div class="team__box">
-                                            <div class="team__box-image">
-                                                <img src="images/team-1.jpg" alt="">
-                                            </div>
-                                            <h5 class="team__box-name"><a href="single-team.html">Agnes C Brewer</a></h5>
-                                            <h6 class="team__box-position">Dog Walker</h6>
-                                            <div class="social__links">
-                                                <a href="#"><i class="ri-facebook-fill"></i></a>
-                                                <a href="#"><i class="ri-twitter-fill"></i></a>
-                                                <a href="#"><i class="ri-instagram-fill"></i></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="swiper-slide">
-                                        <div class="team__box">
-                                            <div class="team__box-image">
-                                                <img src="images/team-2.jpg" alt="">
-                                            </div>
-                                            <h5 class="team__box-name"><a href="single-team.html">Lorie J Yates</a></h5>
-                                            <h6 class="team__box-position">Pet Sitter</h6>
-                                            <div class="social__links">
-                                                <a href="#"><i class="ri-facebook-fill"></i></a>
-                                                <a href="#"><i class="ri-twitter-fill"></i></a>
-                                                <a href="#"><i class="ri-instagram-fill"></i></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="swiper-slide">
-                                        <div class="team__box">
-                                            <div class="team__box-image">
-                                                <img src="images/team-3.jpg" alt="">
-                                            </div>
-                                            <h5 class="team__box-name"><a href="single-team.html">Steven R Luna</a></h5>
-                                            <h6 class="team__box-position">Dog Walker</h6>
-                                            <div class="social__links">
-                                                <a href="#"><i class="ri-facebook-fill"></i></a>
-                                                <a href="#"><i class="ri-twitter-fill"></i></a>
-                                                <a href="#"><i class="ri-instagram-fill"></i></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="swiper-slide">
-                                        <div class="team__box">
-                                            <div class="team__box-image">
-                                                <img src="images/team-4.jpg" alt="">
-                                            </div>
-                                            <h5 class="team__box-name"><a href="single-team.html">Floy R Davis</a></h5>
-                                            <h6 class="team__box-position">Pet Sitter</h6>
-                                            <div class="social__links">
-                                                <a href="#"><i class="ri-facebook-fill"></i></a>
-                                                <a href="#"><i class="ri-twitter-fill"></i></a>
-                                                <a href="#"><i class="ri-instagram-fill"></i></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="swiper-slide">
-                                        <div class="team__box">
-                                            <div class="team__box-image">
-                                                <img src="images/team-5.jpg" alt="">
-                                            </div>
-                                            <h5 class="team__box-name"><a href="single-team.html">Willard C Hein</a></h5>
-                                            <h6 class="team__box-position">Fouder Of CEO</h6>
-                                            <div class="social__links">
-                                                <a href="#"><i class="ri-facebook-fill"></i></a>
-                                                <a href="#"><i class="ri-twitter-fill"></i></a>
-                                                <a href="#"><i class="ri-instagram-fill"></i></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-            <!--Team__Area-End-->
+            
 
             <!--posts__Area-Start-->
             <section class="posts__area section__padding">
@@ -534,12 +590,13 @@
                     <div class="row">
                         <div class="col-lg-6 offset-lg-3">
                             <div class="section__heading text-center">
-                                <h5 class="section__heading-sup-title anim_top">Posts Petcare</h5>
-                                <h2 class="section__heading-title anim_top">Everyday update here About petcate</h2>
+
+                                <h2 class="section__heading-title anim_top">Premium Pet Products</h2>
+                                 
                             </div>
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row" id="d2">
                         <div class="col-lg-12">
                             <div class="swiper-container posts_slider anim_top">
                                 <div class="swiper-wrapper">
@@ -643,6 +700,7 @@
                             </div>
                         </div>
                     </div>
+                    <a href="/UP" class="primary__button anim_top justify-content-lg-start">Discover More</a>
                 </div>
             </section>
             <!--posts__Area-End-->
