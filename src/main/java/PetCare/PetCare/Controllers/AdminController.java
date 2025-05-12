@@ -19,5 +19,15 @@ public class AdminController {
         return "AdminHome";
     }
     
+    @GetMapping("/ashop")
+    public String ashop()
+    {
+        return "AdminMngShop";
+    }
     
+    @GetMapping("/areport")
+    public String areport()
+    {
+        return "AdminReport";
+    }
 }

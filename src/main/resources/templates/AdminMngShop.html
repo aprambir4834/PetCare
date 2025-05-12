@@ -58,82 +58,178 @@
         <script>
             function getdata()
             {
-                var url = "/getproducts";
+                var url = "/getowners";
                 fetch(url)
                         .then(response => response.text())
                         .then(ans => renderAsHtml(ans));
             }
-            function renderAsHtml(ans)
-            {
+            function renderAsHtml(ans) {
                 var mainobj = JSON.parse(ans);
                 var arr = mainobj["ans"];
-                var s = `<table class="table table-dark table-stripped">`;
-                s += `<thead class="thead-dark"><tr><th>Photo</th><th>Name</th><th>Price</th><th>Offer Price</th><th>Current Quantity</th><th>Edit</th><th>Delete</th></tr></thead>`
-                s += `<tbody>`;
-                for (var i = 0; i < arr.length; i++)
-                {
-                    var ct = arr[i];
-                    var a = "myuploads/" + ct.pphoto;
-                    s += `<tr>`;
-                    s += `<td><img src="${a}" class="img-thumbnail" style="width: 100px; height: 100px; object-fit: cover; border-radius: 10px;" /></td>`;
-                    s += `<td>${ct.pname}</td>`;
-                    s += `<td>${ct.pprice}</td>`;
-                    s += `<td>${ct.pofferprice}</td>`;
-                    s += `<td>${ct.pqty}</td>`;
-                    s += "<td><button class='btn btn-primary btn-sm' onclick=\"edit('" + ct.id + "')\">Edit</button></td>";
-                    s += "<td><button class='btn btn-danger btn-sm' onclick=\"confirmDelete('" + ct.id + "')\">Delete</button></td>";
-                    s += `</tr>`;
 
-                }
-                s += `</tbody>`;
-                s += `</table>`;
-                document.getElementById("d1").innerHTML = s;
-
+                let s = `
+        <style>
+            .custom-table th, .custom-table td {
+                padding: 10px;
+                vertical-align: middle;
+                text-align: center;
+                word-wrap: break-word;
+                word-break: break-word;
+                white-space: normal;
             }
-            function confirmDelete(id) {
+            .custom-table th {
+                background-color: #343a40;
+                color: white;
+            }
+            .custom-table img {
+                width: 70px;
+                height: 70px;
+                object-fit: cover;
+                border-radius: 8px;
+            }
+        </style>
+        <table class="table table-bordered table-striped custom-table" style="table-layout: fixed; width: 100%;">
+            <thead>
+                <tr>
+                    <th style="width: 80px;">Photo</th>
+                    <th style="width: 120px;">Name</th>
+                    <th style="width: 120px;">Location</th>
+                    <th style="width: 100px;">GST No.</th>
+                    <th style="width: 140px;">Email</th>
+                    <th style="width: 120px;">Owner Name</th>
+                    <th style="width: 100px;">Contact</th>
+                    <th style="width: 140px;">Owner Email</th>
+                    <th style="width: 80px;">Status</th>
+                    <th style="width: 100px;">Action</th>
+                   
+                </tr>
+            </thead>
+            <tbody>
+    `;
+
+                for (let i = 0; i < arr.length; i++) {
+                    let ct = arr[i];
+                    let photoPath = "myuploads/" + ct.shopphoto;
+
+                    s += `
+            <tr>
+                <td><img src="${photoPath}" alt="photo" /></td>
+                <td>${ct.shopname}</td>
+                <td>${ct.shoplocation}</td>
+                <td>${ct.gstnumber}</td>
+                <td>${ct.shopemail}</td>
+                <td>${ct.ownername}</td>
+                <td>${ct.ownercontact}</td>
+                <td>${ct.owneremail}</td>
+                <td>${ct.status}</td>
+        `;
+
+                    // Action button
+                    if (ct.status && ct.status.toLowerCase() === "pending") {
+                        s += `<td><button class="btn btn-success btn-sm" onclick="confirmApprove('${ct.id}')">Approve</button></td>`;
+                    } else {
+                        s += `<td><button class="btn btn-danger btn-sm" onclick="confirmBlock('${ct.id}')">Block</button></td>`;
+                    }
+
+                    s += `
+               
+            </tr>
+        `;
+                }
+
+                s += `
+            </tbody>
+        </table>
+    `;
+
+                document.getElementById("d1").innerHTML = s;
+            }
+
+
+
+
+            function confirmApprove(id) {
                 Swal.fire({
-                    title: 'Are You Sure?',
-                    text: "This Action won't be retrieved!",
-                    icon: 'warning',
+                    title: 'Approve Shop Owner?',
+                    text: "This will activate their account!",
+                    icon: 'question',
                     showCancelButton: true,
-                    confirmButtonColor: '#d33',
-                    cancelButtonColor: '#3085d6',
-                    confirmButtonText: 'Yes, Delete it!',
+                    confirmButtonColor: '#28a745',
+                    cancelButtonColor: '#6c757d',
+                    confirmButtonText: 'Yes, Approve',
                     cancelButtonText: 'Cancel'
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        deletep(id);
-                        
+                        approve(id);
+                    }
+                });
+            }
+
+
+            function approve(id) {
+                var url = "/approveshopowner?id=" + id;
+                fetch(url)
+                        .then(response => response.text())
+                        .then(ans => {
+                            if (ans === "success") {
+                                Swal.fire(
+                                        'Approved!',
+                                        'Shop Owner has been approved successfully.',
+                                        'success'
+                                        );
+                                getdata();
+                            } else {
+                                Swal.fire(
+                                        'Error!',
+                                        'Could not approve. Server says: ' + ans,
+                                        'error'
+                                        );
+                            }
+                        });
+            }
+
+
+            function confirmBlock(id) {
+                Swal.fire({
+                    title: 'Block Shop Owner?',
+                    text: "They will no longer be able to access the system!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#dc3545',
+                    cancelButtonColor: '#6c757d',
+                    confirmButtonText: 'Yes, Block',
+                    cancelButtonText: 'Cancel'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        block(id);
                     }
                 });
             }
             
-            function deletep(id)
-            {
-                var url="/deleteproduct?id="+id;
+            
+            function block(id) {
+                var url = "/blockshopowner?id=" + id;
                 fetch(url)
                         .then(response => response.text())
                         .then(ans => {
-                            if(ans === "success")
-                    {
-                        Swal.fire(
-                                'Deleted!',
-                                'Product has been removed succesfully.',
-                                'success'
-                                );
-                        getdata();
-                    }
-                    else {
-                        alert(ans);
-                    }
+                            if (ans === "success") {
+                                Swal.fire(
+                                        'Blocked!',
+                                        'Shop Owner has been blocked successfully.',
+                                        'success'
+                                        );
+                                getdata();
+                            } else {
+                                Swal.fire(
+                                        'Error!',
+                                        'Could not block. Server says: ' + ans,
+                                        'error'
+                                        );
+                            }
                         });
             }
-            
-            function edit(id)
-            {
-                window.location.href="/seditproducts?id="+id;
-            }
-            
+
+
         </script>
 
     </head>
@@ -147,7 +243,7 @@
             <img src="images/preloader.gif" alt="">
         </div>
         <!-- nav__area-Start -->
-        <div th:replace="shopheader :: header"></div>
+        <div th:replace="AdminHeader :: header"></div>
         <!-- nav__area-End -->
         <!-- Full-Wrapper-Start -->
         <main class="full-wrapper" id="home-section">
@@ -157,7 +253,7 @@
                     <div class="row align-items-center">
                         <div class="col-lg-6">
                             <div class="section__heading mb-0">
-                                <h2 class="section__heading-title anim_top">Added Products</h2>
+                                <h2 class="section__heading-title anim_top">Shop Owners</h2>
                                 <h5 class="section__heading-sup-title anim_top"><a href="/">Home</a> <span>/</span> <span class="current">Added Products</span></h5>
                             </div>
                         </div>

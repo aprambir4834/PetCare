@@ -45,7 +45,7 @@
     <body data-spy="scroll" data-target=".nav__area" data-offset="50">
         <div th:fragment="header">
             <!-- nav__area-Start -->
-            <div th:if="${session.uid}">
+            <div th:if="${session.aemail}">
                 <div class="nav__area nav__transparent" data-spy="affix" data-offset-top="197">
                 <div class="container nav__row">
                     <!-- nav__logo-Start -->
@@ -67,30 +67,17 @@
                         <!-- nav__menu-Start -->
                         <nav class="nav__menu" id="nav-menu">
                             <ul class="nav">
-                                <li class="current-menu-item"><a href="/">Home</a>
+                                <li class="current-menu-item"><a href="/ahome">Home</a>
                                    
                                 </li>
                                
-                                <li><a href="#">Shop</a>
-                                    <ul class="sub-menu">
-                                        <li><a href="/UP">Show Products</a></li>
-                                        <li><a href="/cart">Shopping Cart</a></li>
-                                        <li><a href="/ushophistory">Order Details</a></li>
-                                    </ul>
+                                <li><a href="/ashop">Manage Shops</a>
+                                   
                                 </li>
-                                <li><a href="/petdashboard">Pet Dashboard</a>
+                                <li><a href="/areport">Shop Reports</a>
                                     
                                 </li>
-                                <li><a href="#">Maps</a>
-                                    <ul class="sub-menu">
-                                        <li><a href="/nh">Nearby Vet Hospitals</a></li>
-                                        <li><a href="/nv">Nearby Pet Saloons</a></li>
-                                       
-                                    </ul>
-                                </li>
-                                 <li><a href="/gpt">Dr AI</a>
-                                      <li><a href="/post">Articles</a>
-                                
+                               
                                
                             </ul>
                         </nav>
@@ -106,7 +93,7 @@
                 </div>
             </div>
             </div>
-            <div th:unless="${session.uid}">
+            <div th:unless="${session.aemail}">
                 <div class="nav__area nav__transparent" data-spy="affix" data-offset-top="197">
                 <div class="container nav__row">
                     <!-- nav__logo-Start -->

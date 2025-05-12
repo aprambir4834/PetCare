@@ -7,7 +7,7 @@
     <!--<![endif]-->
 
 
-    <!-- Mirrored from html.codexse.com/pettu/contact.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 07 Apr 2025 15:45:39 GMT -->
+    <!-- Mirrored from html.codexse.com/pettu/services.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 07 Apr 2025 15:45:32 GMT -->
     <head>
         <!--====== USEFULL META ======-->
         <meta charset="utf-8">
@@ -48,58 +48,101 @@
         <!--====== MAIN STYLESHEET ======-->
         <link href="style.css" rel="stylesheet">
         <script src="js/vendor/modernizr.js"></script>
-         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <!--[if lt IE 9]>
             <script src="//oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
             <script src="//oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
         <![endif]-->
 
+
         <script>
-            function login() {
-                var uname = document.getElementById("uname").value;
-                var pass = document.getElementById("pass").value;
-                var formdata=new FormData();
-                formdata.append("uname",uname);
-                formdata.append("pass",pass);
-                var url = "/alogin";
-                fetch(url,{method:"POSt",body:formdata})
+            function getdata()
+            {
+                var url = "/report";
+                fetch(url)
                         .then(response => response.text())
                         .then(ans => renderAsHtml(ans));
-
             }
-
             function renderAsHtml(ans) {
-                if (ans === "success")
-                {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Success',
-                        text: 'Login Succesfull'
-                    }).then((result) => {
-                        if (result.isConfirmed) {
+                var mainobj = JSON.parse(ans);
+                var arr = mainobj["ans"];
 
-                            window.location.href = "/ahome";
-                        }
-                    });
-                }
-                else if(ans === "fail")
-                {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Failed',
-                        text: 'Invalid Credentials'
-                    });
-                }
-                else{
-                    alert(ans);
-                }
+                let s = `
+        <style>
+            .custom-table th, .custom-table td {
+                padding: 10px;
+                vertical-align: middle;
+                text-align: center;
+                word-wrap: break-word;
+                word-break: break-word;
+                white-space: normal;
             }
+            .custom-table th {
+                background-color: #343a40;
+                color: white;
+            }
+            .custom-table img {
+                width: 70px;
+                height: 70px;
+                object-fit: cover;
+                border-radius: 8px;
+            }
+        </style>
+        <table class="table table-bordered table-striped custom-table" style="table-layout: fixed; width: 100%;">
+            <thead>
+                <tr>
+                    <th style="width: 80px;">Photo</th>
+                    <th style="width: 120px;">Shop Name</th>
+                    <th style="width: 120px;">Shop Email</th>
+                    <th style="width: 100px;">Sales</th>
+                   
+                   
+                </tr>
+            </thead>
+            <tbody>
+    `;
+
+                for (let i = 0; i < arr.length; i++) {
+                    let ct = arr[i];
+                    let photoPath = "myuploads/" + ct.shopphoto;
+
+                    s += `
+            <tr>
+                <td><img src="${photoPath}" alt="photo" /></td>
+                <td>${ct.shopname}</td>
+                
+                <td>${ct.shopemail}</td>
+                
+                <td>₹${ct.total_amount}</td>
+        `;
+
+
+
+                    s += `
+               
+            </tr>
+        `;
+                }
+
+                s += `
+            </tbody>
+        </table>
+    `;
+
+                document.getElementById("d1").innerHTML = s;
+            }
+
+
+
+
+
+
 
         </script>
 
     </head>
 
-    <body data-spy="scroll" data-target=".nav__area" data-offset="50">
+    <body data-spy="scroll" data-target=".nav__area" data-offset="50" onload="getdata()">
         <!--[if lt IE 8]>
             <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
@@ -107,23 +150,19 @@
         <div class="preloader">
             <img src="images/preloader.gif" alt="">
         </div>
-
-
         <!-- nav__area-Start -->
         <div th:replace="AdminHeader :: header"></div>
         <!-- nav__area-End -->
-
-
         <!-- Full-Wrapper-Start -->
         <main class="full-wrapper" id="home-section">
             <!--Header-Area-Start-->
-            <header class="site__header section__overlay section__bg" style="background-image: url('images/site-header-2.jpg')">
+            <header class="site__header section__overlay section__bg" style="background-image: url('images/site-header-1.jpg')">
                 <div class="container">
                     <div class="row align-items-center">
                         <div class="col-lg-6">
                             <div class="section__heading mb-0">
-                                <h2 class="section__heading-title anim_top">Contact Us</h2>
-                                <h5 class="section__heading-sup-title anim_top"><a href="#">Home</a> <span>/</span> <span class="current">Contact Us</span></h5>
+                                <h2 class="section__heading-title anim_top">Shop Sales</h2>
+                                <h5 class="section__heading-sup-title anim_top"><a href="/">Home</a> <span>/</span> <span class="current">Added Products</span></h5>
                             </div>
                         </div>
                     </div>
@@ -135,74 +174,13 @@
                 </div>
             </header>
             <!--Header-Area-End-->
-            <!--Contact-Area-Start-->
-            <section class="contact__area section__padding">
-                <div class="container">
-                    <div class="row items_space section__padding-bottom">
-                        <div class="col-lg-4">
-                            <div class="info__box anim_top">
-                                <div class="info__box-icon">
-                                    <svg class="svg_element color__primary">
-                                    <use xlink:href="#svg__element-10" />
-                                    </svg>
-                                    <i class="icon-phone"></i>
-                                </div>
-                                <h5 class="info__box-title">Phone Us</h5>
-                                <div class="info__box-desc">
-                                    <p>+12-875-895-789<br>+12-875-895-789</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4">
-                            <div class="info__box anim_top">
-                                <div class="info__box-icon">
-                                    <svg class="svg_element color__secondary">
-                                    <use xlink:href="#svg__element-10" />
-                                    </svg>
-                                    <i class="icon-envelope"></i>
-                                </div>
-                                <h5 class="info__box-title">Email Drop Us</h5>
-                                <div class="info__box-desc">
-                                    <p>infopet@gmail.com <br>infooffice@gmail</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4">
-                            <div class="info__box anim_top">
-                                <div class="info__box-icon">
-                                    <svg class="svg_element color__tertiary">
-                                    <use xlink:href="#svg__element-10" />
-                                    </svg>
-                                    <i class="icon-map-marker"></i>
-                                </div>
-                                <h5 class="info__box-title">Location</h5>
-                                <div class="info__box-desc">
-                                    <p>Rd, Caterham CR3 5LY,<br> United Kingdom</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row contact__form-row no-gutters anim_top">
+            <!-- Services_Area-Start -->
+            <section class="services__list-area section__padding">
+                <div class="container" id="d1">
 
-                        <div class="col-lg-12">
-                            <form class="contact__form">
-                                <h3 class="contact__form-title">Admin Login</h3>
-                                <div class="row">
-                                    <div class="col-sm-12 form-box">
-                                        <input type="text" id="uname" name="form-name" class="input_control" placeholder="Your Name">
-                                    </div>
-                                    <div class="col-sm-12 form-box">
-                                        <input type="password" id="pass" name="form-email" class="input_control" placeholder="Your Password">
-                                    </div>
-                                </div>
-
-                                <button type="button" onclick="login()" class="primary__button">Login</button>
-                            </form>
-                        </div>
-                    </div>
                 </div>
             </section>
-            <!--Contact-Area-End-->
+            <!-- Services_Area-End -->
             <!--Footer__Area-Start-->
             <footer class="footer__area section__relative">
                 <div class="section__shape">
@@ -316,5 +294,5 @@
     </body>
 
 
-    <!-- Mirrored from html.codexse.com/pettu/contact.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 07 Apr 2025 15:45:39 GMT -->
+    <!-- Mirrored from html.codexse.com/pettu/services.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 07 Apr 2025 15:45:32 GMT -->
 </html>
