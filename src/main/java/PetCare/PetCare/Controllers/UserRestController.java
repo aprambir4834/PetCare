@@ -330,6 +330,23 @@ public class UserRestController {
             return ex.toString();
         }
     }
+    
+     @GetMapping("/deleteappointment")
+    public String deleteappointment(@RequestParam String id) {
+        try {
+            ResultSet rs = DBLoader.executeSQL("select * from appointment where id='" + id + "'");
+            if (rs.next()) {
+                rs.deleteRow();
+                return "success";
+            } else {
+                return "fail";
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return ex.toString();
+        }
+    }
+    
 
     @PostMapping("/addappointment")
     public String addappointment(@RequestParam String date,
@@ -343,6 +360,7 @@ public class UserRestController {
             rs.updateString("date", date);
             rs.updateString("time", time);
             rs.updateString("desc", desc);
+            rs.updateString("type", type);
             rs.updateInt("did", Integer.parseInt(did));
             rs.insertRow();
             return "success";
