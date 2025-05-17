@@ -53,7 +53,7 @@
             <script src="//oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
             <script src="//oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
         <![endif]-->
-        
+
         <!--payment start-->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
@@ -63,7 +63,7 @@
         <!--payment end-->
 
         <!--payment script start-->
-         <script>
+        <script>
 
 
             function paymentlogic(total)
@@ -85,8 +85,8 @@
                             alert("Payment Failed")
 
                         } else {
-       //success
-                            var type="online";
+                            //success
+                            var type = "online";
                             pay(type);
                             //payment success
                             //call your book payment function here
@@ -136,8 +136,8 @@
 
         </script>    
         <!--payemnt script end-->
-        
-        
+
+
         <script>
             var total2 = 0;
             function getdata()
@@ -257,8 +257,13 @@
                                 Swal.fire({
                                     icon: 'success',
                                     title: 'Order Placed',
-                                    text: 'Your Order Has Been Succesfully Placed'
+                                    text: 'Your Order Has Been Successfully Placed'
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
+                                        window.location.href = '/';
+                                    }
                                 });
+
                             } else if (ans === "fail")
                             {
                                 alert("Some Error Occured Please Retry" + ans);
@@ -280,16 +285,16 @@
             }
 
             function payOnline() {
-               
+
                 closePaymentModal();
-                var type="online";
+                var type = "online";
                 paymentlogic(total2);
             }
 
             function payCash() {
-               
+
                 closePaymentModal();
-                var type="cash";
+                var type = "cash";
                 pay(type);
             }
 
@@ -318,7 +323,8 @@
                 <!-- X Button -->
                 <button onclick="closePaymentModal()" style="position:absolute; top:10px; right:10px; background:none; border:none; font-size:20px; font-weight:bold;">&times;</button>
 
-                <h4>Select Payment Method</h4>
+                <h4 style="color: black;">Select Payment Method</h4>
+
                 <button class="btn btn-success mt-3" onclick="payOnline()">Online</button>
                 <button class="btn btn-secondary mt-3" onclick="payCash()">Cash on Delivery</button>
             </div>

@@ -54,7 +54,7 @@ public class UserController {
                             + "Thank you,\n"
                             + "Pet Care Team";
 
-                    this.email.sendSimpleEmail(email, subject, body);
+                    this.email.sendSimpleEmail(email, body, subject);
                 }
 
                 // Write today's date into flag.txt
