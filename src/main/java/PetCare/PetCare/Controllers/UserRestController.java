@@ -330,8 +330,8 @@ public class UserRestController {
             return ex.toString();
         }
     }
-    
-     @GetMapping("/deleteappointment")
+
+    @GetMapping("/deleteappointment")
     public String deleteappointment(@RequestParam String id) {
         try {
             ResultSet rs = DBLoader.executeSQL("select * from appointment where id='" + id + "'");
@@ -346,7 +346,6 @@ public class UserRestController {
             return ex.toString();
         }
     }
-    
 
     @PostMapping("/addappointment")
     public String addappointment(@RequestParam String date,
@@ -417,6 +416,68 @@ public class UserRestController {
         return ans;
     }
 
-   
+    @PostMapping("/uchangepass")
+    public String uchangepass(@RequestParam String oldpass, @RequestParam String newpass, HttpSession session) {
+        Integer uid = (Integer) session.getAttribute("uid");
+        try {
+            ResultSet rs = DBLoader.executeSQL("select * from user where id='" + uid + "' and pass='" + oldpass + "'");
+            if (rs.next()) {
+                rs.moveToCurrentRow();
+                rs.updateString("pass", newpass);
+                rs.updateRow();
+                return "success";
+
+            } else {
+                return "fail";
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return ex.toString();
+        }
+    }
+
+    @GetMapping("/forgot")
+    public String forgot(@RequestParam String email, @RequestParam String otp) {
+        try {
+            ResultSet rs = DBLoader.executeSQL("select * from user where email='" + email + "'");
+            if (rs.next()) {
+                String body = "Your otp for login page is =" + otp;
+                String subject = "Login Authntication";
+                this.email.sendSimpleEmail(email, body, subject);
+                return "success";
+            } else {
+                return "fail";
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return ex.toString();
+        }
+    }
+
+    @GetMapping("/otpverify")
+    public String otpverify(@RequestParam String email) {
+        try {
+            ResultSet rs = DBLoader.executeSQL("select * from user where email='" + email + "'");
+            if (rs.next()) {
+                rs.moveToCurrentRow();
+                String pass = rs.getString("pass");
+                String subject = "Your Account Password - JC Pawfect";
+                String body = "Dear User,\n\n"
+                        + "As per your request, here is your account password:\n\n"
+                        + "Password: " + pass + "\n\n"
+                        + "Please do not share this password with anyone.\n"
+                        + "We recommend changing your password after login for better security.\n\n"
+                        + "Regards,\n"
+                        + "JC Pawfect Team";
+                this.email.sendSimpleEmail(email, body, subject);
+                return "success";
+            } else {
+                return "fail";
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return ex.toString();
+        }
+    }
 
 }

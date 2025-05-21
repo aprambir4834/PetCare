@@ -161,5 +161,11 @@ public class UserController {
     {
         return "gpt";
     }
+    
+    @GetMapping("/ucp")
+    public String userchangepassword()
+    {
+        return "UserChangePassword";
+    }
 
 }
