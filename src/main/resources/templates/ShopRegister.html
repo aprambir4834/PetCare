@@ -59,7 +59,6 @@
 
             function showTermsAndRegister() {
 
-
                 var sname = document.getElementById("sname").value;
                 var semail = document.getElementById("semail").value;
                 var scontact = document.getElementById("scontact").value;
@@ -72,21 +71,25 @@
                 var ocontact = document.getElementById("ocontact").value;
                 var odob = document.getElementById("odob").value;
                 var ophoto = document.getElementById("ophoto").files[0];
-                 var pass=document.getElementById("pass").value;
+                var pass = document.getElementById("pass").value;
+
                 if (!sname || !semail || !scontact || !sgst || !sphoto || !slocation ||
                         !oname || !oemail || !ocontact || !odob || !ophoto) {
                     alert("Please fill all the fields and select both photos.");
-
+                } else if (!/^\d{10}$/.test(scontact)) {
+                    alert("Please enter a valid 10-digit mobile number for Shop Contact.");
+                } else if (!/^\d{10}$/.test(ocontact)) {
+                    alert("Please enter a valid 10-digit mobile number for Owner Contact.");
                 } else {
                     Swal.fire({
                         title: 'Terms and Conditions',
                         html: `
-            <div style="text-align: left;">
-                <p>✔ You agree to provide valid and accurate information.</p>
-                <p>✔ Uploaded photos must be clear and recent.</p>
-                <p>✔ Misuse of the platform may lead to permanent ban.</p>
-            </div>
-        `,
+                <div style="text-align: left;">
+                    <p>✔ You agree to provide valid and accurate information.</p>
+                    <p>✔ Uploaded photos must be clear and recent.</p>
+                    <p>✔ Misuse of the platform may lead to permanent ban.</p>
+                </div>
+            `,
                         icon: 'info',
                         showCancelButton: true,
                         confirmButtonText: 'I Agree',
@@ -103,6 +106,7 @@
                 }
             }
 
+
             function register()
             {
                 var sname = document.getElementById("sname").value;
@@ -117,7 +121,7 @@
                 var ocontact = document.getElementById("ocontact").value;
                 var odob = document.getElementById("odob").value;
                 var ophoto = document.getElementById("ophoto").files[0];
-                var pass=document.getElementById("pass").value;
+                var pass = document.getElementById("pass").value;
                 if (!sname || !semail || !scontact || !sgst || !sphoto || !slocation ||
                         !oname || !oemail || !ocontact || !odob || !ophoto || !pass) {
                     alert("Please fill all the fields and select both photos.");
@@ -136,7 +140,7 @@
                     formdata.append("ocontact", ocontact);
                     formdata.append("odob", odob);
                     formdata.append("ophoto", ophoto);
-                    formdata.append("pass",pass);
+                    formdata.append("pass", pass);
                     var url = "/sregister";
                     fetch(url, {method: "POST", body: formdata})
                             .then(response => response.text())
@@ -154,6 +158,9 @@
                         icon: 'success',
                         title: 'Request Sent',
                         text: 'Your Registeration has been sent to Admin'
+                    }).then(() => {
+                        
+                        window.location.href = "/slogin";
                     });
                 } else if (ans === "fail")
                 {
@@ -162,8 +169,7 @@
                         title: 'Already Exists',
                         text: 'Shop with same Email Already Exists'
                     });
-                }
-                else{
+                } else {
                     alert(ans);
                 }
             }
@@ -195,8 +201,8 @@
                     <div class="row align-items-center">
                         <div class="col-lg-6">
                             <div class="section__heading mb-0">
-                                <h2 class="section__heading-title anim_top">Contact Us</h2>
-                                <h5 class="section__heading-sup-title anim_top"><a href="#">Home</a> <span>/</span> <span class="current">Contact Us</span></h5>
+                                <h2 class="section__heading-title anim_top">Shop Register</h2>
+                                <h5 class="section__heading-sup-title anim_top"><a href="/">Home</a> <span>/</span> <span class="current">Shop Register</span></h5>
                             </div>
                         </div>
                     </div>
@@ -310,7 +316,7 @@
                                 <div class="col-sm-12 form-box">
                                     <input type="date" name="form-subject" id="odob" class="input_control" placeholder="Date Of Birth" required>
                                 </div>
-                                
+
                                 <div class="col-sm-12 form-box">
                                     <input type="text" name="form-subject" id="pass" class="input_control" placeholder="Set your Account Password" required>
                                 </div>

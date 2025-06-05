@@ -73,7 +73,7 @@
                 var mainobj = JSON.parse(ans);
                 var arr = mainobj["ans"];
                 var s = `<table class="table table-dark table-stripped">`;
-                s += `<thead class="thead-dark"><tr><th>Reciever Name</th><th>Reciever Email</th><th>Delivery Address</th><th>Total Bill</th><th>Payment Mode</th><th>Order Details</th><th>Delete History</th></tr></thead>`
+                s += `<thead class="thead-dark"><tr><th>Reciever Name</th><th>Reciever Email</th><th>Delivery Address</th><th>Total Bill</th><th>Payment Mode</th><th>Order Details</th></tr></thead>`
                 s += `<tbody>`;
                 for (var i = 0; i < arr.length; i++)
                 {
@@ -86,9 +86,9 @@
                     s += `<td>${ct.address}</td>`;
                     s += `<td>${ct.total}</td>`;
                     s += `<td>${ct.type}</td>`;
-                    s += "<td><button class='btn btn-primary btn-sm' data-bs-toggle='modal' data-bs-target='#editModal' onclick=\"edit('" + ct.id + "')\">Edit</button></td>";
+                    s += "<td><button class='btn btn-danger btn-sm' data-bs-toggle='modal' data-bs-target='#editModal' onclick=\"edit('" + ct.id + "')\">Details</button></td>";
 
-                    s += "<td><button class='btn btn-danger btn-sm' onclick=\"confirmDelete('" + ct.id + "')\">Delete</button></td>";
+
                     s += `</tr>`;
 
                 }
@@ -192,7 +192,7 @@
             <div class="modal-dialog modal-lg">
                 <div class="modal-content bg-dark text-white">
                     <div class="modal-header border-bottom border-secondary">
-                        <h5 class="modal-title" id="editModalLabel">Edit Order Details</h5>
+                        <h5 class="modal-title" id="editModalLabel">Order History</h5>
                         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body" id="d2">
@@ -271,7 +271,7 @@
                     <div class="container">
                         <div class="row">
                             <div class="col-lg-4 pr-lg-5">
-                                <div class="footer__widget anim_top">
+                                <div>
                                     <h4 class="widget__title">About Us</h4>
                                     <div class="desc mb-4">
                                         <p>At JC Pawfect, we believe every pet deserves the best care, comfort, and love. Whether it's grooming, healthcare, or boarding, we’re here to make your furry friend feel right at home. Trusted by pet parents, powered by compassion,</p>
@@ -285,7 +285,7 @@
                                 </div>
                             </div>
                             <div class="col-sm-6 col-lg-2">
-                                <div class="footer__widget anim_top">
+                                <div>
                                     <h4 class="widget__title">Explore</h4>
                                     <ul class="nav-link">
                                         <li><a href="/UP">Products</a></li>
@@ -296,7 +296,7 @@
                                 </div>
                             </div>
                             <div class="col-sm-6 col-lg-2">
-                                <div class="footer__widget anim_top">
+                                <div>
                                     <h4 class="widget__title">Support</h4>
                                     <ul class="nav-link">
                                         <li><a href="/nv">Pet Hospitals</a></li>

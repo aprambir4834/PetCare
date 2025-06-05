@@ -98,22 +98,41 @@
                 {
                     var ct = arr[i];
                     var a = "myuploads/" + ct.pphoto;
-                    s += `<div class="swiper-slide">
-    <div class="product__box">
-        <figure class="product__thumb">
-            <img src="${a}" alt="" style="width: 120px; height: 120px; object-fit: cover; border-radius: 10px;">
-            <div class="product__actions">
-                <a href="#"><i class="ri-shopping-cart-2-fill"></i></a>
-                <a href="#"><i class="ri-heart-line"></i></a>
-                <a href="#"><i class="ri-eye-line"></i></a>
-            </div>
-        </figure>
-        
-        <h6 class="product__title"><a href="/UPD?id=${ct.id}">${ct.pname}</a></h6>
-        <h6 class="product__price">$${ct.offerprice}</h6>
-    </div>
-</div>
-`;
+//                    s += `<div class="swiper-slide">
+//    <div class="product__box">
+//        <figure class="product__thumb">
+//            <img src="${a}" alt="" style="width: 120px; height: 120px; object-fit: cover; border-radius: 10px;">
+//            <div class="product__actions">
+//                <a href="#"><i class="ri-shopping-cart-2-fill"></i></a>
+//                <a href="#"><i class="ri-heart-line"></i></a>
+//                <a href="#"><i class="ri-eye-line"></i></a>
+//            </div>
+//        </figure>
+//        
+//        <h6 class="product__title"><a href="/UPD?id=${ct.id}">${ct.pname}</a></h6>
+//        <h6 class="product__price">$${ct.offerprice}</h6>
+//    </div>
+//</div>
+//`;
+            
+  s += `<div class="swiper-slide" style="width: auto;">
+        <div class="product__box" style="width: 220px; padding: 15px; background-color: #1a2746; border-radius: 10px; text-align: center; margin: 0 auto;">
+            <figure class="product__thumb" style="width: 100%; height: 250px; display: flex; align-items: center; justify-content: center; background-color: #fff; border-radius: 8px;">
+                <img src="${a}" alt="" style="max-width: 100%; max-height: 100%; object-fit: contain;">
+            </figure>
+            <h6 class="product__title" style="color: white; margin-top: 15px;">
+              <a href="/UPD?id=${ct.id}" style="color: white; text-decoration: none;">${ct.pname}</a>
+            </h6>
+            <h6 class="product__price" style="color: #ff4d4d;">₹${ct.offerprice}</h6>
+        </div>
+      </div>`;
+
+
+
+
+
+            
+            
 
 
                 }
@@ -456,7 +475,7 @@
                     <div class="container">
                         <div class="row">
                             <div class="col-lg-4 pr-lg-5">
-                                <div class="footer__widget anim_top">
+                                <div>
                                     <h4 class="widget__title">About Us</h4>
                                     <div class="desc mb-4">
                                         <p>At JC Pawfect, we believe every pet deserves the best care, comfort, and love. Whether it's grooming, healthcare, or boarding, we’re here to make your furry friend feel right at home. Trusted by pet parents, powered by compassion,</p>
@@ -470,7 +489,7 @@
                                 </div>
                             </div>
                             <div class="col-sm-6 col-lg-2">
-                                <div class="footer__widget anim_top">
+                                <div>
                                     <h4 class="widget__title">Explore</h4>
                                     <ul class="nav-link">
                                         <li><a href="/UP">Products</a></li>
@@ -481,7 +500,7 @@
                                 </div>
                             </div>
                             <div class="col-sm-6 col-lg-2">
-                                <div class="footer__widget anim_top">
+                                <div>
                                     <h4 class="widget__title">Support</h4>
                                     <ul class="nav-link">
                                         <li><a href="/nv">Pet Hospitals</a></li>
